@@ -1,0 +1,588 @@
+/**
+ * ==========================================================================
+ * Charts Configuration - Thonburi Phanich Dashboard
+ * Version: 1.0.0
+ * Description: จัดการการสร้างและอัพเดท Charts ทั้งหมด
+ * ==========================================================================
+ */
+
+// Chart Instances Storage
+const chartInstances = {};
+
+// Chart Colors Palette
+const CHART_COLORS = {
+    blue: '#0066CC',
+    red: '#FF6384',
+    cyan: '#36A2EB',
+    yellow: '#FFCE56',
+    green: '#4BC0C0',
+    purple: '#9966FF',
+    orange: '#FF9F40',
+    gray: '#C9CBCF',
+    pink: '#FFB6C1',
+    brown: '#795548',
+};
+
+// Default Chart Configuration
+const defaultChartConfig = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+        legend: {
+            display: true,
+            position: 'top',
+            labels: {
+                font: {
+                    size: 14,
+                    family: "'Prompt', 'Sarabun', sans-serif",
+                },
+                padding: 15,
+                usePointStyle: true,
+            },
+        },
+        tooltip: {
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            titleFont: {
+                size: 14,
+                family: "'Prompt', 'Sarabun', sans-serif",
+            },
+            bodyFont: {
+                size: 13,
+                family: "'Prompt', 'Sarabun', sans-serif",
+            },
+            padding: 12,
+            cornerRadius: 8,
+        },
+    },
+    scales: {
+        y: {
+            beginAtZero: true,
+            ticks: {
+                font: {
+                    size: 12,
+                    family: "'Prompt', 'Sarabun', sans-serif",
+                },
+            },
+            grid: {
+                color: 'rgba(0, 0, 0, 0.05)',
+            },
+        },
+        x: {
+            ticks: {
+                font: {
+                    size: 12,
+                    family: "'Prompt', 'Sarabun', sans-serif",
+                },
+            },
+            grid: {
+                display: false,
+            },
+        },
+    },
+};
+
+/**
+ * ==========================================================================
+ * Helper Functions
+ * ==========================================================================
+ */
+
+/**
+ * Destroy existing chart instance
+ */
+function destroyChart(chartId) {
+    if (chartInstances[chartId]) {
+        chartInstances[chartId].destroy();
+        delete chartInstances[chartId];
+    }
+}
+
+/**
+ * Get color from palette by index
+ */
+function getColorByIndex(index) {
+    const colors = Object.values(CHART_COLORS);
+    return colors[index % colors.length];
+}
+
+/**
+ * ==========================================================================
+ * Chart Creation Functions
+ * ==========================================================================
+ */
+
+/**
+ * ROW 8: Zone Interest Bar Chart
+ * แสดงกราฟแท่งแนวตั้ง จำนวนลูกค้าแต่ละโซน (รุ่นรถ)
+ */
+function createZoneInterestChart(zoneData) {
+    const chartId = 'zoneInterestChart';
+    destroyChart(chartId);
+
+    const ctx = document.getElementById(chartId);
+    if (!ctx) {
+        console.error(`Canvas element #${chartId} not found`);
+        return null;
+    }
+
+    const labels = Object.keys(zoneData);
+    const data = Object.values(zoneData);
+    const colors = labels.map((_, index) => getColorByIndex(index));
+
+    chartInstances[chartId] = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'จำนวนลูกค้า',
+                data: data,
+                backgroundColor: colors,
+                borderColor: colors.map(color => color.replace(')', ', 0.8)').replace('rgb', 'rgba')),
+                borderWidth: 2,
+                borderRadius: 8,
+            }],
+        },
+        options: {
+            ...defaultChartConfig,
+            plugins: {
+                ...defaultChartConfig.plugins,
+                title: {
+                    display: false,
+                },
+                tooltip: {
+                    ...defaultChartConfig.plugins.tooltip,
+                    callbacks: {
+                        label: function (context) {
+                            return `จำนวน: ${context.parsed.y.toLocaleString()} คน`;
+                        },
+                    },
+                },
+            },
+            scales: {
+                ...defaultChartConfig.scales,
+                y: {
+                    ...defaultChartConfig.scales.y,
+                    title: {
+                        display: true,
+                        text: 'จำนวนลูกค้า (คน)',
+                        font: {
+                            size: 13,
+                            weight: 'bold',
+                        },
+                    },
+                },
+                x: {
+                    ...defaultChartConfig.scales.x,
+                    title: {
+                        display: true,
+                        text: 'รุ่นรถ',
+                        font: {
+                            size: 13,
+                            weight: 'bold',
+                        },
+                    },
+                },
+            },
+        },
+    });
+
+    return chartInstances[chartId];
+}
+
+/**
+ * ROW 9: Hourly Traffic Bar Chart
+ * แสดงกราฟแท่งแนวตั้ง จำนวนลูกค้าแต่ละช่วงเวลา
+ */
+function createHourlyTrafficChart(hourData) {
+    const chartId = 'hourlyTrafficChart';
+    destroyChart(chartId);
+
+    const ctx = document.getElementById(chartId);
+    if (!ctx) {
+        console.error(`Canvas element #${chartId} not found`);
+        return null;
+    }
+
+    const labels = Object.keys(hourData).sort();
+    const data = labels.map(label => hourData[label]);
+
+    chartInstances[chartId] = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'จำนวนลูกค้า',
+                data: data,
+                backgroundColor: CHART_COLORS.blue,
+                borderColor: CHART_COLORS.blue,
+                borderWidth: 2,
+                borderRadius: 8,
+            }],
+        },
+        options: {
+            ...defaultChartConfig,
+            plugins: {
+                ...defaultChartConfig.plugins,
+                title: {
+                    display: false,
+                },
+                tooltip: {
+                    ...defaultChartConfig.plugins.tooltip,
+                    callbacks: {
+                        label: function (context) {
+                            return `จำนวน: ${context.parsed.y.toLocaleString()} คน`;
+                        },
+                    },
+                },
+            },
+            scales: {
+                ...defaultChartConfig.scales,
+                y: {
+                    ...defaultChartConfig.scales.y,
+                    title: {
+                        display: true,
+                        text: 'จำนวนลูกค้า (คน)',
+                        font: {
+                            size: 13,
+                            weight: 'bold',
+                        },
+                    },
+                },
+                x: {
+                    ...defaultChartConfig.scales.x,
+                    title: {
+                        display: true,
+                        text: 'ช่วงเวลา',
+                        font: {
+                            size: 13,
+                            weight: 'bold',
+                        },
+                    },
+                },
+            },
+        },
+    });
+
+    return chartInstances[chartId];
+}
+
+/**
+ * ROW 11: Dwell Time Bar Chart
+ * แสดงกราฟแท่งแนวตั้ง จำนวนลูกค้าแยกตามระยะเวลา (นาที)
+ */
+function createDwellTimeChart(dwellData) {
+    const chartId = 'dwellTimeChart';
+    destroyChart(chartId);
+
+    const ctx = document.getElementById(chartId);
+    if (!ctx) {
+        console.error(`Canvas element #${chartId} not found`);
+        return null;
+    }
+
+    const labels = Object.keys(dwellData).sort((a, b) => parseInt(a) - parseInt(b));
+    const data = labels.map(label => dwellData[label]);
+
+    chartInstances[chartId] = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels.map(l => `${l} นาที`),
+            datasets: [{
+                label: 'จำนวนลูกค้า',
+                data: data,
+                backgroundColor: CHART_COLORS.cyan,
+                borderColor: CHART_COLORS.cyan,
+                borderWidth: 2,
+                borderRadius: 8,
+            }],
+        },
+        options: {
+            ...defaultChartConfig,
+            plugins: {
+                ...defaultChartConfig.plugins,
+                title: {
+                    display: false,
+                },
+                tooltip: {
+                    ...defaultChartConfig.plugins.tooltip,
+                    callbacks: {
+                        label: function (context) {
+                            return `จำนวน: ${context.parsed.y.toLocaleString()} คน`;
+                        },
+                    },
+                },
+            },
+            scales: {
+                ...defaultChartConfig.scales,
+                y: {
+                    ...defaultChartConfig.scales.y,
+                    title: {
+                        display: true,
+                        text: 'จำนวนลูกค้า (คน)',
+                        font: {
+                            size: 13,
+                            weight: 'bold',
+                        },
+                    },
+                },
+                x: {
+                    ...defaultChartConfig.scales.x,
+                    title: {
+                        display: true,
+                        text: 'ระยะเวลาในพื้นที่ (นาที)',
+                        font: {
+                            size: 13,
+                            weight: 'bold',
+                        },
+                    },
+                },
+            },
+        },
+    });
+
+    return chartInstances[chartId];
+}
+
+/**
+ * ROW 13: Daily Traffic Bar Chart
+ * แสดงกราฟแท่งแนวตั้ง จำนวนลูกค้าแต่ละวัน
+ */
+function createDailyTrafficChart(dateData) {
+    const chartId = 'dailyTrafficChart';
+    destroyChart(chartId);
+
+    const ctx = document.getElementById(chartId);
+    if (!ctx) {
+        console.error(`Canvas element #${chartId} not found`);
+        return null;
+    }
+
+    const labels = Object.keys(dateData).sort();
+    const data = labels.map(label => dateData[label]);
+
+    // Format dates for display (e.g., "2025-11-24" -> "24 พ.ย. 2025")
+    const formattedLabels = labels.map(dateStr => {
+        const date = new Date(dateStr);
+        return date.toLocaleDateString('th-TH', {
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric'
+        });
+    });
+
+    chartInstances[chartId] = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: formattedLabels,
+            datasets: [{
+                label: 'จำนวนลูกค้า',
+                data: data,
+                backgroundColor: CHART_COLORS.green,
+                borderColor: CHART_COLORS.green,
+                borderWidth: 2,
+                borderRadius: 8,
+            }],
+        },
+        options: {
+            ...defaultChartConfig,
+            plugins: {
+                ...defaultChartConfig.plugins,
+                title: {
+                    display: false,
+                },
+                tooltip: {
+                    ...defaultChartConfig.plugins.tooltip,
+                    callbacks: {
+                        label: function (context) {
+                            return `จำนวน: ${context.parsed.y.toLocaleString()} คน`;
+                        },
+                    },
+                },
+            },
+            scales: {
+                ...defaultChartConfig.scales,
+                y: {
+                    ...defaultChartConfig.scales.y,
+                    title: {
+                        display: true,
+                        text: 'จำนวนลูกค้า (คน)',
+                        font: {
+                            size: 13,
+                            weight: 'bold',
+                        },
+                    },
+                },
+                x: {
+                    ...defaultChartConfig.scales.x,
+                    title: {
+                        display: true,
+                        text: 'วันที่',
+                        font: {
+                            size: 13,
+                            weight: 'bold',
+                        },
+                    },
+                },
+            },
+        },
+    });
+
+    return chartInstances[chartId];
+}
+
+/**
+ * ROW 14: Daily Zone Breakdown Chart
+ * แสดงกราฟแท่งแนวตั้ง จำนวนลูกค้าแยกตามวันและโซน (Stacked)
+ */
+function createDailyZoneChart(dateZoneData) {
+    const chartId = 'dailyZoneChart';
+    destroyChart(chartId);
+
+    const ctx = document.getElementById(chartId);
+    if (!ctx) {
+        console.error(`Canvas element #${chartId} not found`);
+        return null;
+    }
+
+    // Get all dates and zones
+    const dates = Object.keys(dateZoneData).sort();
+    const allZones = new Set();
+    dates.forEach(date => {
+        Object.keys(dateZoneData[date]).forEach(zone => allZones.add(zone));
+    });
+    const zones = Array.from(allZones);
+
+    // Format dates for display
+    const formattedLabels = dates.map(dateStr => {
+        const date = new Date(dateStr);
+        return date.toLocaleDateString('th-TH', {
+            day: 'numeric',
+            month: 'short'
+        });
+    });
+
+    // Create datasets for each zone
+    const datasets = zones.map((zone, index) => ({
+        label: zone,
+        data: dates.map(date => dateZoneData[date][zone] || 0),
+        backgroundColor: getColorByIndex(index),
+        borderColor: getColorByIndex(index),
+        borderWidth: 2,
+    }));
+
+    chartInstances[chartId] = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: formattedLabels,
+            datasets: datasets,
+        },
+        options: {
+            ...defaultChartConfig,
+            plugins: {
+                ...defaultChartConfig.plugins,
+                title: {
+                    display: false,
+                },
+                tooltip: {
+                    ...defaultChartConfig.plugins.tooltip,
+                    mode: 'index',
+                    intersect: false,
+                    callbacks: {
+                        label: function (context) {
+                            return `${context.dataset.label}: ${context.parsed.y.toLocaleString()} คน`;
+                        },
+                    },
+                },
+            },
+            scales: {
+                ...defaultChartConfig.scales,
+                y: {
+                    ...defaultChartConfig.scales.y,
+                    stacked: true,
+                    title: {
+                        display: true,
+                        text: 'จำนวนลูกค้า (คน)',
+                        font: {
+                            size: 13,
+                            weight: 'bold',
+                        },
+                    },
+                },
+                x: {
+                    ...defaultChartConfig.scales.x,
+                    stacked: true,
+                    title: {
+                        display: true,
+                        text: 'วันที่',
+                        font: {
+                            size: 13,
+                            weight: 'bold',
+                        },
+                    },
+                },
+            },
+        },
+    });
+
+    return chartInstances[chartId];
+}
+
+/**
+ * ==========================================================================
+ * Table Helper Functions
+ * ==========================================================================
+ */
+
+/**
+ * Update Hourly Traffic Table (Row 9)
+ */
+function updateHourlyTrafficTable(hourData) {
+    const tableBody = document.getElementById('hourlyTrafficTable');
+    if (!tableBody) {
+        console.error('Table element #hourlyTrafficTable not found');
+        return;
+    }
+
+    // Sort by hour
+    const sortedHours = Object.keys(hourData).sort();
+
+    // Create table rows
+    const rows = sortedHours.map((hour, index) => `
+        <tr>
+            <td>${index + 1}</td>
+            <td>${hour}</td>
+            <td><strong>${hourData[hour].toLocaleString()}</strong></td>
+        </tr>
+    `).join('');
+
+    tableBody.innerHTML = rows;
+}
+
+/**
+ * ==========================================================================
+ * Export Chart Functions
+ * ==========================================================================
+ */
+
+// Make functions available globally
+window.Charts = {
+    // Chart Creation
+    createZoneInterestChart,
+    createHourlyTrafficChart,
+    createDwellTimeChart,
+    createDailyTrafficChart,
+    createDailyZoneChart,
+
+    // Table Updates
+    updateHourlyTrafficTable,
+
+    // Helper Functions
+    destroyChart,
+    getColorByIndex,
+
+    // Chart Instances (for debugging)
+    instances: chartInstances,
+    colors: CHART_COLORS,
+};
+
+console.log('✅ Charts Handler loaded successfully');

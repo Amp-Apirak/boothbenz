@@ -1,0 +1,88 @@
+# Thonburi Phanich Dashboard - .gitignore
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv
+pip-log.txt
+pip-delete-this-directory.txt
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+
+# Environment Variables
+backend/.env
+.env
+*.env.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+*.log.*
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Node modules (if any)
+node_modules/
+package-lock.json
+yarn.lock
+
+# Build files
+*.pyc
+*.pyo
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Desktop.ini
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+*~
+nul
+
+# Claude AI
+.claude/
+
+# Editor files
+*.sublime-workspace
+*.sublime-project
+
+# Cache
+.cache/
+*.cache
+
+# Coverage
+.coverage
+htmlcov/
+.tox/
+
+# Documentation build
+docs/_build/
+site/

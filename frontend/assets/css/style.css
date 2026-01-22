@@ -1,0 +1,844 @@
+/* ==========================================================================
+   Thonburi Phanich Auto Showcase - Dashboard CSS
+   Version: 1.0.0
+   ========================================================================== */
+
+/* Root Variables - Color Palette */
+:root {
+    /* Primary Colors - Thonburi Phanich Brand */
+    --primary-blue: #0066CC;
+    --primary-dark-blue: #004A99;
+    --primary-light-blue: #3385D6;
+
+    /* Secondary Colors */
+    --secondary-orange: #FF9800;
+    --secondary-yellow: #FFC107;
+    --secondary-purple: #9C27B0;
+    --secondary-brown: #795548;
+
+    /* KPI Colors */
+    --kpi-total-bg: #0D6EFD;
+    --kpi-male-bg: #0DCAF0;
+    --kpi-female-bg: #FFC0CB;
+
+    /* Neutral Colors */
+    --white: #FFFFFF;
+    --light-gray: #F8F9FA;
+    --gray: #6C757D;
+    --dark-gray: #343A40;
+    --black: #000000;
+
+    /* Chart Colors */
+    --chart-color-1: #0066CC;
+    --chart-color-2: #FF6384;
+    --chart-color-3: #36A2EB;
+    --chart-color-4: #FFCE56;
+    --chart-color-5: #4BC0C0;
+    --chart-color-6: #9966FF;
+    --chart-color-7: #FF9F40;
+    --chart-color-8: #C9CBCF;
+
+    /* Spacing */
+    --section-padding: 3rem 0;
+    --card-padding: 1.5rem;
+
+    /* Border Radius */
+    --radius-sm: 0.375rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 1rem;
+
+    /* Shadows */
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.15);
+
+    /* Transitions */
+    --transition-fast: 0.2s ease;
+    --transition-normal: 0.3s ease;
+    --transition-slow: 0.5s ease;
+}
+
+/* ==========================================================================
+   Base Styles
+   ========================================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Prompt', 'Sarabun', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background-color: var(--light-gray);
+    color: var(--dark-gray);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+section {
+    padding: var(--section-padding);
+}
+
+.container-fluid {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+}
+
+/* ==========================================================================
+   ROW 1: Header Section
+   ========================================================================== */
+
+.header-section {
+    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-dark-blue) 100%);
+    padding: 2rem 0 0 0;
+    box-shadow: var(--shadow-md);
+}
+
+.header-brand {
+    text-align: center;
+    padding: 1.5rem 0;
+}
+
+.brand-title {
+    color: var(--white);
+    font-size: 3rem;
+    font-weight: 700;
+    margin: 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    letter-spacing: 2px;
+}
+
+.header-stripe {
+    height: 8px;
+    background: linear-gradient(
+        90deg,
+        #FF6B6B 0%,
+        #FFA500 15%,
+        #FFD700 30%,
+        #4ECDC4 45%,
+        #45B7D1 60%,
+        #96CEB4 75%,
+        #DDA15E 90%,
+        #BC6C25 100%
+    );
+    animation: stripeMove 10s linear infinite;
+    background-size: 200% 100%;
+}
+
+@keyframes stripeMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* ==========================================================================
+   ROW 2: Hero Section
+   ========================================================================== */
+
+.hero-section {
+    padding: 0;
+    margin-bottom: 2rem;
+}
+
+.hero-wrapper {
+    position: relative;
+    width: 100%;
+    height: 500px;
+    overflow: hidden;
+}
+
+.hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.hero-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(
+        to top,
+        rgba(0, 102, 204, 0.95) 0%,
+        rgba(0, 102, 204, 0.7) 50%,
+        transparent 100%
+    );
+    padding: 3rem 2rem 2rem;
+}
+
+.hero-content {
+    text-align: center;
+}
+
+.hero-title {
+    color: var(--white);
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    margin-bottom: 0.5rem;
+    letter-spacing: 2px;
+}
+
+.hero-subtitle {
+    color: var(--white);
+    font-size: 1.8rem;
+    font-weight: 500;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    letter-spacing: 1px;
+}
+
+.hero-logo {
+    position: absolute;
+    bottom: 1rem;
+    right: 2rem;
+}
+
+.hero-logo .badge {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+}
+
+/* ==========================================================================
+   ROW 3-4: Camera Cards Section
+   ========================================================================== */
+
+.cameras-section {
+    padding: 2rem 0;
+}
+
+.camera-card {
+    background: var(--dark-gray);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.camera-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-xl);
+}
+
+.camera-header {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 0.75rem 1rem;
+    text-align: center;
+}
+
+.camera-label {
+    color: var(--white);
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.camera-body {
+    position: relative;
+    height: 250px;
+    overflow: hidden;
+}
+
+.camera-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.camera-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity var(--transition-normal);
+}
+
+.camera-card:hover .camera-overlay {
+    opacity: 1;
+}
+
+.btn-check-camera {
+    padding: 0.75rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    transition: all var(--transition-normal);
+}
+
+.btn-check-camera:hover {
+    transform: scale(1.1);
+    box-shadow: var(--shadow-lg);
+}
+
+/* ==========================================================================
+   ROW 5: Filters Section
+   ========================================================================== */
+
+.filters-section {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    margin-bottom: 2rem;
+}
+
+.date-display {
+    background: var(--white);
+    border: 2px solid #dc3545;
+    border-radius: var(--radius-md);
+    padding: 1rem;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+}
+
+.date-display i {
+    font-size: 1.5rem;
+    color: #dc3545;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.date-text {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--dark-gray);
+}
+
+.form-control, .form-select {
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    border-radius: var(--radius-md);
+    border: 1px solid #dee2e6;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 0.2rem rgba(0, 102, 204, 0.25);
+}
+
+/* ==========================================================================
+   ROW 6: KPI Cards Section
+   ========================================================================== */
+
+.kpi-section {
+    padding: 2rem 0;
+}
+
+.kpi-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+    height: 100%;
+}
+
+.kpi-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-xl);
+}
+
+.kpi-total {
+    border-left: 5px solid var(--kpi-total-bg);
+}
+
+.kpi-male {
+    border-left: 5px solid var(--kpi-male-bg);
+}
+
+.kpi-female {
+    border-left: 5px solid #FF69B4;
+}
+
+.kpi-icon {
+    font-size: 3.5rem;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.kpi-total .kpi-icon {
+    background: linear-gradient(135deg, var(--kpi-total-bg) 0%, #0a58ca 100%);
+    color: var(--white);
+}
+
+.kpi-male .kpi-icon {
+    background: linear-gradient(135deg, var(--kpi-male-bg) 0%, #0aa2c0 100%);
+    color: var(--white);
+}
+
+.kpi-female .kpi-icon {
+    background: linear-gradient(135deg, var(--kpi-female-bg) 0%, #FF69B4 100%);
+    color: var(--white);
+}
+
+.kpi-content {
+    flex: 1;
+}
+
+.kpi-title {
+    font-size: 1.1rem;
+    color: var(--gray);
+    margin-bottom: 0.75rem;
+    font-weight: 500;
+}
+
+.kpi-value {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.kpi-value .badge {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.8rem;
+    font-weight: 500;
+}
+
+.kpi-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--dark-gray);
+    margin: 0;
+}
+
+/* ==========================================================================
+   ROW 7 & 12: Car Gallery Section
+   ========================================================================== */
+
+.car-gallery-section {
+    padding: 2rem 0;
+}
+
+.section-title {
+    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-dark-blue) 100%);
+    color: var(--white);
+    padding: 1rem 1.5rem;
+    border-radius: var(--radius-md);
+    margin-bottom: 2rem;
+    font-size: 1.5rem;
+    box-shadow: var(--shadow-md);
+}
+
+.car-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+    height: 100%;
+}
+
+.car-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-xl);
+}
+
+.car-image {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    transition: transform var(--transition-slow);
+}
+
+.car-card:hover .car-image {
+    transform: scale(1.1);
+}
+
+.car-info {
+    padding: 1.5rem;
+    background: linear-gradient(to bottom, var(--white) 0%, #f8f9fa 100%);
+}
+
+.car-name {
+    font-size: 1.3rem;
+    color: var(--primary-blue);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.car-description {
+    color: var(--gray);
+    font-size: 0.95rem;
+    margin: 0;
+}
+
+/* ==========================================================================
+   Charts Section (ROW 8, 9, 11, 13, 14)
+   ========================================================================== */
+
+.chart-section {
+    padding: 2rem 0;
+}
+
+.chart-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    box-shadow: var(--shadow-lg);
+    margin-bottom: 2rem;
+}
+
+.chart-title {
+    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-dark-blue) 100%);
+    color: var(--white);
+    padding: 1rem 1.5rem;
+    border-radius: var(--radius-md);
+    margin-bottom: 2rem;
+    font-size: 1.3rem;
+    box-shadow: var(--shadow-md);
+}
+
+.chart-wrapper {
+    position: relative;
+    height: 400px;
+    padding: 1rem;
+}
+
+/* Table Styles for Row 9 */
+.table-responsive {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.table {
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+.table thead {
+    position: sticky;
+    top: 0;
+    background: var(--primary-blue);
+    color: var(--white);
+    z-index: 10;
+}
+
+.table thead th {
+    border: none;
+    padding: 0.75rem;
+    font-weight: 600;
+}
+
+.table tbody tr:hover {
+    background-color: rgba(0, 102, 204, 0.1);
+}
+
+/* ==========================================================================
+   ROW 10: CCTV Layout Section
+   ========================================================================== */
+
+.layout-section {
+    padding: 2rem 0;
+}
+
+.layout-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    box-shadow: var(--shadow-lg);
+}
+
+.layout-image-wrapper {
+    text-align: center;
+    padding: 1rem;
+}
+
+.layout-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+}
+
+/* ==========================================================================
+   Footer Section
+   ========================================================================== */
+
+.footer-section {
+    background: linear-gradient(135deg, var(--dark-gray) 0%, #23272b 100%);
+    color: var(--white);
+    padding: 2rem 0;
+    margin-top: 3rem;
+}
+
+.footer-text {
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+.footer-text strong {
+    color: var(--secondary-yellow);
+}
+
+/* ==========================================================================
+   Loading Spinner
+   ========================================================================== */
+
+.loading-spinner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.95);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.loading-spinner .spinner-border {
+    width: 4rem;
+    height: 4rem;
+}
+
+/* ==========================================================================
+   Responsive Design
+   ========================================================================== */
+
+/* Tablet (768px - 1024px) */
+@media (max-width: 1024px) {
+    .brand-title {
+        font-size: 2.5rem;
+    }
+
+    .hero-title {
+        font-size: 2rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1.5rem;
+    }
+
+    .kpi-number {
+        font-size: 2rem;
+    }
+
+    .chart-wrapper {
+        height: 350px;
+    }
+}
+
+/* Mobile (< 768px) */
+@media (max-width: 768px) {
+    .brand-title {
+        font-size: 2rem;
+    }
+
+    .hero-wrapper {
+        height: 300px;
+    }
+
+    .hero-title {
+        font-size: 1.5rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1.2rem;
+    }
+
+    .hero-overlay {
+        padding: 2rem 1rem 1rem;
+    }
+
+    .camera-body {
+        height: 200px;
+    }
+
+    .kpi-card {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+
+    .kpi-icon {
+        width: 70px;
+        height: 70px;
+        font-size: 2.5rem;
+    }
+
+    .kpi-number {
+        font-size: 2rem;
+    }
+
+    .kpi-value {
+        justify-content: center;
+    }
+
+    .chart-wrapper {
+        height: 300px;
+    }
+
+    .section-title, .chart-title {
+        font-size: 1.1rem;
+        padding: 0.75rem 1rem;
+    }
+
+    .car-image {
+        height: 200px;
+    }
+
+    .filters-section {
+        padding: 1rem;
+    }
+
+    .date-text {
+        font-size: 1.5rem;
+    }
+}
+
+/* Small Mobile (< 576px) */
+@media (max-width: 576px) {
+    .container-fluid {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .brand-title {
+        font-size: 1.5rem;
+    }
+
+    .hero-wrapper {
+        height: 250px;
+    }
+
+    .hero-title {
+        font-size: 1.2rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+
+    .kpi-card {
+        padding: 1.5rem;
+    }
+
+    .chart-wrapper {
+        height: 250px;
+        padding: 0.5rem;
+    }
+
+    .chart-card {
+        padding: 1rem;
+    }
+}
+
+/* ==========================================================================
+   Utility Classes
+   ========================================================================== */
+
+.text-primary-blue {
+    color: var(--primary-blue) !important;
+}
+
+.bg-primary-blue {
+    background-color: var(--primary-blue) !important;
+}
+
+.shadow-custom {
+    box-shadow: var(--shadow-lg);
+}
+
+.hover-lift {
+    transition: transform var(--transition-normal);
+}
+
+.hover-lift:hover {
+    transform: translateY(-5px);
+}
+
+/* ==========================================================================
+   Animations
+   ========================================================================== */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.slide-in-left {
+    animation: slideInLeft 0.6s ease-out;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.slide-in-right {
+    animation: slideInRight 0.6s ease-out;
+}
+
+/* ==========================================================================
+   Print Styles
+   ========================================================================== */
+
+@media print {
+    .header-stripe,
+    .btn-check-camera,
+    .filters-section,
+    .footer-section {
+        display: none;
+    }
+
+    .chart-wrapper {
+        height: auto;
+    }
+
+    section {
+        page-break-inside: avoid;
+    }
+}

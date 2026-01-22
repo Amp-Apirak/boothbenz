@@ -8,7 +8,7 @@ Version Control : GitHub Desktop (ติดตั้งพร้อมใช้�
 Path Folder Code : C:\boothbenz (ติดตั้งพร้อมใช้งานแล้ว)
 Database: mongodb (ติดตั้งพร้อมใช้งานแล้ว)
 Frontend UX/UI : Bootstrap , HTML, CSS, JavaScript
-Backend : Python, FastAPI, MongoDB
+Backend : Python, FastAPI, MongoDB ไฟล์ตัวอย่าง ex_backend.py ,
 ระบบจะต้องรองรับการทำงานทุกหน้าจอ Resposive
 
 ความต้องการของฉันคือการสร้างหน้า Dashboard สวยๆ และดูมีเอกลักษณ์ ของ Thonburi Phanich ที่แสดงข้อมูลของ API ที่ฉันให้มา ตามไฟล์ systems-image.pdf ใน Project
