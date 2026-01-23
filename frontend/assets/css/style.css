@@ -92,6 +92,65 @@ section {
 }
 
 /* ==========================================================================
+   Database Selector - Top Bar (Before ROW 1)
+   ========================================================================== */
+
+.database-selector-section {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    padding: 0.75rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: var(--shadow-md);
+}
+
+.database-selector-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+.database-label {
+    color: var(--white);
+    font-weight: 500;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0;
+}
+
+.database-label i {
+    font-size: 1.1rem;
+    color: var(--secondary-yellow);
+}
+
+.database-select {
+    max-width: 250px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: var(--white);
+    font-size: 0.95rem;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.database-select:focus {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: var(--secondary-yellow);
+    box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.25);
+    color: var(--white);
+}
+
+.database-select option {
+    background: #16213e;
+    color: var(--white);
+}
+
+/* ==========================================================================
    ROW 1: Header Section
    ========================================================================== */
 
@@ -113,6 +172,14 @@ section {
     margin: 0;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
     letter-spacing: 2px;
+}
+
+.brand-subtitle {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 1.1rem;
+    font-weight: 400;
+    margin: 0.5rem 0 0 0;
+    letter-spacing: 1px;
 }
 
 .header-stripe {
@@ -560,6 +627,13 @@ section {
     border-radius: var(--radius-lg);
     padding: 2rem;
     box-shadow: var(--shadow-lg);
+}
+
+.layout-description {
+    color: var(--gray);
+    font-size: 1rem;
+    margin: 0.5rem 0 1.5rem 0;
+    text-align: center;
 }
 
 .layout-image-wrapper {

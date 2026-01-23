@@ -24,13 +24,32 @@
 </head>
 <body>
 
-    <!-- ROW 1: Header Section -->
+    <!-- Database Selector - Top Bar -->
+    <section id="database-selector" class="database-selector-section">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col-12">
+                    <div class="database-selector-wrapper">
+                        <label for="databaseSelect" class="database-label">
+                            <i class="bi bi-database"></i> ฐานข้อมูล:
+                        </label>
+                        <select class="form-select database-select" id="databaseSelect">
+                            <option value="">กำลังโหลดฐานข้อมูล...</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ROW 1: Header Section (Dynamic: txt_header, txt_header_detail, img_header) -->
     <section id="header" class="header-section">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12 p-0">
                     <div class="header-brand">
-                        <h1 class="brand-title">Thonburi Phanich</h1>
+                        <h1 class="brand-title" id="txtHeader">Thonburi Phanich</h1>
+                        <p class="brand-subtitle" id="txtHeaderDetail"></p>
                     </div>
                     <div class="header-stripe"></div>
                 </div>
@@ -38,15 +57,15 @@
         </div>
     </section>
 
-    <!-- ROW 2: Hero Image Section -->
+    <!-- ROW 2: Hero Image Section (Dynamic: img_header2, txt_header2, txt_header2_detail) -->
     <section id="hero" class="hero-section">
         <div class="container-fluid p-0">
             <div class="hero-wrapper">
-                <img src="assets/images/hero-showroom.jpg" alt="Mercedes-Benz Showroom" class="hero-image" id="heroImage">
+                <img src="assets/images/hero-showroom.jpg" alt="Event Banner" class="hero-image" id="imgHeader2">
                 <div class="hero-overlay">
                     <div class="hero-content">
-                        <h2 class="hero-title">THONBURI PHANICH AUTO SHOWCASE</h2>
-                        <h3 class="hero-subtitle">@ CENTRAL PARK II</h3>
+                        <h2 class="hero-title" id="txtHeader2">THONBURI PHANICH AUTO SHOWCASE</h2>
+                        <h3 class="hero-subtitle" id="txtHeader2Detail">@ CENTRAL PARK II</h3>
                     </div>
                     <div class="hero-logo">
                         <span class="badge bg-light text-dark">Pinit IT</span>
@@ -56,83 +75,21 @@
         </div>
     </section>
 
-    <!-- ROW 3-4: CCTV Camera Cards -->
+    <!-- ROW 3-4: CCTV Camera Cards (Dynamic: img_link1-8, detail_link1-8) -->
+    <!-- แสดงเฉพาะการ์ดที่มีทั้ง img_link และ detail_link -->
     <section id="cameras" class="cameras-section">
         <div class="container-fluid">
-            <!-- Row 3: Camera 1-2 -->
-            <div class="row g-3 mb-3">
-                <div class="col-md-6">
-                    <div class="camera-card">
-                        <div class="camera-header">
-                            <span class="camera-label">CAMERA 1</span>
-                        </div>
-                        <div class="camera-body">
-                            <img src="assets/images/cameras/camera-placeholder.jpg" alt="Camera 1" class="camera-image">
-                            <div class="camera-overlay">
-                                <a href="#" class="btn btn-warning btn-check-camera">
-                                    <i class="bi bi-camera-video"></i> Check
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="camera-card">
-                        <div class="camera-header">
-                            <span class="camera-label">CAMERA 2</span>
-                        </div>
-                        <div class="camera-body">
-                            <img src="assets/images/cameras/camera-placeholder.jpg" alt="Camera 2" class="camera-image">
-                            <div class="camera-overlay">
-                                <a href="#" class="btn btn-warning btn-check-camera">
-                                    <i class="bi bi-camera-video"></i> Check
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Row 4: Camera 3-4 -->
-            <div class="row g-3 mb-4">
-                <div class="col-md-6">
-                    <div class="camera-card">
-                        <div class="camera-header">
-                            <span class="camera-label">CAMERA 3</span>
-                        </div>
-                        <div class="camera-body">
-                            <img src="assets/images/cameras/camera-placeholder.jpg" alt="Camera 3" class="camera-image">
-                            <div class="camera-overlay">
-                                <a href="#" class="btn btn-warning btn-check-camera">
-                                    <i class="bi bi-camera-video"></i> Check
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="camera-card">
-                        <div class="camera-header">
-                            <span class="camera-label">CAMERA 4</span>
-                        </div>
-                        <div class="camera-body">
-                            <img src="assets/images/cameras/camera-placeholder.jpg" alt="Camera 4" class="camera-image">
-                            <div class="camera-overlay">
-                                <a href="#" class="btn btn-warning btn-check-camera">
-                                    <i class="bi bi-camera-video"></i> Check
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="row g-3" id="cameraCardsContainer">
+                <!-- Camera cards will be generated dynamically by JavaScript -->
+                <!-- แสดงเฉพาะการ์ดที่มีข้อมูลครบ (img_link + detail_link) -->
             </div>
         </div>
     </section>
 
-    <!-- ROW 5: Filters Section -->
+    <!-- ROW 5: Filters Section (Date Picker Only) -->
     <section id="filters" class="filters-section">
         <div class="container-fluid">
-            <div class="row align-items-center g-3">
+            <div class="row align-items-center g-3 justify-content-center">
                 <div class="col-md-3">
                     <div class="date-display">
                         <i class="bi bi-calendar3"></i>
@@ -144,12 +101,6 @@
                         <span class="input-group-text"><i class="bi bi-calendar-range"></i></span>
                         <input type="text" class="form-control" id="dateRangePicker" placeholder="Select date range">
                     </div>
-                </div>
-                <div class="col-md-3">
-                    <select class="form-select" id="databaseSelect">
-                        <option value="">เลือกฐานข้อมูล...</option>
-                        <option value="db_boothbenz" selected>db_boothbenz</option>
-                    </select>
                 </div>
             </div>
         </div>
@@ -210,38 +161,14 @@
         </div>
     </section>
 
-    <!-- ROW 7: Car Models Gallery (Round 1) -->
-    <section id="car-gallery-1" class="car-gallery-section">
+    <!-- ROW 7: Car Models Gallery (Dynamic: car_img1-8) -->
+    <!-- แสดงเฉพาะการ์ดที่มี car_img -->
+    <section id="car-gallery" class="car-gallery-section">
         <div class="container-fluid">
             <h3 class="section-title">ภาพรถแต่ละรุ่นในงานออกบูธ</h3>
-            <div class="row g-4">
-                <div class="col-lg-4 col-md-6">
-                    <div class="car-card">
-                        <img src="assets/images/cars/amg-sl43.jpg" alt="AMG SL 43" class="car-image">
-                        <div class="car-info">
-                            <h4 class="car-name">AMG SL 43</h4>
-                            <p class="car-description">Mercedes-AMG SL 43 Roadster</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="car-card">
-                        <img src="assets/images/cars/c350e.jpg" alt="C 350 e" class="car-image">
-                        <div class="car-info">
-                            <h4 class="car-name">C 350 e AMG Dynamic</h4>
-                            <p class="car-description">Mercedes-Benz C-Class Plug-in Hybrid</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="car-card">
-                        <img src="assets/images/cars/glc220d.jpg" alt="GLC 220d" class="car-image">
-                        <div class="car-info">
-                            <h4 class="car-name">GLC 220d 4 Matic Avantgar</h4>
-                            <p class="car-description">Mercedes-Benz GLC SUV</p>
-                        </div>
-                    </div>
-                </div>
+            <div class="row g-4" id="carGalleryContainer">
+                <!-- Car cards will be generated dynamically by JavaScript -->
+                <!-- แสดงเฉพาะการ์ดที่มีข้อมูลภาพ (car_img) -->
             </div>
         </div>
     </section>
@@ -290,13 +217,14 @@
         </div>
     </section>
 
-    <!-- ROW 10: CCTV Layout Visualization -->
+    <!-- ROW 10: CCTV Layout Visualization (Dynamic: txt_body, txt_body_detail, img_body) -->
     <section id="cctv-layout" class="layout-section">
         <div class="container-fluid">
             <div class="layout-card">
-                <h3 class="chart-title">ภาพจากกล้อง CCTV</h3>
+                <h3 class="chart-title" id="txtBody">ภาพจากกล้อง CCTV</h3>
+                <p class="layout-description" id="txtBodyDetail"></p>
                 <div class="layout-image-wrapper">
-                    <img src="assets/images/cctv-layout.jpg" alt="CCTV Layout" class="layout-image" id="cctvLayoutImage">
+                    <img src="assets/images/cctv-layout.jpg" alt="CCTV Layout" class="layout-image" id="imgBody">
                 </div>
             </div>
         </div>
@@ -314,31 +242,7 @@
         </div>
     </section>
 
-    <!-- ROW 12: Car Models Gallery (Round 2) -->
-    <section id="car-gallery-2" class="car-gallery-section">
-        <div class="container-fluid">
-            <div class="row g-4">
-                <div class="col-lg-6 col-md-6">
-                    <div class="car-card">
-                        <img src="assets/images/cars/gla200.jpg" alt="GLA 200" class="car-image">
-                        <div class="car-info">
-                            <h4 class="car-name">GLA 200 AMG Dynamic</h4>
-                            <p class="car-description">Mercedes-Benz GLA Compact SUV</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6">
-                    <div class="car-card">
-                        <img src="assets/images/cars/e350e.jpg" alt="E 350 e" class="car-image">
-                        <div class="car-info">
-                            <h4 class="car-name">E 350 e AMG Dynamic</h4>
-                            <p class="car-description">Mercedes-Benz E-Class Plug-in Hybrid</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <!-- ROW 12: ถูกรวมเข้ากับ ROW 7 (Car Gallery) แล้ว -->
 
     <!-- ROW 13: Daily Traffic Chart -->
     <section id="daily-traffic" class="chart-section">

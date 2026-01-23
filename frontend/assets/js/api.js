@@ -69,12 +69,12 @@ async function apiFetch(endpoint, options = {}) {
  */
 
 /**
- * Health Check
- * GET /benzEvents/api/health
+ * Health Check MongoDB
+ * GET /benzEvents/api/BenzEventMongo
  */
 async function checkHealth() {
     try {
-        const data = await apiFetch('/health');
+        const data = await apiFetch('/BenzEventMongo');
         return {
             success: true,
             data: data,
@@ -89,14 +89,14 @@ async function checkHealth() {
 
 /**
  * Get List of Databases
- * GET /benzEvents/api/dbs
+ * GET /benzEvents/api/BenzEventGetDB
  */
 async function getDatabases() {
     try {
-        const data = await apiFetch('/dbs');
+        const data = await apiFetch('/BenzEventGetDB');
         return {
             success: true,
-            databases: data.databases || [],
+            databases: data.databases || data || [],
         };
     } catch (error) {
         return {
@@ -109,7 +109,7 @@ async function getDatabases() {
 
 /**
  * Get Collections in a Database
- * GET /benzEvents/api/collections?db={db_name}
+ * GET /benzEvents/api/BenzEventGetCollections?db={db_name}
  */
 async function getCollections(dbName) {
     if (!dbName) {
@@ -121,11 +121,11 @@ async function getCollections(dbName) {
     }
 
     try {
-        const data = await apiFetch(`/collections?db=${encodeURIComponent(dbName)}`);
+        const data = await apiFetch(`/BenzEventGetCollections?db=${encodeURIComponent(dbName)}`);
         return {
             success: true,
             db: data.db,
-            collections: data.collections || [],
+            collections: data.collections || data || [],
         };
     } catch (error) {
         return {
@@ -179,7 +179,7 @@ async function getDocuments(params) {
             queryParams.append('limit', limit.toString());
         }
 
-        const data = await apiFetch(`/documents?${queryParams.toString()}`);
+        const data = await apiFetch(`/BenzEventGet?${queryParams.toString()}`);
         return {
             success: true,
             db: data.db,
@@ -201,7 +201,7 @@ async function getDocuments(params) {
 
 /**
  * Update Document Type
- * PATCH /benzEvents/api/doc/{doc_id}/type
+ * PATCH /benzEvents/api/BenzEventUpdate/{doc_id}/type
  *
  * @param {string} docId - Document ID
  * @param {string} newType - New type value
@@ -223,7 +223,7 @@ async function updateDocumentType(docId, newType, db, col) {
         });
 
         const data = await apiFetch(
-            `/doc/${encodeURIComponent(docId)}/type?${queryParams.toString()}`,
+            `/BenzEventUpdate/${encodeURIComponent(docId)}/type?${queryParams.toString()}`,
             {
                 method: 'PATCH',
                 body: JSON.stringify({ type: newType }),
@@ -412,6 +412,147 @@ function groupByDateAndZone(documents) {
 
 /**
  * ==========================================================================
+ * Web Config API (โครงสร้างเว็บ) - Benz Info Endpoints
+ * ==========================================================================
+ */
+
+/**
+ * Get All Web Configs (Benz Info)
+ * ดึงข้อมูล web config ทั้งหมดจาก /benzInfoGet
+ *
+ * @param {Object} options - ตัวเลือกสำหรับ query
+ * @returns {Object} List of all web configurations
+ *
+ * Endpoint: GET /benzEvents/api/benzInfoGet
+ */
+async function getAllWebConfigs(options = {}) {
+    const { skip = 0, limit = null, sort_field = '_id', sort_dir = -1 } = options;
+
+    try {
+        let url = `/benzInfoGet?skip=${skip}&sort_field=${sort_field}&sort_dir=${sort_dir}`;
+        if (limit) {
+            url += `&limit=${limit}`;
+        }
+
+        const data = await apiFetch(url);
+        return {
+            success: true,
+            configs: data.docs || data || [],
+            total: data.total || (data.docs ? data.docs.length : 0),
+        };
+    } catch (error) {
+        console.warn('⚠️ Benz Info API not available:', error.message);
+        return {
+            success: false,
+            error: error.message,
+            configs: [],
+        };
+    }
+}
+
+/**
+ * Get Web Configuration by Database Name
+ * ดึงข้อมูลโครงสร้างเว็บตาม database_name ที่เลือก
+ *
+ * @param {string} databaseName - ชื่อฐานข้อมูลที่ต้องการดึง config
+ * @returns {Object} Web configuration data
+ *
+ * วิธีการ: ดึงทั้งหมดจาก /benzInfoGet แล้ว filter ตาม database_name
+ */
+async function getWebConfig(databaseName) {
+    if (!databaseName) {
+        return {
+            success: false,
+            error: 'Database name is required',
+            config: null,
+        };
+    }
+
+    try {
+        // ดึงข้อมูลทั้งหมดจาก benzInfoGet
+        const result = await getAllWebConfigs();
+
+        if (!result.success) {
+            return {
+                success: false,
+                error: result.error,
+                config: null,
+            };
+        }
+
+        // หา config ที่ตรงกับ database_name
+        const config = result.configs.find(c => c.database_name === databaseName);
+
+        if (config) {
+            console.log('✅ Found Web Config for:', databaseName);
+            return {
+                success: true,
+                config: config,
+            };
+        } else {
+            console.warn(`⚠️ No Web Config found for: ${databaseName}`);
+            return {
+                success: false,
+                error: `No config found for database: ${databaseName}`,
+                config: null,
+            };
+        }
+    } catch (error) {
+        console.warn('⚠️ Web Config API error:', error.message);
+        return {
+            success: false,
+            error: error.message,
+            config: null,
+        };
+    }
+}
+
+/**
+ * Delete Web Config by ID
+ * ลบ web config ตาม ID
+ *
+ * @param {string} id - ID ของ config ที่ต้องการลบ
+ * @returns {Object} Result
+ *
+ * Endpoint: DELETE /benzEvents/api/benzInfoDelete/{id}
+ */
+async function deleteWebConfig(id) {
+    if (!id) {
+        return {
+            success: false,
+            error: 'ID is required',
+        };
+    }
+
+    try {
+        const url = getApiUrl(`/benzInfoDelete/${id}`);
+        const response = await fetch(url, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        return {
+            success: true,
+            data: data,
+        };
+    } catch (error) {
+        console.error('❌ Delete Web Config error:', error);
+        return {
+            success: false,
+            error: error.message,
+        };
+    }
+}
+
+/**
+ * ==========================================================================
  * Export API Functions
  * ==========================================================================
  */
@@ -429,6 +570,11 @@ window.API = {
     getDocuments,
     getAllDocuments,
     updateDocumentType,
+
+    // Web Config Endpoints (Benz Info)
+    getWebConfig,
+    getAllWebConfigs,
+    deleteWebConfig,
 
     // Data Processing
     calculateKPIData,
