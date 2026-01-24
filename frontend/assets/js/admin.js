@@ -139,7 +139,24 @@ function openEditMode(id) {
   form.txt_body.value = cfg.txt_body || "";
   form.txt_body_detail.value = cfg.txt_body_detail || "";
 
-  // 3. เปิด Modal
+  // 3. แสดงตัวอย่างรูปภาพเดิม (ถ้ามี)
+  const imageFields = ["img_header", "img_header2", "img_body"];
+  for (let i = 1; i <= 8; i++) {
+    imageFields.push(`img_link${i}`);
+    imageFields.push(`car_img${i}`);
+  }
+
+  imageFields.forEach((field) => {
+    const url = cfg[field];
+    const prevEl = $(`#prev_${field}`);
+    if (url) {
+      prevEl.attr("src", url).addClass("active");
+    } else {
+      prevEl.removeClass("active");
+    }
+  });
+
+  // 4. เปิด Modal
   const modal = new bootstrap.Modal(document.getElementById("uploadModal"));
   modal.show();
 }
@@ -154,7 +171,25 @@ function resetFormToAddMode() {
   $("#btnSubmitText").text("เพิ่มรายการใหม่");
   $("#config_id").val("");
   document.getElementById("uploadForm").reset();
+  $(".input-preview").removeClass("active").attr("src", "");
 }
+
+/**
+ * Live Image Preview when selecting new file
+ */
+$(document).on("change", 'input[type="file"]', function () {
+  const input = this;
+  const name = input.name;
+  const preview = $(`#prev_${name}`);
+
+  if (input.files && input.files[0] && preview.length) {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      preview.attr("src", e.target.result).addClass("active");
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+});
 
 /**
  * Handle Form Submission (Add vs Edit)

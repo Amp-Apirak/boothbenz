@@ -60,6 +60,19 @@
         width: 180px;
         display: inline-block;
       }
+      .input-preview {
+        width: 100%;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 6px;
+        margin-top: 8px;
+        border: 1px dashed #ced4da;
+        background: #f8f9fa;
+        display: none;
+      }
+      .input-preview.active {
+        display: block;
+      }
     </style>
   </head>
   <body>
@@ -194,6 +207,11 @@
                         type="file"
                         name="img_header"
                         class="form-control"
+                        accept="image/*"
+                      />
+                      <img
+                        id="prev_img_header"
+                        class="input-preview shadow-sm"
                       />
                     </div>
                     <div class="col-md-4">
@@ -219,6 +237,11 @@
                         type="file"
                         name="img_header2"
                         class="form-control"
+                        accept="image/*"
+                      />
+                      <img
+                        id="prev_img_header2"
+                        class="input-preview shadow-sm"
                       />
                     </div>
                     <div class="col-md-6">
@@ -253,7 +276,9 @@
                         type="file"
                         name="img_body"
                         class="form-control"
+                        accept="image/*"
                       />
+                      <img id="prev_img_body" class="input-preview shadow-sm" />
                     </div>
                     <div class="col-md-4">
                       <label class="small fw-bold">หัวข้อผัง</label
@@ -333,8 +358,8 @@
       let cctvHtml = "",
         carHtml = "";
       for (let i = 1; i <= 8; i++) {
-        cctvHtml += `<div class="col-md-3"><div class="p-2 border rounded bg-white"><b>Cam ${i}</b><input type="text" name="detail_link${i}" class="form-control form-control-sm mb-1" placeholder="Label"><input type="file" name="img_link${i}" class="form-control form-control-sm" accept="image/*"></div></div>`;
-        carHtml += `<div class="col-md-3"><label class="small fw-bold">รถคันที่ ${i}</label><input type="file" name="car_img${i}" class="form-control form-control-sm" accept="image/*"></div>`;
+        cctvHtml += `<div class="col-md-3"><div class="p-2 border rounded bg-white"><b>Cam ${i}</b><input type="text" name="detail_link${i}" class="form-control form-control-sm mb-1" placeholder="Label"><input type="file" name="img_link${i}" class="form-control form-control-sm" accept="image/*"><img id="prev_img_link${i}" class="input-preview"></div></div>`;
+        carHtml += `<div class="col-md-3"><label class="small fw-bold">รถคันที่ ${i}</label><input type="file" name="car_img${i}" class="form-control form-control-sm" accept="image/*"><img id="prev_car_img${i}" class="input-preview"></div>`;
       }
       document.getElementById("cctvInputs").innerHTML = cctvHtml;
       document.getElementById("carInputs").innerHTML = carHtml;
