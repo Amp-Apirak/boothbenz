@@ -1,16 +1,20 @@
 /**
  * ==========================================================================
  * API Handler - Thonburi Phanich Dashboard
- * Version: 1.0.0
- * Description: จัดการการเรียก API ทั้งหมด
+ * Version: 1.1.0
+ * Description: จัดการการเรียก API ทั้งหมด (รองรับ Config และ PATCH)
  * ==========================================================================
  */
 
-// API Configuration
+// API Configuration (โหลดมาจาก assets/js/config.js)
 const API_CONFIG = {
-  BASE_URL: "http://172.16.1.31:8111",
-  API_PREFIX: "/benzEvents/api",
-  TIMEOUT: 30000, // 30 seconds
+  BASE_URL: window.APP_CONFIG
+    ? window.APP_CONFIG.BASE_URL
+    : "http://localhost:8111",
+  API_PREFIX: window.APP_CONFIG
+    ? window.APP_CONFIG.API_PREFIX
+    : "/benzEvents/api",
+  TIMEOUT: window.APP_CONFIG ? window.APP_CONFIG.TIMEOUT : 30000,
 };
 
 // สร้าง Full API URL
@@ -108,25 +112,16 @@ async function getDatabases() {
 }
 
 /**
- * Get Collections in a Database
- * GET /benzEvents/api/BenzEventGetCollections?db={db_name}
+ * Get List of Collections
+ * GET /benzEvents/api/BenzEventGetCollections?db={db}
  */
 async function getCollections(dbName) {
-  if (!dbName) {
-    return {
-      success: false,
-      error: "Database name is required",
-      collections: [],
-    };
-  }
+  if (!dbName) return { success: false, error: "Database name is required" };
 
   try {
-    const data = await apiFetch(
-      `/BenzEventGetCollections?db=${encodeURIComponent(dbName)}`,
-    );
+    const data = await apiFetch(`/BenzEventGetCollections?db=${dbName}`);
     return {
       success: true,
-      db: data.db,
       collections: data.collections || data || [],
     };
   } catch (error) {
@@ -139,58 +134,31 @@ async function getCollections(dbName) {
 }
 
 /**
- * Get Documents from a Collection
- * GET /benzEvents/api/documents
- *
- * @param {Object} params - Query parameters
- * @param {string} params.db - Database name (required)
- * @param {string} params.col - Collection name (required)
- * @param {number} params.skip - Number of documents to skip (default: 0)
- * @param {number} params.limit - Number of documents to return (optional)
- * @param {string} params.sort_field - Field to sort by (default: "_id")
- * @param {number} params.sort_dir - Sort direction: -1 (desc) or 1 (asc) (default: -1)
+ * Get Documents with Pagination
+ * GET /benzEvents/api/BenzEventGet
  */
 async function getDocuments(params) {
   const {
     db,
     col,
     skip = 0,
-    limit = null,
+    limit = 100,
     sort_field = "_id",
     sort_dir = -1,
   } = params;
-
-  if (!db || !col) {
-    return {
-      success: false,
-      error: "Database and Collection names are required",
-      docs: [],
-    };
-  }
+  if (!db || !col) return { success: false, error: "DB and Col are required" };
 
   try {
-    const queryParams = new URLSearchParams({
-      db: db,
-      col: col,
-      skip: skip.toString(),
-      sort_field: sort_field,
-      sort_dir: sort_dir.toString(),
-    });
+    let url = `/BenzEventGet?db=${db}&col=${col}&skip=${skip}&sort_field=${sort_field}&sort_dir=${sort_dir}`;
+    if (limit) url += `&limit=${limit}`;
 
-    if (limit !== null) {
-      queryParams.append("limit", limit.toString());
-    }
-
-    const data = await apiFetch(`/BenzEventGet?${queryParams.toString()}`);
+    const data = await apiFetch(url);
     return {
       success: true,
+      docs: data.docs || [],
+      total: data.total || 0,
       db: data.db,
       collection: data.collection,
-      total: data.total || 0,
-      count: data.count || 0,
-      skip: data.skip || 0,
-      limit: data.limit,
-      docs: data.docs || [],
     };
   } catch (error) {
     return {
@@ -202,36 +170,23 @@ async function getDocuments(params) {
 }
 
 /**
+ * Get All Documents (Helper)
+ */
+async function getAllDocuments(db, col) {
+  return await getDocuments({ db, col, limit: null });
+}
+
+/**
  * Update Document Type
- * PATCH /benzEvents/api/BenzEventUpdate/{doc_id}/type
- *
- * @param {string} docId - Document ID
- * @param {string} newType - New type value
- * @param {string} db - Database name
- * @param {string} col - Collection name
+ * PATCH /benzEvents/api/BenzEventUpdate/{doc_id}/type?db={db}&col={col}
  */
 async function updateDocumentType(docId, newType, db, col) {
-  if (!docId || !newType || !db || !col) {
-    return {
-      success: false,
-      error: "All parameters are required",
-    };
-  }
-
   try {
-    const queryParams = new URLSearchParams({
-      db: db,
-      col: col,
+    const url = `/BenzEventUpdate/${docId}/type?db=${db}&col=${col}`;
+    const data = await apiFetch(url, {
+      method: "PATCH",
+      body: JSON.stringify({ type: newType }),
     });
-
-    const data = await apiFetch(
-      `/BenzEventUpdate/${encodeURIComponent(docId)}/type?${queryParams.toString()}`,
-      {
-        method: "PATCH",
-        body: JSON.stringify({ type: newType }),
-      },
-    );
-
     return {
       success: true,
       data: data,
@@ -246,188 +201,13 @@ async function updateDocumentType(docId, newType, db, col) {
 
 /**
  * ==========================================================================
- * Data Processing Functions
+ * Web Config Endpoints (Benz Info)
  * ==========================================================================
  */
 
 /**
- * Get All Documents from a Collection (without limit)
- */
-async function getAllDocuments(db, col) {
-  return await getDocuments({
-    db: db,
-    col: col,
-    skip: 0,
-    limit: null, // No limit - get all documents
-    sort_field: "_id",
-    sort_dir: -1,
-  });
-}
-
-/**
- * Calculate KPI Data (Total, Male, Female)
- */
-function calculateKPIData(documents) {
-  const total = documents.length;
-  const male = documents.filter(
-    (doc) =>
-      doc.gender === "male" || doc.gender === "Male" || doc.gender === "M",
-  ).length;
-  const female = documents.filter(
-    (doc) =>
-      doc.gender === "female" || doc.gender === "Female" || doc.gender === "F",
-  ).length;
-
-  return {
-    total,
-    male,
-    female,
-    unknown: total - male - female,
-  };
-}
-
-/**
- * Group Documents by Zone (Car Model)
- */
-function groupByZone(documents) {
-  const zoneMap = {};
-
-  documents.forEach((doc) => {
-    const zone = doc.zone || doc.car_model || "Unknown";
-    if (!zoneMap[zone]) {
-      zoneMap[zone] = 0;
-    }
-    zoneMap[zone]++;
-  });
-
-  return zoneMap;
-}
-
-/**
- * Group Documents by Hour
- */
-function groupByHour(documents) {
-  const hourMap = {};
-
-  documents.forEach((doc) => {
-    let hour = null;
-
-    // Try different field names
-    if (doc.hour !== undefined) {
-      hour = doc.hour;
-    } else if (doc.time) {
-      // Parse time string (e.g., "14:30:00")
-      hour = parseInt(doc.time.split(":")[0]);
-    } else if (doc.timestamp) {
-      // Parse ISO timestamp
-      const date = new Date(doc.timestamp);
-      hour = date.getHours();
-    }
-
-    if (hour !== null) {
-      const hourRange = `${hour.toString().padStart(2, "0")}:00-${(hour + 1).toString().padStart(2, "0")}:00`;
-      if (!hourMap[hourRange]) {
-        hourMap[hourRange] = 0;
-      }
-      hourMap[hourRange]++;
-    }
-  });
-
-  return hourMap;
-}
-
-/**
- * Group Documents by Date
- */
-function groupByDate(documents) {
-  const dateMap = {};
-
-  documents.forEach((doc) => {
-    let date = null;
-
-    // Try different field names
-    if (doc.date) {
-      date = doc.date;
-    } else if (doc.timestamp) {
-      // Extract date from ISO timestamp
-      date = doc.timestamp.split("T")[0];
-    }
-
-    if (date) {
-      if (!dateMap[date]) {
-        dateMap[date] = 0;
-      }
-      dateMap[date]++;
-    }
-  });
-
-  return dateMap;
-}
-
-/**
- * Group Documents by Dwell Time (minutes)
- */
-function groupByDwellTime(documents) {
-  const dwellMap = {};
-
-  documents.forEach((doc) => {
-    const dwellTime = doc.dwell_time || doc.dwellTime || 0;
-    if (dwellTime > 0) {
-      if (!dwellMap[dwellTime]) {
-        dwellMap[dwellTime] = 0;
-      }
-      dwellMap[dwellTime]++;
-    }
-  });
-
-  return dwellMap;
-}
-
-/**
- * Group Documents by Date and Zone
- */
-function groupByDateAndZone(documents) {
-  const dateZoneMap = {};
-
-  documents.forEach((doc) => {
-    let date = null;
-    const zone = doc.zone || doc.car_model || "Unknown";
-
-    // Try different field names
-    if (doc.date) {
-      date = doc.date;
-    } else if (doc.timestamp) {
-      date = doc.timestamp.split("T")[0];
-    }
-
-    if (date) {
-      if (!dateZoneMap[date]) {
-        dateZoneMap[date] = {};
-      }
-      if (!dateZoneMap[date][zone]) {
-        dateZoneMap[date][zone] = 0;
-      }
-      dateZoneMap[date][zone]++;
-    }
-  });
-
-  return dateZoneMap;
-}
-
-/**
- * ==========================================================================
- * Web Config API (โครงสร้างเว็บ) - Benz Info Endpoints
- * ==========================================================================
- */
-
-/**
- * Get All Web Configs (Benz Info)
- * ดึงข้อมูล web config ทั้งหมดจาก /benzInfoGet
- *
- * @param {Object} options - ตัวเลือกสำหรับ query
- * @returns {Object} List of all web configurations
- *
- * Endpoint: GET /benzEvents/api/benzInfoGet
+ * Get List of All Web Configs
+ * GET /benzEvents/api/benzInfoGet
  */
 async function getAllWebConfigs(options = {}) {
   const { skip = 0, limit = null, sort_field = "_id", sort_dir = -1 } = options;
@@ -558,11 +338,6 @@ async function deleteWebConfig(id) {
 /**
  * Upload Web Config (Benz Info)
  * อัปโหลดข้อมูล web config ใหม่ (รวมถึงไฟล์ภาพ)
- *
- * @param {FormData} formData - ข้อมูลที่ต้องการอัปโหลด
- * @returns {Object} Result
- *
- * Endpoint: POST /benzEvents/api/benzInfoUpload
  */
 async function uploadWebConfig(formData) {
   try {
@@ -591,32 +366,127 @@ async function uploadWebConfig(formData) {
 }
 
 /**
+ * Update Web Config (Benz Info) - New from Swagger
+ * แก้ไขข้อมูลเดิม (PATCH)
+ */
+async function patchWebConfig(id, formData) {
+  if (!id) return { success: false, error: "ID is required" };
+
+  try {
+    const response = await fetch(getApiUrl(`/benzInfoUpdate/${id}`), {
+      method: "PATCH",
+      body: formData,
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.detail || `HTTP Error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return {
+      success: true,
+      data: data,
+    };
+  } catch (error) {
+    console.error("❌ Patch Web Config error:", error);
+    return {
+      success: false,
+      error: error.message,
+    };
+  }
+}
+
+/**
+ * ==========================================================================
+ * Data Processing Functions
+ * ==========================================================================
+ */
+
+function calculateKPIData(docs) {
+  const total = docs.length;
+  const male = docs.filter(
+    (d) => (d.gender || "").toLowerCase() === "man",
+  ).length;
+  const female = docs.filter(
+    (d) => (d.gender || "").toLowerCase() === "woman",
+  ).length;
+
+  return { total, male, female };
+}
+
+function groupByZone(docs) {
+  const groups = {};
+  docs.forEach((doc) => {
+    const zone = doc.zone || "Unassigned";
+    groups[zone] = (groups[zone] || 0) + 1;
+  });
+  return groups;
+}
+
+function groupByHour(docs) {
+  const groups = {};
+  for (let i = 0; i < 24; i++) groups[i] = 0;
+
+  docs.forEach((doc) => {
+    const hour = new Date(doc.timestamp || doc.date).getHours();
+    if (!isNaN(hour)) groups[hour]++;
+  });
+  return groups;
+}
+
+function groupByDate(docs) {
+  const groups = {};
+  docs.forEach((doc) => {
+    const date = new Date(doc.timestamp || doc.date).toLocaleDateString();
+    groups[date] = (groups[date] || 0) + 1;
+  });
+  return groups;
+}
+
+function groupByDwellTime(docs) {
+  const groups = { "0-5": 0, "6-15": 0, "16-30": 0, "31+": 0 };
+  docs.forEach((doc) => {
+    const dwell = doc.dwell_time || 0;
+    if (dwell <= 5) groups["0-5"]++;
+    else if (dwell <= 15) groups["6-15"]++;
+    else if (dwell <= 30) groups["16-30"]++;
+    else groups["31+"]++;
+  });
+  return groups;
+}
+
+function groupByDateAndZone(docs) {
+  const groups = {};
+  docs.forEach((doc) => {
+    const date = new Date(doc.timestamp || doc.date).toLocaleDateString();
+    const zone = doc.zone || "Unassigned";
+    if (!groups[date]) groups[date] = {};
+    groups[date][zone] = (groups[date][zone] || 0) + 1;
+  });
+  return groups;
+}
+
+/**
  * ==========================================================================
  * Export API Functions
  * ==========================================================================
  */
 
-// Make functions available globally
 window.API = {
-  // Configuration
   config: API_CONFIG,
   getApiUrl,
-
-  // Basic Endpoints
   checkHealth,
   getDatabases,
   getCollections,
   getDocuments,
   getAllDocuments,
   updateDocumentType,
-
-  // Web Config Endpoints (Benz Info)
   getWebConfig,
   getAllWebConfigs,
   uploadWebConfig,
+  patchWebConfig,
   deleteWebConfig,
-
-  // Data Processing
   calculateKPIData,
   groupByZone,
   groupByHour,
@@ -625,4 +495,4 @@ window.API = {
   groupByDateAndZone,
 };
 
-console.log("✅ API Handler loaded successfully");
+console.log("✅ API Handler loaded successfully (Config & Patch Support)");

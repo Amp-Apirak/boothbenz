@@ -4,28 +4,23 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin Management - Thonburi Phanich</title>
-
-    <!-- Bootstrap 5 CSS -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
-    <!-- Bootstrap Icons -->
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
     />
-    <!-- Google Fonts -->
     <link
       href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="assets/css/style.css" />
-
     <style>
       body {
         background-color: #f4f7f9;
+        font-family: "Prompt", sans-serif;
       }
       .admin-section {
         padding: 40px 0;
@@ -42,22 +37,6 @@
         height: 50px;
         object-fit: cover;
         border-radius: 8px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      }
-      .table thead th {
-        background-color: #f8f9fa;
-        border-bottom: 2px solid #edf2f7;
-        color: #4a5568;
-        font-weight: 600;
-        text-transform: uppercase;
-        font-size: 0.8rem;
-        letter-spacing: 0.05em;
-      }
-      .btn-add {
-        border-radius: 10px;
-        padding: 10px 20px;
-        font-weight: 600;
-        box-shadow: 0 4px 6px rgba(13, 110, 253, 0.2);
       }
       .nav-tabs-custom .nav-link {
         border: none;
@@ -68,108 +47,81 @@
       }
       .nav-tabs-custom .nav-link.active {
         color: #0d6efd;
-        background: none;
         border-bottom-color: #0d6efd;
       }
       .detail-item {
-        padding: 10px;
+        padding: 8px 0;
         border-bottom: 1px solid #edf2f7;
       }
       .detail-label {
         font-weight: 600;
         color: #4a5568;
         font-size: 0.85rem;
-        width: 200px;
+        width: 180px;
         display: inline-block;
-      }
-      .detail-value {
-        color: #2d3748;
-        word-break: break-all;
       }
     </style>
   </head>
   <body>
-    <!-- Top Bar -->
     <section class="database-selector-section py-2">
-      <div class="container-fluid">
-        <div class="row align-items-center">
-          <div class="col-12">
-            <div class="database-selector-wrapper justify-content-between">
-              <a href="index.html" class="btn btn-outline-light btn-sm">
-                <i class="bi bi-speedometer2"></i> กลับไปยัง Dashboard
-              </a>
-              <span class="text-white fw-medium">
-                <i class="bi bi-shield-lock-fill text-warning me-1"></i>
-                Administrator Console
-              </span>
-            </div>
-          </div>
+      <div class="container-fluid px-4">
+        <div class="d-flex justify-content-between align-items-center">
+          <a href="index.html" class="btn btn-outline-light btn-sm"
+            ><i class="bi bi-speedometer2"></i> กลับสู่หน้า Dashboard</a
+          >
+          <span class="text-white fw-bold">ADMIN CONSOLE (v1.2.0)</span>
         </div>
       </div>
     </section>
 
     <div class="container-fluid admin-section px-4">
-      <div class="row mb-4 text-center text-md-start">
-        <div class="col-md-8">
-          <h2 class="mb-1 fw-bold text-dark">การจัดการโครงสร้างระบบ</h2>
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+          <h2 class="fw-bold text-dark">โครงสร้างระบบโชว์รูม</h2>
           <p class="text-muted mb-0">
-            จัดการรูปภาพและข้อความสำหรับแต่ละงานออกบูธ (Benz-info API ทั้งหมด 35
-            ฟิลด์)
+            จัดการรูปภาพและข้อความให้ตรงตามงานอีเวนต์ (รองรับ 35 ฟิลด์)
           </p>
         </div>
-        <div class="col-md-4 text-md-end mt-3 mt-md-0">
-          <button
-            class="btn btn-primary btn-add"
-            data-bs-toggle="modal"
-            data-bs-target="#uploadModal"
-          >
-            <i class="bi bi-plus-lg me-1"></i> เพิ่มข้อมูลฐานข้อมูลใหม่
-          </button>
-        </div>
+        <button
+          class="btn btn-primary btn-add"
+          data-bs-toggle="modal"
+          data-bs-target="#uploadModal"
+        >
+          <i class="bi bi-plus-lg me-1"></i> เพิ่มงานใหม่
+        </button>
       </div>
 
-      <div class="row">
-        <div class="col-12">
-          <div class="card table-card">
-            <div class="table-responsive">
-              <table class="table table-hover align-middle mb-0">
-                <thead>
-                  <tr>
-                    <th>ลำดับ</th>
-                    <th>Database Name</th>
-                    <th>Display Label</th>
-                    <th>Headers</th>
-                    <th>Preview</th>
-                    <th class="text-center">การจัดการ</th>
-                  </tr>
-                </thead>
-                <tbody id="configTableBody">
-                  <tr>
-                    <td colspan="6" class="text-center py-5">
-                      <div
-                        class="spinner-border text-primary"
-                        role="status"
-                      ></div>
-                      <p class="mt-2 mb-0">กำลังดึงข้อมูลจาก Server...</p>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
+      <div class="card table-card">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>DB Name</th>
+                <th>Label</th>
+                <th>Header Text</th>
+                <th>Preview</th>
+                <th class="text-center">Action</th>
+              </tr>
+            </thead>
+            <tbody id="configTableBody">
+              <tr>
+                <td colspan="6" class="text-center py-5">กำลังโหลดข้อมูล...</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
 
-    <!-- Modal for Upload (3 Tabs) -->
     <div class="modal fade" id="uploadModal" tabindex="-1">
       <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content border-0 shadow-lg">
           <form id="uploadForm">
-            <div class="modal-header bg-dark text-white py-3">
-              <h5 class="modal-title fw-bold">
-                <i class="bi bi-plus-square-fill me-2 text-primary"></i>
-                เพิ่มข้อมูลฐานข้อมูลใหม่
+            <input type="hidden" name="config_id" id="config_id" />
+            <div class="modal-header bg-dark text-white">
+              <h5 class="modal-title fw-bold" id="modalTitle">
+                เพิ่มข้อมูลใหม่
               </h5>
               <button
                 type="button"
@@ -178,27 +130,22 @@
               ></button>
             </div>
             <div class="modal-body p-0">
-              <!-- Custom Tabs -->
-              <ul
-                class="nav nav-tabs nav-tabs-custom px-4 border-bottom"
-                id="adminTabs"
-                role="tablist"
-              >
+              <ul class="nav nav-tabs nav-tabs-custom px-4 border-bottom">
                 <li class="nav-item">
                   <button
                     class="nav-link active"
                     data-bs-toggle="tab"
-                    data-bs-target="#tab-basic"
+                    data-bs-target="#t1"
                     type="button"
                   >
-                    1. ข้อมูลหลัก (Header/Hero)
+                    1. หัวข้อ & แบนเนอร์
                   </button>
                 </li>
                 <li class="nav-item">
                   <button
                     class="nav-link"
                     data-bs-toggle="tab"
-                    data-bs-target="#tab-cctv"
+                    data-bs-target="#t2"
                     type="button"
                   >
                     2. กล้อง CCTV (1-8)
@@ -208,215 +155,135 @@
                   <button
                     class="nav-link"
                     data-bs-toggle="tab"
-                    data-bs-target="#tab-gallery"
+                    data-bs-target="#t3"
                     type="button"
                   >
-                    3. แกลเลอรี่รถ & ผังงาน
+                    3. รูปรถ & ผังงาน
                   </button>
                 </li>
               </ul>
-
               <div class="tab-content p-4">
-                <!-- TAB 1: Basic Info -->
-                <div class="tab-pane fade show active" id="tab-basic">
+                <div class="tab-pane fade show active" id="t1">
                   <div class="row g-3">
                     <div class="col-md-6">
-                      <label class="form-label fw-600 small"
-                        >Database Name * (ตรงตามชื่อใน MongoDB)</label
-                      >
-                      <input
+                      <label class="small fw-bold">DB Name (ID) *</label
+                      ><input
                         type="text"
                         name="database_name"
                         class="form-control"
-                        placeholder="db_mega_2026..."
                         required
                       />
                     </div>
                     <div class="col-md-6">
-                      <label class="form-label fw-600 small"
-                        >Database Label * (ชื่อแสดงในหน้าเว็บ)</label
-                      >
-                      <input
+                      <label class="small fw-bold">DB Label (Display) *</label
+                      ><input
                         type="text"
                         name="database_label"
                         class="form-control"
-                        placeholder="Mega Bangna"
                         required
                       />
                     </div>
-                    <div class="col-12">
-                      <hr class="text-muted opacity-25" />
-                    </div>
                     <div class="col-md-4">
-                      <label class="form-label fw-600 small text-primary"
-                        >Row 1 Logo/Image</label
-                      >
-                      <input
+                      <label class="small fw-bold text-primary">R1 Logo</label
+                      ><input
                         type="file"
                         name="img_header"
-                        class="form-control shadow-sm"
-                        accept="image/*"
+                        class="form-control"
                       />
                     </div>
                     <div class="col-md-4">
-                      <label class="form-label fw-600 small"
-                        >Row 1 Main Text</label
-                      >
-                      <input
+                      <label class="small fw-bold">R1 Text</label
+                      ><input
                         type="text"
                         name="txt_header"
                         class="form-control"
-                        placeholder="Thonburi Phanich"
                       />
                     </div>
                     <div class="col-md-4">
-                      <label class="form-label fw-600 small"
-                        >Row 1 Detail Text</label
-                      >
-                      <input
+                      <label class="small fw-bold">R1 Detail</label
+                      ><input
                         type="text"
                         name="txt_header_detail"
                         class="form-control"
-                        placeholder="Auto Showcase"
                       />
                     </div>
-                    <div class="col-12">
-                      <hr class="text-muted opacity-25" />
-                    </div>
                     <div class="col-md-12">
-                      <label class="form-label fw-600 small text-primary"
-                        >Row 2 Hero Background Image</label
-                      >
-                      <input
+                      <label class="small fw-bold text-primary"
+                        >R2 Banner Image</label
+                      ><input
                         type="file"
                         name="img_header2"
-                        class="form-control shadow-sm"
-                        accept="image/*"
+                        class="form-control"
                       />
                     </div>
                     <div class="col-md-6">
-                      <label class="form-label fw-600 small"
-                        >Row 2 Hero Title</label
-                      >
-                      <input
+                      <label class="small fw-bold">R2 Hero Text</label
+                      ><input
                         type="text"
                         name="txt_header2"
                         class="form-control"
-                        placeholder="Mercedes-Benz World"
                       />
                     </div>
                     <div class="col-md-6">
-                      <label class="form-label fw-600 small"
-                        >Row 2 Hero Subtitle</label
-                      >
-                      <input
+                      <label class="small fw-bold">R2 Hero Sub</label
+                      ><input
                         type="text"
                         name="txt_header2_detail"
                         class="form-control"
-                        placeholder="@ Location Name"
                       />
                     </div>
                   </div>
                 </div>
-
-                <!-- TAB 2: CCTV Cameras -->
-                <div class="tab-pane fade" id="tab-cctv">
-                  <div class="alert alert-warning py-2 small mb-4">
-                    <i class="bi bi-exclamation-triangle-fill"></i>
-                    กรุณาอัปโหลดรูปและระบุชื่อเรียกให้ครบตามจำนวนกล้องที่จุดจัดแสดงจริง
-                  </div>
-                  <div class="row g-4">
-                    <!-- Loop 1-8 -->
-                    <script>
-                      for (let i = 1; i <= 8; i++) {
-                        document.write(`
-                                                <div class="col-md-3">
-                                                    <div class="p-3 border rounded bg-light shadow-sm h-100">
-                                                        <h6 class="fw-bold mb-2 text-dark">Camera ${i}</h6>
-                                                        <label class="form-label small mb-1">ชื่อเรียก (Label)</label>
-                                                        <input type="text" name="detail_link${i}" class="form-control form-control-sm mb-2" placeholder="CAM ${i} Name">
-                                                        <label class="form-label small mb-1">รูปถ่าย/Live (Image)</label>
-                                                        <input type="file" name="img_link${i}" class="form-control form-control-sm" accept="image/*">
-                                                    </div>
-                                                </div>
-                                            `);
-                      }
-                    </script>
-                  </div>
+                <div class="tab-pane fade" id="t2">
+                  <div class="row g-3" id="cctvInputs"></div>
                 </div>
-
-                <!-- TAB 3: Cars & Layout -->
-                <div class="tab-pane fade" id="tab-gallery">
-                  <h6 class="fw-bold mb-3 border-bottom pb-2">
-                    แกลเลอรี่รูปรถยนต์ (Max 8 คัน)
-                  </h6>
-                  <div class="row g-3 mb-4">
-                    <script>
-                      for (let i = 1; i <= 8; i++) {
-                        document.write(`
-                                                <div class="col-md-3">
-                                                    <label class="form-label small fw-bold">รูปถ่ายรถคันที่ ${i}</label>
-                                                    <input type="file" name="car_img${i}" class="form-control form-control-sm" accept="image/*">
-                                                </div>
-                                            `);
-                      }
-                    </script>
-                  </div>
-                  <h6 class="fw-bold mb-3 border-bottom pb-2">
-                    แถวที่ 10 (Layout/Map)
-                  </h6>
+                <div class="tab-pane fade" id="t3">
+                  <h6 class="fw-bold py-2 border-bottom">รูปรถแต่ละคัน</h6>
+                  <div class="row g-3 mb-4" id="carInputs"></div>
+                  <h6 class="fw-bold py-2 border-bottom">Layout (Row 10)</h6>
                   <div class="row g-3">
                     <div class="col-md-8">
-                      <label class="form-label fw-600 small"
-                        >รูปภาพแผนผังบูธ (Image Layout)</label
-                      >
-                      <input
+                      <label class="small fw-bold">ภาพผังงาน</label
+                      ><input
                         type="file"
                         name="img_body"
                         class="form-control"
-                        accept="image/*"
                       />
                     </div>
                     <div class="col-md-4">
-                      <label class="form-label fw-600 small"
-                        >หัวข้อผังงาน (Title)</label
-                      >
-                      <input
+                      <label class="small fw-bold">หัวข้อผัง</label
+                      ><input
                         type="text"
                         name="txt_body"
                         class="form-control"
-                        placeholder="Booth Layout"
                       />
                     </div>
                     <div class="col-12">
-                      <label class="form-label fw-600 small"
-                        >รายละเอียดเพิ่มเติม (Detail)</label
-                      >
-                      <textarea
+                      <label class="small fw-bold">รายละเอียดผัง</label
+                      ><textarea
                         name="txt_body_detail"
                         class="form-control"
                         rows="2"
-                        placeholder="รายละเอียดจุดบริการหรือแผนผัง..."
                       ></textarea>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="modal-footer bg-light border-top-0 p-3">
+            <div class="modal-footer bg-light">
               <button
                 type="button"
-                class="btn btn-light px-4"
+                class="btn btn-light"
                 data-bs-dismiss="modal"
               >
                 ยกเลิก
               </button>
-              <button type="submit" class="btn btn-dark px-4" id="btnSubmit">
+              <button type="submit" class="btn btn-dark" id="btnSubmit">
                 <span
                   class="spinner-border spinner-border-sm d-none me-2"
                   id="submitSpinner"
-                ></span>
-                เพิ่มรายการใหม่
+                ></span
+                ><span id="btnSubmitText">บันทึกข้อมูล</span>
               </button>
             </div>
           </form>
@@ -424,14 +291,11 @@
       </div>
     </div>
 
-    <!-- Modal for Showing Details -->
     <div class="modal fade" id="detailModal" tabindex="-1">
       <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content border-0 shadow-lg">
-          <div class="modal-header bg-primary text-white py-3">
-            <h5 class="modal-title fw-bold">
-              <i class="bi bi-search me-2"></i> รายละเอียดข้อมูลทั้งหมด
-            </h5>
+          <div class="modal-header bg-primary text-white">
+            <h5 class="modal-title fw-bold">รายละเอียดทั้งหมด</h5>
             <button
               type="button"
               class="btn-close btn-close-white"
@@ -440,30 +304,37 @@
           </div>
           <div
             class="modal-body p-0"
+            id="detailContent"
             style="max-height: 70vh; overflow-y: auto"
-          >
-            <div id="detailContent">
-              <!-- Content will be injected by JS -->
-            </div>
-          </div>
-          <div class="modal-footer bg-light p-3">
+          ></div>
+          <div class="modal-footer bg-light">
             <button
               type="button"
-              class="btn btn-secondary px-4"
+              class="btn btn-secondary"
               data-bs-dismiss="modal"
             >
-              ปิดหน้าต่าง
+              ปิด
             </button>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+    <script>
+      // Generate inputs for CCTV and Cars
+      let cctvHtml = "",
+        carHtml = "";
+      for (let i = 1; i <= 8; i++) {
+        cctvHtml += `<div class="col-md-3"><div class="p-2 border rounded bg-white"><b>Cam ${i}</b><input type="text" name="detail_link${i}" class="form-control form-control-sm mb-1" placeholder="Label"><input type="file" name="img_link${i}" class="form-control form-control-sm" accept="image/*"></div></div>`;
+        carHtml += `<div class="col-md-3"><label class="small fw-bold">รถคันที่ ${i}</label><input type="file" name="car_img${i}" class="form-control form-control-sm" accept="image/*"></div>`;
+      }
+      document.getElementById("cctvInputs").innerHTML = cctvHtml;
+      document.getElementById("carInputs").innerHTML = carHtml;
+    </script>
+    <script src="assets/js/config.js"></script>
     <script src="assets/js/api.js"></script>
     <script src="assets/js/admin.js"></script>
   </body>

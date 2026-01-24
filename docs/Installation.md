@@ -23,10 +23,12 @@
 ## 1. ภาพรวมโครงการ
 
 ### 🎯 วัตถุประสงค์
+
 Dashboard สำหรับแสดงข้อมูลลูกค้าและวิเคราะห์พฤติกรรมในงานออกบูธรถยนต์ Mercedes-Benz ที่ Central Park II
 
 ### 🏗️ สถาปัตยกรรม
-```
+
+````
 ┌─────────────────────────────────────────────────────────┐
 │                    Frontend (HTML/JS)                    │
 │  ┌───────────┐  ┌──────────┐  ┌────────────────────┐  │
@@ -40,15 +42,22 @@ Dashboard สำหรับแสดงข้อมูลลูกค้าแ�
 │                                  │                       │
 └──────────────────────────────────┼───────────────────────┘
                                    ↓
-                    ┌──────────────────────────┐
-                    │   Backend API Server     │
-                    │ http://172.16.1.31:8111  │
-                    └──────────────────────────┘
+                     ┌──────────────────────────┐
+                     │   Backend API Server     │
+                     │ http://192.168.1.91:8111 │
+                     └──────────────────────────┘
+
+                     1. เปลี่ยน IP ของ Server ในไฟล์ `frontend/assets/js/config.js`:
+   ```javascript
+   BASE_URL: "http://192.168.1.91:8111"
+````
+
                                    ↓
                     ┌──────────────────────────┐
                     │   MongoDB Database       │
                     │   172.16.1.31:27017      │
                     └──────────────────────────┘
+
 ```
 
 ### 📦 Tech Stack
@@ -67,38 +76,40 @@ Dashboard สำหรับแสดงข้อมูลลูกค้าแ�
 ## 2. โครงสร้างโปรเจค
 
 ```
+
 boothbenz/
 │
-├── 📁 frontend/                         # Frontend Application
-│   │
-│   ├── 📄 index.html                   # ไฟล์หลัก (มี 14 Rows)
-│   │
-│   └── 📁 assets/
-│       │
-│       ├── 📁 css/
-│       │   └── style.css              # ไฟล์ CSS หลัก (17KB)
-│       │
-│       ├── 📁 js/
-│       │   ├── api.js                 # API Handler (11KB)
-│       │   ├── charts.js              # Charts Configuration (18KB)
-│       │   └── main.js                # Main Application Logic (20KB)
-│       │
-│       └── 📁 images/                 # รูปภาพ
-│           ├── hero-showroom.jpg      # รูปหลัก
-│           ├── cctv-layout.jpg        # รูป CCTV Layout
-│           ├── 📁 cameras/            # รูปกล้อง
-│           └── 📁 cars/               # รูปรถแต่ละรุ่น
+├── 📁 frontend/ # Frontend Application
+│ │
+│ ├── 📄 index.html # ไฟล์หลัก (มี 14 Rows)
+│ │
+│ └── 📁 assets/
+│ │
+│ ├── 📁 css/
+│ │ └── style.css # ไฟล์ CSS หลัก (17KB)
+│ │
+│ ├── 📁 js/
+│ │ ├── api.js # API Handler (11KB)
+│ │ ├── charts.js # Charts Configuration (18KB)
+│ │ └── main.js # Main Application Logic (20KB)
+│ │
+│ └── 📁 images/ # รูปภาพ
+│ ├── hero-showroom.jpg # รูปหลัก
+│ ├── cctv-layout.jpg # รูป CCTV Layout
+│ ├── 📁 cameras/ # รูปกล้อง
+│ └── 📁 cars/ # รูปรถแต่ละรุ่น
 │
-├── 📁 docs/                            # เอกสาร
-│   ├── systems-image.pdf              # Design Reference
-│   └── data_swagger.md                # API Documentation
+├── 📁 docs/ # เอกสาร
+│ ├── systems-image.pdf # Design Reference
+│ └── data_swagger.md # API Documentation
 │
-├── 📄 ex_backend.py                    # Backend Reference
-├── 📄 notes.md                         # โน้ตความต้องการ
-├── 📄 Installation.md                  # คู่มือนี้
-├── 📄 README.md                        # README หลัก
-└── 📄 .gitignore                       # Git ignore rules
-```
+├── 📄 ex_backend.py # Backend Reference
+├── 📄 notes.md # โน้ตความต้องการ
+├── 📄 Installation.md # คู่มือนี้
+├── 📄 README.md # README หลัก
+└── 📄 .gitignore # Git ignore rules
+
+````
 
 ---
 
@@ -143,57 +154,66 @@ Dashboard แบ่งออกเป็น **14 Rows** ตามที่กำ
 **ตำแหน่ง:** `frontend/assets/js/api.js` (บรรทัด 12-16)
 
 ```javascript
-const API_CONFIG = {
-    BASE_URL: 'http://172.16.1.31:8111',
+    BASE_URL: 'http://192.168.1.91:8111',
     API_PREFIX: '/benzEvents/api',
     TIMEOUT: 30000, // 30 seconds
 };
-```
+````
 
-**Full URL:** `http://172.16.1.31:8111/benzEvents/api`
+**Full URL:** `http://192.168.1.91:8111/benzEvents/api`
 
 ### 🔌 API Endpoints (5 Endpoints)
 
 #### 1. Health Check
+
 ```http
 GET /health
 ```
+
 - **ฟังก์ชัน:** `API.checkHealth()`
 - **ใช้งาน:** ตรวจสอบ API Server พร้อมหรือไม่
 - **Response:** `{"status": "ok", "mongo": "connected"}`
 
 #### 2. List Databases
+
 ```http
 GET /dbs
 ```
+
 - **ฟังก์ชัน:** `API.getDatabases()`
-- **ใช้งาน:** ดึงรายชื่อ Database (db_*)
+- **ใช้งาน:** ดึงรายชื่อ Database (db\_\*)
 - **Response:** `{"databases": ["db_boothbenz"]}`
 
 #### 3. List Collections
+
 ```http
 GET /collections?db={db_name}
 ```
+
 - **ฟังก์ชัน:** `API.getCollections(dbName)`
 - **ใช้งาน:** ดึงรายชื่อ Collections
 - **Response:** `{"collections": ["visitors"]}`
 
 #### 4. Get Documents (หลัก)
+
 ```http
 GET /documents?db={db}&col={col}&skip={skip}&limit={limit}
 ```
+
 - **ฟังก์ชัน:** `API.getDocuments(params)` / `API.getAllDocuments(db, col)`
 - **ใช้งาน:** ดึงข้อมูลลูกค้าทั้งหมด
 
 **Parameters:**
+
 - `db` (required): ชื่อ Database
 - `col` (required): ชื่อ Collection
 - `skip`: จำนวน documents ที่จะข้าม (default: 0)
 - `limit`: จำนวนที่จะดึง (default: null = ทั้งหมด)
-- `sort_field`: ฟิลด์ที่เรียง (default: "_id")
+- `sort_field`: ฟิลด์ที่เรียง (default: "\_id")
 - `sort_dir`: -1=desc, 1=asc (default: -1)
 
 **Response:**
+
 ```json
 {
   "db": "db_boothbenz",
@@ -217,10 +237,12 @@ GET /documents?db={db}&col={col}&skip={skip}&limit={limit}
 ```
 
 #### 5. Update Document Type
+
 ```http
 PATCH /doc/{doc_id}/type?db={db}&col={col}
 Body: { "type": "new_type" }
 ```
+
 - **ฟังก์ชัน:** `API.updateDocumentType(docId, newType, db, col)`
 - **ใช้งาน:** อัพเดตฟิลด์ type
 
@@ -229,11 +251,13 @@ Body: { "type": "new_type" }
 **ตำแหน่ง:** `frontend/assets/js/main.js` (บรรทัด 23-103)
 
 #### เมื่อใช้ Mock Data?
+
 1. ✅ API Server ไม่พร้อม (Health Check ล้มเหลว)
 2. ✅ เกิด Error ตอน Fetch ข้อมูล
 3. ✅ ไม่มีข้อมูลใน Database
 
 #### ข้อมูล Mock Data (1,282 records)
+
 - 224 records - AMG SL 43
 - 5 records - C 350 e AMG Dynamic
 - 335 records - GLC 220d 4 Matic Avantgar
@@ -245,13 +269,13 @@ Body: { "type": "new_type" }
 
 **ตำแหน่ง:** `frontend/assets/js/api.js` (บรรทัด 246-378)
 
-| Function | Input | Output | ใช้ที่ |
-|----------|-------|--------|-------|
-| `calculateKPIData()` | documents | `{total, male, female}` | Row 6 |
-| `groupByZone()` | documents | `{zone: count}` | Row 8 |
-| `groupByHour()` | documents | `{hour: count}` | Row 9 |
-| `groupByDate()` | documents | `{date: count}` | Row 13 |
-| `groupByDwellTime()` | documents | `{minutes: count}` | Row 11 |
+| Function               | Input     | Output                  | ใช้ที่ |
+| ---------------------- | --------- | ----------------------- | ------ |
+| `calculateKPIData()`   | documents | `{total, male, female}` | Row 6  |
+| `groupByZone()`        | documents | `{zone: count}`         | Row 8  |
+| `groupByHour()`        | documents | `{hour: count}`         | Row 9  |
+| `groupByDate()`        | documents | `{date: count}`         | Row 13 |
+| `groupByDwellTime()`   | documents | `{minutes: count}`      | Row 11 |
 | `groupByDateAndZone()` | documents | `{date: {zone: count}}` | Row 14 |
 
 ---
@@ -283,6 +307,7 @@ Body: { "type": "new_type" }
 ### 📋 Conditional Rendering
 
 #### Row 6: KPI Cards
+
 ```javascript
 // main.js - updateKPICards()
 const kpiData = API.calculateKPIData(documents);
@@ -292,6 +317,7 @@ animateNumber(femaleElement, kpiData.female);
 ```
 
 #### Rows 8, 9, 11, 13, 14: Charts
+
 ```javascript
 // main.js - createAllCharts()
 // กราฟจะสร้างเสมอ ถ้าไม่มีข้อมูลจะใช้ Mock Data
@@ -308,7 +334,7 @@ Charts.updateHourlyTrafficTable(hourData);
 // Row 11
 const dwellData = API.groupByDwellTime(documents);
 if (Object.keys(dwellData).length > 0) {
-    Charts.createDwellTimeChart(dwellData);
+  Charts.createDwellTimeChart(dwellData);
 }
 
 // Row 13
@@ -321,16 +347,17 @@ Charts.createDailyZoneChart(dateZoneData);
 ```
 
 #### Row 5: Date Filter
+
 ```javascript
 // main.js - filterDocumentsByDateRange()
 if (dateRange.start && dateRange.end) {
-    // กรองข้อมูลตามวันที่
-    filteredDocuments = allDocuments.filter(doc => {
-        const docDate = new Date(doc.date || doc.timestamp);
-        return docDate >= startDate && docDate <= endDate;
-    });
+  // กรองข้อมูลตามวันที่
+  filteredDocuments = allDocuments.filter((doc) => {
+    const docDate = new Date(doc.date || doc.timestamp);
+    return docDate >= startDate && docDate <= endDate;
+  });
 } else {
-    filteredDocuments = allDocuments;
+  filteredDocuments = allDocuments;
 }
 ```
 
@@ -376,16 +403,16 @@ hideLoading()
 
 ```javascript
 const appState = {
-    currentDatabase: 'db_boothbenz',     // Database ที่ใช้
-    currentCollection: 'visitors',        // Collection ที่ใช้
-    dateRange: {
-        start: null,                      // วันเริ่มต้น
-        end: null,                        // วันสิ้นสุด
-    },
-    allDocuments: [],                     // ข้อมูลทั้งหมด
-    filteredDocuments: [],                // ข้อมูลที่กรองแล้ว
-    isLoading: false,                     // สถานะโหลด
-    useMockData: false,                   // ใช้ Mock Data?
+  currentDatabase: "db_boothbenz", // Database ที่ใช้
+  currentCollection: "visitors", // Collection ที่ใช้
+  dateRange: {
+    start: null, // วันเริ่มต้น
+    end: null, // วันสิ้นสุด
+  },
+  allDocuments: [], // ข้อมูลทั้งหมด
+  filteredDocuments: [], // ข้อมูลที่กรองแล้ว
+  isLoading: false, // สถานะโหลด
+  useMockData: false, // ใช้ Mock Data?
 };
 ```
 
@@ -397,63 +424,63 @@ const appState = {
 
 #### Initialization Functions
 
-| Function | Line | Description |
-|----------|------|-------------|
-| `initializeApp()` | 114-153 | เริ่มต้น Application |
-| `checkApiHealth()` | 158-170 | ตรวจสอบ API |
-| `loadDatabases()` | 175-189 | โหลด Database |
-| `initializeDateRangePicker()` | 194-240 | ตั้งค่า Date Picker |
-| `setupEventListeners()` | 245-262 | ตั้งค่า Events |
+| Function                      | Line    | Description          |
+| ----------------------------- | ------- | -------------------- |
+| `initializeApp()`             | 114-153 | เริ่มต้น Application |
+| `checkApiHealth()`            | 158-170 | ตรวจสอบ API          |
+| `loadDatabases()`             | 175-189 | โหลด Database        |
+| `initializeDateRangePicker()` | 194-240 | ตั้งค่า Date Picker  |
+| `setupEventListeners()`       | 245-262 | ตั้งค่า Events       |
 
 #### Data Loading Functions
 
-| Function | Line | Description |
-|----------|------|-------------|
-| `loadDashboardData()` | 272-313 | โหลดข้อมูลหลัก |
-| `filterDocumentsByDateRange()` | 318-341 | กรองตามวันที่ |
+| Function                       | Line    | Description    |
+| ------------------------------ | ------- | -------------- |
+| `loadDashboardData()`          | 272-313 | โหลดข้อมูลหลัก |
+| `filterDocumentsByDateRange()` | 318-341 | กรองตามวันที่  |
 
 #### UI Update Functions
 
-| Function | Line | Description |
-|----------|------|-------------|
+| Function            | Line    | Description      |
+| ------------------- | ------- | ---------------- |
 | `updateDashboard()` | 350-367 | อัพเดท Dashboard |
-| `updateKPICards()` | 372-391 | อัพเดท KPI |
+| `updateKPICards()`  | 372-391 | อัพเดท KPI       |
 | `createAllCharts()` | 396-424 | สร้างกราฟทั้งหมด |
 
 ### 📍 ไฟล์: `charts.js` (18KB)
 
 #### Chart Creation Functions
 
-| Function | Line | Description | Row |
-|----------|------|-------------|-----|
-| `createZoneInterestChart()` | 58-127 | กราฟ Zone Interest | 8 |
-| `createHourlyTrafficChart()` | 132-201 | กราฟ Hourly Traffic | 9 |
-| `createDwellTimeChart()` | 206-275 | กราฟ Dwell Time | 11 |
-| `createDailyTrafficChart()` | 280-349 | กราฟ Daily Traffic | 13 |
-| `createDailyZoneChart()` | 354-434 | กราฟ Daily Zone | 14 |
-| `updateHourlyTrafficTable()` | 443-467 | อัพเดทตาราง | 9 |
+| Function                     | Line    | Description         | Row |
+| ---------------------------- | ------- | ------------------- | --- |
+| `createZoneInterestChart()`  | 58-127  | กราฟ Zone Interest  | 8   |
+| `createHourlyTrafficChart()` | 132-201 | กราฟ Hourly Traffic | 9   |
+| `createDwellTimeChart()`     | 206-275 | กราฟ Dwell Time     | 11  |
+| `createDailyTrafficChart()`  | 280-349 | กราฟ Daily Traffic  | 13  |
+| `createDailyZoneChart()`     | 354-434 | กราฟ Daily Zone     | 14  |
+| `updateHourlyTrafficTable()` | 443-467 | อัพเดทตาราง         | 9   |
 
 ### 📍 ไฟล์: `api.js` (11KB)
 
 #### API Functions
 
-| Function | Line | Description |
-|----------|------|-------------|
-| `checkHealth()` | 68-79 | Health Check |
-| `getDatabases()` | 84-96 | ดึง Databases |
-| `getCollections()` | 101-120 | ดึง Collections |
-| `getDocuments()` | 125-180 | ดึง Documents |
-| `getAllDocuments()` | 232-241 | ดึงทั้งหมด |
+| Function            | Line    | Description     |
+| ------------------- | ------- | --------------- |
+| `checkHealth()`     | 68-79   | Health Check    |
+| `getDatabases()`    | 84-96   | ดึง Databases   |
+| `getCollections()`  | 101-120 | ดึง Collections |
+| `getDocuments()`    | 125-180 | ดึง Documents   |
+| `getAllDocuments()` | 232-241 | ดึงทั้งหมด      |
 
 #### Data Processing Functions
 
-| Function | Line | Description |
-|----------|------|-------------|
-| `calculateKPIData()` | 246-260 | คำนวณ KPI |
-| `groupByZone()` | 265-277 | จัดกลุ่มโซน |
-| `groupByHour()` | 282-308 | จัดกลุ่มชั่วโมง |
-| `groupByDate()` | 313-331 | จัดกลุ่มวัน |
-| `groupByDwellTime()` | 336-349 | จัดกลุ่มเวลาพัก |
+| Function               | Line    | Description     |
+| ---------------------- | ------- | --------------- |
+| `calculateKPIData()`   | 246-260 | คำนวณ KPI       |
+| `groupByZone()`        | 265-277 | จัดกลุ่มโซน     |
+| `groupByHour()`        | 282-308 | จัดกลุ่มชั่วโมง |
+| `groupByDate()`        | 313-331 | จัดกลุ่มวัน     |
+| `groupByDwellTime()`   | 336-349 | จัดกลุ่มเวลาพัก |
 | `groupByDateAndZone()` | 354-378 | จัดกลุ่มวัน+โซน |
 
 ---
@@ -466,11 +493,11 @@ const appState = {
 
 ```css
 :root {
-    --primary-blue: #0066CC;          /* สีหลัก */
-    --primary-dark-blue: #004A99;
-    --kpi-total-bg: #0D6EFD;          /* สี KPI */
-    --kpi-male-bg: #0DCAF0;
-    --kpi-female-bg: #FFC0CB;
+  --primary-blue: #0066cc; /* สีหลัก */
+  --primary-dark-blue: #004a99;
+  --kpi-total-bg: #0d6efd; /* สี KPI */
+  --kpi-male-bg: #0dcaf0;
+  --kpi-female-bg: #ffc0cb;
 }
 ```
 
@@ -480,9 +507,9 @@ const appState = {
 
 ```javascript
 const API_CONFIG = {
-    BASE_URL: 'http://172.16.1.31:8111',  // เปลี่ยนที่นี่
-    API_PREFIX: '/benzEvents/api',
-    TIMEOUT: 30000,
+  BASE_URL: "http://172.16.1.31:8111", // เปลี่ยนที่นี่
+  API_PREFIX: "/benzEvents/api",
+  TIMEOUT: 30000,
 };
 ```
 
@@ -492,8 +519,8 @@ const API_CONFIG = {
 
 ```javascript
 const appState = {
-    currentDatabase: 'db_boothbenz',    // เปลี่ยนที่นี่
-    currentCollection: 'visitors',       // เปลี่ยนที่นี่
+  currentDatabase: "db_boothbenz", // เปลี่ยนที่นี่
+  currentCollection: "visitors", // เปลี่ยนที่นี่
 };
 ```
 
@@ -503,14 +530,14 @@ const appState = {
 
 ```javascript
 const MOCK_DATA = [
-    // เพิ่ม/ลด/แก้ไขได้ที่นี่
-    {
-        _id: 'mock_1',
-        date: '2025-11-24',
-        gender: 'male',
-        zone: 'AMG SL 43',
-        dwell_time: 5,
-    },
+  // เพิ่ม/ลด/แก้ไขได้ที่นี่
+  {
+    _id: "mock_1",
+    date: "2025-11-24",
+    gender: "male",
+    zone: "AMG SL 43",
+    dwell_time: 5,
+  },
 ];
 ```
 
@@ -521,8 +548,10 @@ const MOCK_DATA = [
 ```javascript
 // เปลี่ยนจาก Bar เป็น Line
 new Chart(ctx, {
-    type: 'line',  // 'bar', 'line', 'pie', 'doughnut'
-    data: { /* ... */ },
+  type: "line", // 'bar', 'line', 'pie', 'doughnut'
+  data: {
+    /* ... */
+  },
 });
 ```
 
@@ -533,27 +562,31 @@ new Chart(ctx, {
 ### ❌ ปัญหา: กราฟไม่แสดง
 
 **สาเหตุ:**
+
 1. Chart.js ไม่โหลด
 2. ข้อมูลไม่ถูกต้อง
 3. Canvas element ไม่มี
 
 **วิธีแก้:**
+
 ```javascript
 // เปิด Browser Console (F12)
-console.log(typeof Chart);  // ควรได้ "function"
-console.log('Data:', zoneData);
+console.log(typeof Chart); // ควรได้ "function"
+console.log("Data:", zoneData);
 ```
 
 ### ❌ ปัญหา: API ไม่ตอบสนอง
 
 **สาเหตุ:**
+
 - Backend Server ไม่รัน
 - Network Issue
 
 **วิธีแก้:**
+
 ```bash
 # ทดสอบ API
-curl http://172.16.1.31:8111/benzEvents/api/health
+curl http://192.168.1.91:8111/benzEvents/api/health
 
 # ระบบจะใช้ Mock Data อัตโนมัติ
 ```
@@ -561,18 +594,21 @@ curl http://172.16.1.31:8111/benzEvents/api/health
 ### ❌ ปัญหา: Date Picker ไม่ทำงาน
 
 **สาเหตุ:**
+
 - jQuery/Moment.js ไม่โหลด
 
 **วิธีแก้:**
+
 ```javascript
 // Console
-console.log(typeof $);       // "function"
-console.log(typeof moment);  // "function"
+console.log(typeof $); // "function"
+console.log(typeof moment); // "function"
 ```
 
 ### ❌ ปัญหา: รูปไม่แสดง
 
 **วิธีแก้:**
+
 - ระบบใช้ Placeholder อัตโนมัติ
 - ตรวจสอบไฟล์ใน `frontend/assets/images/`
 
@@ -582,13 +618,13 @@ console.log(typeof moment);  // "function"
 
 ### 🔗 ไฟล์ที่แก้บ่อย
 
-| ไฟล์ | สำหรับ | บรรทัดสำคัญ |
-|------|--------|------------|
-| `api.js` | API URL, Data Processing | 12-16, 246-378 |
-| `main.js` | Mock Data, Logic | 24-103, 272-424 |
-| `charts.js` | กราฟ | 58-434 |
-| `style.css` | สี, Theme | 9-40 |
-| `index.html` | Layout | ทุกส่วน |
+| ไฟล์         | สำหรับ                   | บรรทัดสำคัญ     |
+| ------------ | ------------------------ | --------------- |
+| `api.js`     | API URL, Data Processing | 12-16, 246-378  |
+| `main.js`    | Mock Data, Logic         | 24-103, 272-424 |
+| `charts.js`  | กราฟ                     | 58-434          |
+| `style.css`  | สี, Theme                | 9-40            |
+| `index.html` | Layout                   | ทุกส่วน         |
 
 ### 🚀 คำสั่งที่ใช้บ่อย
 
@@ -668,6 +704,7 @@ API Ready?
 ---
 
 **🎉 เอกสารนี้ครอบคลุม:**
+
 - ✅ โครงสร้างโปรเจค
 - ✅ ส่วนประกอบ 14 Rows
 - ✅ ระบบ API + Mock Data
@@ -678,6 +715,7 @@ API Ready?
 - ✅ Troubleshooting
 
 **หากต้องการข้อมูลเพิ่มเติม:**
+
 - [README.md](README.md) - ภาพรวม
 - [data_swagger.md](data_swagger.md) - API Doc
 - [notes.md](notes.md) - ความต้องการ

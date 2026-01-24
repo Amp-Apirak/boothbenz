@@ -272,6 +272,118 @@
         }
       }
     },
+    "/benzEvents/api/BenzEventSearch": {
+      "get": {
+        "tags": [
+          "Benz-event"
+        ],
+        "summary": "Get Docs By Time Range",
+        "operationId": "get_docs_by_time_range_benzEvents_api_BenzEventSearch_get",
+        "parameters": [
+          {
+            "name": "db",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "database name",
+              "title": "Db"
+            },
+            "description": "database name"
+          },
+          {
+            "name": "collection",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "collection name",
+              "title": "Collection"
+            },
+            "description": "collection name"
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "ISO datetime start Ex. 2026-01-18T09:30:00",
+              "title": "Start"
+            },
+            "description": "ISO datetime start Ex. 2026-01-18T09:30:00"
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "ISO datetime end Ex. 2026-01-18T09:39:00",
+              "title": "End"
+            },
+            "description": "ISO datetime end Ex. 2026-01-18T09:39:00"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 500,
+              "minimum": 1,
+              "default": 10,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "skip",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "Skip"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "description": "1=เก่าไปใหม่, -1=ใหม่ไปเก่า",
+              "default": -1,
+              "title": "Sort"
+            },
+            "description": "1=เก่าไปใหม่, -1=ใหม่ไปเก่า"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/benzEvents/api/benzInfoUpload": {
       "post": {
         "tags": [
@@ -436,12 +548,63 @@
           }
         }
       }
+    },
+    "/benzEvents/api/benzInfoUpdate/{id}": {
+      "patch": {
+        "tags": [
+          "Benz-info"
+        ],
+        "summary": "Update Info",
+        "operationId": "update_info_benzEvents_api_benzInfoUpdate__id__patch",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_update_info_benzEvents_api_benzInfoUpdate__id__patch"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
 
 },
 "components": {
 "schemas": {
-"Body_upload_info_benzEvents_api_benzInfoUpload_post": {
+"Body_update_info_benzEvents_api_benzInfoUpdate**id**patch": {
 "properties": {
 "database_name": {
 "anyOf": [
@@ -452,7 +615,8 @@
 "type": "null"
 }
 ],
-"title": "Database Name"
+"title": "DATABASE",
+"description": "**DATABASE**"
 },
 "database_label": {
 "anyOf": [
@@ -465,28 +629,6 @@
 ],
 "title": "Database Label"
 },
-"txt_body": {
-"anyOf": [
-{
-"type": "string"
-},
-{
-"type": "null"
-}
-],
-"title": "Txt Body"
-},
-"txt_body_detail": {
-"anyOf": [
-{
-"type": "string"
-},
-{
-"type": "null"
-}
-],
-"title": "Txt Body Detail"
-},
 "txt_header": {
 "anyOf": [
 {
@@ -496,7 +638,8 @@
 "type": "null"
 }
 ],
-"title": "Txt Header"
+"title": "HEADER",
+"description": "**HEADER**"
 },
 "txt_header_detail": {
 "anyOf": [
@@ -508,6 +651,18 @@
 }
 ],
 "title": "Txt Header Detail"
+},
+"img_header": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Img Header"
 },
 "txt_header2": {
 "anyOf": [
@@ -531,118 +686,6 @@
 ],
 "title": "Txt Header2 Detail"
 },
-"detail_link1": {
-"anyOf": [
-{
-"type": "string"
-},
-{
-"type": "null"
-}
-],
-"title": "Detail Link1"
-},
-"detail_link2": {
-"anyOf": [
-{
-"type": "string"
-},
-{
-"type": "null"
-}
-],
-"title": "Detail Link2"
-},
-"detail_link3": {
-"anyOf": [
-{
-"type": "string"
-},
-{
-"type": "null"
-}
-],
-"title": "Detail Link3"
-},
-"detail_link4": {
-"anyOf": [
-{
-"type": "string"
-},
-{
-"type": "null"
-}
-],
-"title": "Detail Link4"
-},
-"detail_link5": {
-"anyOf": [
-{
-"type": "string"
-},
-{
-"type": "null"
-}
-],
-"title": "Detail Link5"
-},
-"detail_link6": {
-"anyOf": [
-{
-"type": "string"
-},
-{
-"type": "null"
-}
-],
-"title": "Detail Link6"
-},
-"detail_link7": {
-"anyOf": [
-{
-"type": "string"
-},
-{
-"type": "null"
-}
-],
-"title": "Detail Link7"
-},
-"detail_link8": {
-"anyOf": [
-{
-"type": "string"
-},
-{
-"type": "null"
-}
-],
-"title": "Detail Link8"
-},
-"img_body": {
-"anyOf": [
-{
-"type": "string",
-"format": "binary"
-},
-{
-"type": "null"
-}
-],
-"title": "Img Body"
-},
-"img_header": {
-"anyOf": [
-{
-"type": "string",
-"format": "binary"
-},
-{
-"type": "null"
-}
-],
-"title": "Img Header"
-},
 "img_header2": {
 "anyOf": [
 {
@@ -654,6 +697,18 @@
 }
 ],
 "title": "Img Header2"
+},
+"detail_link1": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "DETAIL",
+"description": "**DETAIL**"
 },
 "img_link1": {
 "anyOf": [
@@ -667,6 +722,17 @@
 ],
 "title": "Img Link1"
 },
+"detail_link2": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Link2"
+},
 "img_link2": {
 "anyOf": [
 {
@@ -678,6 +744,17 @@
 }
 ],
 "title": "Img Link2"
+},
+"detail_link3": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Link3"
 },
 "img_link3": {
 "anyOf": [
@@ -691,6 +768,17 @@
 ],
 "title": "Img Link3"
 },
+"detail_link4": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Link4"
+},
 "img_link4": {
 "anyOf": [
 {
@@ -702,6 +790,17 @@
 }
 ],
 "title": "Img Link4"
+},
+"detail_link5": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Link5"
 },
 "img_link5": {
 "anyOf": [
@@ -715,6 +814,17 @@
 ],
 "title": "Img Link5"
 },
+"detail_link6": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Link6"
+},
 "img_link6": {
 "anyOf": [
 {
@@ -727,6 +837,17 @@
 ],
 "title": "Img Link6"
 },
+"detail_link7": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Link7"
+},
 "img_link7": {
 "anyOf": [
 {
@@ -738,6 +859,17 @@
 }
 ],
 "title": "Img Link7"
+},
+"detail_link8": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Link8"
 },
 "img_link8": {
 "anyOf": [
@@ -761,7 +893,8 @@
 "type": "null"
 }
 ],
-"title": "Car Img1"
+"title": "CARS",
+"description": "**CARS**"
 },
 "car_img2": {
 "anyOf": [
@@ -846,6 +979,456 @@
 }
 ],
 "title": "Car Img8"
+},
+"txt_body": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "BODY",
+"description": "**BODY**"
+},
+"txt_body_detail": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Txt Body Detail"
+},
+"img_body": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Img Body"
+}
+},
+"type": "object",
+"title": "Body_update_info_benzEvents_api_benzInfoUpdate**id**patch"
+},
+"Body_upload_info_benzEvents_api_benzInfoUpload_post": {
+"properties": {
+"database_name": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "DATABASE",
+"description": "**DATABASE**"
+},
+"database_label": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Database Label"
+},
+"txt_header": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "HEADER",
+"description": "**HEADER**"
+},
+"txt_header_detail": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Txt Header Detail"
+},
+"img_header": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Img Header"
+},
+"txt_header2": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Txt Header2"
+},
+"txt_header2_detail": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Txt Header2 Detail"
+},
+"img_header2": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Img Header2"
+},
+"detail_link1": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "DETAIL",
+"description": "**DETAIL**"
+},
+"img_link1": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Img Link1"
+},
+"detail_link2": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Link2"
+},
+"img_link2": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Img Link2"
+},
+"detail_link3": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Link3"
+},
+"img_link3": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Img Link3"
+},
+"detail_link4": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Link4"
+},
+"img_link4": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Img Link4"
+},
+"detail_link5": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Link5"
+},
+"img_link5": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Img Link5"
+},
+"detail_link6": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Link6"
+},
+"img_link6": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Img Link6"
+},
+"detail_link7": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Link7"
+},
+"img_link7": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Img Link7"
+},
+"detail_link8": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Link8"
+},
+"img_link8": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Img Link8"
+},
+"car_img1": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "CARS",
+"description": "**CARS**"
+},
+"car_img2": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Car Img2"
+},
+"car_img3": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Car Img3"
+},
+"car_img4": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Car Img4"
+},
+"car_img5": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Car Img5"
+},
+"car_img6": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Car Img6"
+},
+"car_img7": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Car Img7"
+},
+"car_img8": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Car Img8"
+},
+"txt_body": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "BODY",
+"description": "**BODY**"
+},
+"txt_body_detail": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Txt Body Detail"
+},
+"img_body": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Img Body"
 }
 },
 "type": "object",
