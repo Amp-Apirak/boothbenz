@@ -196,7 +196,20 @@ $(document).on("change", 'input[type="file"]', function () {
  */
 async function handleFormSubmit(form) {
   const configId = $("#config_id").val();
-  const formData = new FormData(form);
+  const rawFormData = new FormData(form);
+  const formData = new FormData();
+
+  // Clean formData: ส่งเฉพาะไฟล์ที่มีการเลือกจริง (size > 0)
+  for (let [key, value] of rawFormData.entries()) {
+    if (value instanceof File) {
+      if (value.size > 0) {
+        formData.append(key, value);
+      }
+    } else {
+      formData.append(key, value);
+    }
+  }
+
   const btnSubmit = $("#btnSubmit");
   const spinner = $("#submitSpinner");
 
