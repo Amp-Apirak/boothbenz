@@ -1,10 +1,14 @@
 /**
  * ==========================================================================
  * API Handler - Thonburi Phanich Dashboard
- * Version: 1.1.0
- * Description: จัดการการเรียก API ทั้งหมด (รองรับ Config และ PATCH)
+ * Version: 1.2.0 (Performance Optimized)
+ * Description: จัดการการเรียก API ทั้งหมด (รองรับ Config, PATCH และ Caching)
  * ==========================================================================
  */
+
+// Cache Storage for Web Config (5-minute TTL)
+const webConfigCache = new Map();
+const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
 
 // API Configuration (โหลดมาจาก assets/js/config.js)
 const API_CONFIG = {
@@ -287,13 +291,25 @@ async function getAllWebConfigs(options = {}) {
  *
  * วิธีการ: ดึงทั้งหมดจาก /benzInfoGet แล้ว filter ตาม database_name
  */
-async function getWebConfig(databaseName) {
+async function getWebConfig(databaseName, forceRefresh = false) {
   if (!databaseName) {
     return {
       success: false,
       error: "Database name is required",
       config: null,
     };
+  }
+
+  // Check cache first (unless force refresh)
+  if (!forceRefresh) {
+    const cached = webConfigCache.get(databaseName);
+    if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
+      console.log("⚡ Using cached Web Config for:", databaseName);
+      return {
+        success: true,
+        config: cached.data,
+      };
+    }
   }
 
   try {
@@ -312,7 +328,12 @@ async function getWebConfig(databaseName) {
     const config = result.configs.find((c) => c.database_name === databaseName);
 
     if (config) {
-      console.log("✅ Found Web Config for:", databaseName);
+      // Store in cache
+      webConfigCache.set(databaseName, {
+        data: config,
+        timestamp: Date.now(),
+      });
+      console.log("✅ Found Web Config for:", databaseName, "(cached)");
       return {
         success: true,
         config: config,
@@ -517,6 +538,19 @@ function groupByDateAndZone(docs) {
  * ==========================================================================
  */
 
+/**
+ * Clear cache for specific database or all
+ */
+function clearWebConfigCache(databaseName = null) {
+  if (databaseName) {
+    webConfigCache.delete(databaseName);
+    console.log("🗑️ Cleared cache for:", databaseName);
+  } else {
+    webConfigCache.clear();
+    console.log("🗑️ Cleared all cache");
+  }
+}
+
 window.API = {
   config: API_CONFIG,
   getApiUrl,
@@ -533,6 +567,7 @@ window.API = {
   uploadWebConfig,
   patchWebConfig,
   deleteWebConfig,
+  clearWebConfigCache,
   calculateKPIData,
   groupByZone,
   groupByHour,
