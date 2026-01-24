@@ -359,7 +359,7 @@
         carHtml = "";
       for (let i = 1; i <= 8; i++) {
         cctvHtml += `<div class="col-md-3"><div class="p-2 border rounded bg-white"><b>Cam ${i}</b><input type="text" name="detail_link${i}" class="form-control form-control-sm mb-1" placeholder="Label"><input type="file" name="img_link${i}" class="form-control form-control-sm" accept="image/*"><img id="prev_img_link${i}" class="input-preview"></div></div>`;
-        carHtml += `<div class="col-md-3"><label class="small fw-bold">รถคันที่ ${i}</label><input type="file" name="car_img${i}" class="form-control form-control-sm" accept="image/*"><img id="prev_car_img${i}" class="input-preview"></div>`;
+        carHtml += `<div class="col-md-3"><div class="p-2 border rounded bg-white small fw-bold">รถคันที่ ${i}<input type="text" name="detail_car${i}" class="form-control form-control-sm mb-1 mt-1" placeholder="ชื่อรุ่นรถ"><input type="file" name="car_img${i}" class="form-control form-control-sm" accept="image/*"><img id="prev_car_img${i}" class="input-preview"></div></div>`;
       }
       document.getElementById("cctvInputs").innerHTML = cctvHtml;
       document.getElementById("carInputs").innerHTML = carHtml;

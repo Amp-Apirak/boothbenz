@@ -883,6 +883,18 @@
 ],
 "title": "Img Link8"
 },
+"detail_car1": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "CARS",
+"description": "**CARS**"
+},
 "car_img1": {
 "anyOf": [
 {
@@ -893,8 +905,18 @@
 "type": "null"
 }
 ],
-"title": "CARS",
-"description": "**CARS**"
+"title": "Car Img1"
+},
+"detail_car2": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Car2"
 },
 "car_img2": {
 "anyOf": [
@@ -908,6 +930,17 @@
 ],
 "title": "Car Img2"
 },
+"detail_car3": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Car3"
+},
 "car_img3": {
 "anyOf": [
 {
@@ -919,6 +952,17 @@
 }
 ],
 "title": "Car Img3"
+},
+"detail_car4": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Car4"
 },
 "car_img4": {
 "anyOf": [
@@ -932,6 +976,17 @@
 ],
 "title": "Car Img4"
 },
+"detail_car5": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Car5"
+},
 "car_img5": {
 "anyOf": [
 {
@@ -943,6 +998,17 @@
 }
 ],
 "title": "Car Img5"
+},
+"detail_car6": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Car6"
 },
 "car_img6": {
 "anyOf": [
@@ -956,6 +1022,17 @@
 ],
 "title": "Car Img6"
 },
+"detail_car7": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Car7"
+},
 "car_img7": {
 "anyOf": [
 {
@@ -967,6 +1044,17 @@
 }
 ],
 "title": "Car Img7"
+},
+"detail_car8": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Car8"
 },
 "car_img8": {
 "anyOf": [
@@ -1298,6 +1386,18 @@
 ],
 "title": "Img Link8"
 },
+"detail_car1": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "CARS",
+"description": "**CARS**"
+},
 "car_img1": {
 "anyOf": [
 {
@@ -1308,8 +1408,18 @@
 "type": "null"
 }
 ],
-"title": "CARS",
-"description": "**CARS**"
+"title": "Car Img1"
+},
+"detail_car2": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Car2"
 },
 "car_img2": {
 "anyOf": [
@@ -1323,6 +1433,17 @@
 ],
 "title": "Car Img2"
 },
+"detail_car3": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Car3"
+},
 "car_img3": {
 "anyOf": [
 {
@@ -1334,6 +1455,17 @@
 }
 ],
 "title": "Car Img3"
+},
+"detail_car4": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Car4"
 },
 "car_img4": {
 "anyOf": [
@@ -1347,6 +1479,17 @@
 ],
 "title": "Car Img4"
 },
+"detail_car5": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Car5"
+},
 "car_img5": {
 "anyOf": [
 {
@@ -1358,6 +1501,17 @@
 }
 ],
 "title": "Car Img5"
+},
+"detail_car6": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Car6"
 },
 "car_img6": {
 "anyOf": [
@@ -1371,6 +1525,17 @@
 ],
 "title": "Car Img6"
 },
+"detail_car7": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Car7"
+},
 "car_img7": {
 "anyOf": [
 {
@@ -1382,6 +1547,17 @@
 }
 ],
 "title": "Car Img7"
+},
+"detail_car8": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Car8"
 },
 "car_img8": {
 "anyOf": [

@@ -139,6 +139,13 @@ function openEditMode(id) {
   form.txt_body.value = cfg.txt_body || "";
   form.txt_body_detail.value = cfg.txt_body_detail || "";
 
+  // Car Names (detail_car1-8)
+  for (let i = 1; i <= 8; i++) {
+    if (form[`detail_car${i}`]) {
+      form[`detail_car${i}`].value = cfg[`detail_car${i}`] || "";
+    }
+  }
+
   // 3. แสดงตัวอย่างรูปภาพเดิม (ถ้ามี)
   const imageFields = ["img_header", "img_header2", "img_body"];
   for (let i = 1; i <= 8; i++) {
@@ -306,10 +313,13 @@ function viewDetail(id) {
   `;
 
   for (let i = 1; i <= 8; i++) {
-    if (cfg[`car_img${i}`]) {
+    if (cfg[`car_img${i}`] || cfg[`detail_car${i}`]) {
       html += `
-            <div class="col-md-3">
-                <img src="${cfg[`car_img${i}`]}" class="rounded border shadow-sm" style="width: 100%; height: 60px; object-fit: cover;" title="รูปรถคันที่ ${i}">
+            <div class="col-md-3 mb-2">
+                <div class="bg-white border rounded p-1 text-center h-100 shadow-sm">
+                    ${cfg[`car_img${i}`] ? `<img src="${cfg[`car_img${i}`]}" class="rounded mb-1" style="width: 100%; height: 60px; object-fit: cover;">` : '<div class="bg-light rounded mb-1" style="height: 60px; display: flex; align-items: center; justify-content: center;"><i class="bi bi-image text-muted"></i></div>'}
+                    <div class="small fw-bold text-truncate" title="${cfg[`detail_car${i}`] || "-"}">${cfg[`detail_car${i}`] || "รอนิยามชื่อรถ"}</div>
+                </div>
             </div>
         `;
     }

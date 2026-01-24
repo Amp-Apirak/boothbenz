@@ -441,19 +441,21 @@ function renderCarGallery(config) {
   }
 
   container.innerHTML = cars
-    .map(
-      (car) => `
+    .map((car) => {
+      const carName =
+        config[`detail_car${car.index}`] || `รถคันที่ ${car.index}`;
+      return `
         <div class="${colClass}">
             <div class="car-card">
-                <img src="${car.image}" alt="Car ${car.index}" class="car-image"
+                <img src="${car.image}" alt="${carName}" class="car-image"
                      onerror="this.src='https://via.placeholder.com/400x250/343A40/FFFFFF?text=Mercedes-Benz'">
                 <div class="car-info">
-                    <h4 class="car-name">รถคันที่ ${car.index}</h4>
+                    <h4 class="car-name">${carName}</h4>
                 </div>
             </div>
         </div>
-    `,
-    )
+    `;
+    })
     .join("");
 
   console.log(`🚗 Rendered ${cars.length} car cards`);
