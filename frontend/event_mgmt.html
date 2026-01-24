@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Event Management - Thonburi Phanich</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Bootstrap Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+    />
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Date Range Picker CSS -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"
+    />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css" />
+
+    <style>
+      body {
+        background-color: #f4f7f9;
+        font-family: "Prompt", sans-serif;
+      }
+      .mgmt-section {
+        padding: 30px 0;
+      }
+      .table-card {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        border: none;
+      }
+      .user-face {
+        width: 45px;
+        height: 45px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 2px solid #fff;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+      .db-selector-card {
+        background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+        color: white;
+        border-radius: 12px;
+        padding: 15px 25px;
+        margin-bottom: 25px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      }
+      .badge-type {
+        font-weight: 500;
+        padding: 0.5em 0.8em;
+        border-radius: 6px;
+        text-transform: capitalize;
+      }
+      .type-visitor {
+        background-color: #edf2f7;
+        color: #4a5568;
+      }
+      .type-customer {
+        background-color: #c6f6d5;
+        color: #22543d;
+      }
+      .type-employee {
+        background-color: #feebc8;
+        color: #7b341e;
+      }
+
+      .top-nav-bar {
+        background: #000;
+        padding: 10px 0;
+        border-bottom: 2px solid #333;
+      }
+      .nav-link-custom {
+        color: #ccc;
+        text-decoration: none;
+        padding: 8px 15px;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        transition: all 0.2s;
+        margin-right: 10px;
+      }
+      .nav-link-custom:hover {
+        color: #fff;
+        background: rgba(255, 255, 255, 0.1);
+      }
+      .nav-link-custom.active {
+        color: #000;
+        background: #fff;
+        font-weight: 600;
+      }
+
+      /* UI Refinements */
+      .mgmt-control {
+        height: 38px;
+        display: flex;
+        align-items: center;
+        font-size: 0.85rem;
+        border-radius: 8px !important;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      }
+      #reportrange {
+        background: #fff;
+        cursor: pointer;
+        padding: 5px 15px;
+        border: 1px solid #dee2e6;
+        min-width: 250px;
+      }
+      #dbSelect {
+        max-width: 200px;
+        border: 1px solid #dee2e6;
+      }
+      #btnRefresh {
+        height: 38px;
+        width: 38px;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Global Navigation Bar -->
+    <nav class="top-nav-bar">
+      <div
+        class="container-fluid px-4 d-flex justify-content-between align-items-center"
+      >
+        <div class="d-flex align-items-center">
+          <a href="index.html" class="nav-link-custom">
+            <i class="bi bi-speedometer2 me-1"></i> Dashboard
+          </a>
+          <a href="admin.html" class="nav-link-custom">
+            <i class="bi bi-gear-fill me-1"></i> Admin (Benz-info)
+          </a>
+          <a href="event_mgmt.html" class="nav-link-custom active">
+            <i class="bi bi-people-fill me-1"></i> Event Mgmt (Users)
+          </a>
+        </div>
+        <div class="text-white small d-none d-md-block">
+          <i class="bi bi-clock-fill text-warning me-1"></i>
+          <span id="current-time">-- : -- : --</span>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid mgmt-section px-4">
+      <!-- DB Selector Card -->
+      <div class="db-selector-card">
+        <div class="row align-items-center">
+          <div class="col-md-5">
+            <h4 class="mb-0 fw-bold">
+              <i class="bi bi-database-fill-gear me-2"></i>
+              ระบบบริหารจัดการข้อมูลผู้เข้างาน
+            </h4>
+            <p class="mb-0 small opacity-75">
+              จัดการประเภทและข้อมูลผู้เข้าชม (Users)
+            </p>
+          </div>
+          <div class="col-md-7 mt-3 mt-md-0">
+            <div
+              class="d-flex gap-2 align-items-center justify-content-md-end flex-wrap"
+            >
+              <!-- Date Range Picker -->
+              <div id="reportrange" class="mgmt-control text-dark">
+                <i class="bi bi-calendar3 me-2 text-primary"></i>
+                <span></span> <i class="bi bi-chevron-down ms-2 opacity-50"></i>
+              </div>
+
+              <!-- DB Selector -->
+              <select class="form-select mgmt-control" id="dbSelect">
+                <option value="">กำลังโหลดฐานข้อมูล...</option>
+              </select>
+
+              <!-- Refresh Button -->
+              <button
+                class="btn btn-primary"
+                id="btnRefresh"
+                title="รีเฟรชข้อมูล"
+              >
+                <i class="bi bi-arrow-clockwise fs-5"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Users Table Card -->
+      <div class="card table-card border-0">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h5 class="fw-bold mb-0 text-dark">
+            <i class="bi bi-list-ul me-2"></i> รายชื่อผู้ใช้งานในระบบ
+            <span id="userCount" class="badge bg-secondary ms-2 opacity-75"
+              >0</span
+            >
+          </h5>
+          <div class="d-flex gap-2">
+            <input
+              type="text"
+              id="tableSearch"
+              class="form-control form-control-sm"
+              placeholder="ค้นหาด้วย ID/UUID..."
+              style="width: 250px"
+            />
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-hover align-middle">
+            <thead class="table-light">
+              <tr>
+                <th>ใบหน้า</th>
+                <th>Timestamp</th>
+                <th>UUID / ID</th>
+                <th>ประเภท (Type)</th>
+                <th>เพศ / อารมณ์ / อายุ</th>
+                <th>โซน (Zone)</th>
+                <th class="text-center">Action</th>
+              </tr>
+            </thead>
+            <tbody id="usersTableBody">
+              <tr>
+                <td colspan="7" class="text-center py-5 text-muted">
+                  <i class="bi bi-database-slash fs-1 d-block mb-2"></i>
+                  กรุณาเลือกฐานข้อมูลเพื่อโหลดข้อมูล
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mt-3">
+          <div class="small text-muted">แสดงข้อมูลสูงสุด 500 รายการล่าสุด</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div class="modal fade" id="editTypeModal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg">
+          <div class="modal-header bg-dark text-white">
+            <h5 class="modal-title fw-bold">
+              <i class="bi bi-pencil-square me-2 text-warning"></i>
+              แก้ไขข้อมูลผู้ใช้งาน
+            </h5>
+            <button
+              type="button"
+              class="btn-close btn-close-white"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body p-4">
+            <input type="hidden" id="edit-doc-id" />
+            <div class="text-center mb-4">
+              <img
+                src=""
+                id="edit-face-img"
+                class="user-face mb-3"
+                style="width: 80px; height: 80px"
+              />
+              <h6 class="fw-bold mb-1" id="edit-uuid-text">UUID: ---</h6>
+              <span
+                class="badge bg-light text-dark border small"
+                id="edit-current-type"
+                >Current: ---</span
+              >
+            </div>
+
+            <label class="form-label fw-bold small"
+              >เลือกประเภทใหม่ (Type):</label
+            >
+            <select class="form-select mb-3" id="newTypeSelect">
+              <option value="visitor">Visitor (ผู้เยี่ยมชม)</option>
+              <option value="customer">Customer (ลูกค้า)</option>
+              <option value="employee">Employee (พนักงาน)</option>
+              <option value="string">String (ค่าปกติ)</option>
+            </select>
+
+            <label class="form-label fw-bold small"
+              >เลือกเพศใหม่ (Gender):</label
+            >
+            <select class="form-select" id="newGenderSelect">
+              <option value="man">Man (ชาย)</option>
+              <option value="woman">Woman (หญิง)</option>
+              <option value="none">None (ไม่ระบุ)</option>
+            </select>
+
+            <div class="alert alert-info mt-3 small py-2">
+              <i class="bi bi-info-circle-fill me-1"></i>
+              ข้อมูลจะถูกอัปเดตไปยังระบบวิเคราะห์ Dashboard ทันที
+            </div>
+          </div>
+          <div class="modal-footer bg-light">
+            <button
+              type="button"
+              class="btn btn-light px-4"
+              data-bs-dismiss="modal"
+            >
+              ยกเลิก
+            </button>
+            <button type="button" class="btn btn-dark px-4" id="btnUpdateType">
+              <span
+                class="spinner-border spinner-border-sm d-none me-2"
+                id="updateSpinner"
+              ></span>
+              ยืนยันการบันทึก
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/api.js"></script>
+    <script src="assets/js/event_mgmt.js"></script>
+
+    <script>
+      function updateClock() {
+        const now = new Date();
+        const element = document.getElementById("current-time");
+        if (element) element.innerText = now.toLocaleTimeString("th-TH");
+      }
+      setInterval(updateClock, 1000);
+      updateClock();
+    </script>
+  </body>
+</html>

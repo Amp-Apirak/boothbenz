@@ -177,15 +177,17 @@ async function getAllDocuments(db, col) {
 }
 
 /**
- * Update Document Type
+ * Update Event User Data (Multi-field)
+ * รองรับการอัปเดตทั้ง Type, Gender และอื่นๆ
  * PATCH /benzEvents/api/BenzEventUpdate/{doc_id}/type?db={db}&col={col}
+ * หมายเหตุ: ใช้ endpoint เดิมแต่ส่ง body ไปหลายฟิลด์
  */
-async function updateDocumentType(docId, newType, db, col) {
+async function updateEventUser(docId, updateData, db, col) {
   try {
     const url = `/BenzEventUpdate/${docId}/type?db=${db}&col=${col}`;
     const data = await apiFetch(url, {
       method: "PATCH",
-      body: JSON.stringify({ type: newType }),
+      body: JSON.stringify(updateData),
     });
     return {
       success: true,
@@ -195,6 +197,48 @@ async function updateDocumentType(docId, newType, db, col) {
     return {
       success: false,
       error: error.message,
+    };
+  }
+}
+
+/**
+ * Update Document Type (Legacy/Simple support)
+ */
+async function updateDocumentType(docId, newType, db, col) {
+  return await updateEventUser(docId, { type: newType }, db, col);
+}
+
+/**
+ * Search Events by Time Range
+ * GET /benzEvents/api/BenzEventSearch
+ */
+async function searchEvents(params) {
+  const {
+    db,
+    collection,
+    start,
+    end,
+    limit = 100,
+    skip = 0,
+    sort = -1,
+  } = params;
+  if (!db || !collection || !start || !end) {
+    return { success: false, error: "Missing required search parameters" };
+  }
+
+  try {
+    const url = `/BenzEventSearch?db=${db}&collection=${collection}&start=${start}&end=${end}&limit=${limit}&skip=${skip}&sort=${sort}`;
+    const data = await apiFetch(url);
+    return {
+      success: true,
+      docs: data.docs || [],
+      total: data.total || 0,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      error: error.message,
+      docs: [],
     };
   }
 }
@@ -482,6 +526,8 @@ window.API = {
   getDocuments,
   getAllDocuments,
   updateDocumentType,
+  updateEventUser,
+  searchEvents,
   getWebConfig,
   getAllWebConfigs,
   uploadWebConfig,
