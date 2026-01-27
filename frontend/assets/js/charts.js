@@ -97,12 +97,51 @@ function destroyChart(chartId) {
   }
 }
 
-/**
- * Get color from palette by index
- */
 function getColorByIndex(index) {
   const colors = Object.values(CHART_COLORS);
   return colors[index % colors.length];
+}
+
+/**
+ * Resolve Zone Label and Color from config
+ * @param {string} zoneKey - "zone_1", "1", "Zone 1" etc.
+ * @param {Object} config - Web config object
+ * @param {number} defaultIndex - Fallback color index
+ */
+function resolveZoneInfo(zoneKey, config, defaultIndex) {
+  let label = zoneKey;
+  let color = getColorByIndex(defaultIndex);
+
+  if (config) {
+    // Find index i (1-8)
+    let i = null;
+    const match = String(zoneKey).match(/(\d+)/);
+    if (match) {
+      i = match[1];
+    } else {
+      // Try mapping by name
+      for (let j = 1; j <= 8; j++) {
+        if (
+          config[`zone_${j}`] === zoneKey ||
+          config[`detail_car${j}`] === zoneKey
+        ) {
+          i = j;
+          break;
+        }
+      }
+    }
+
+    if (i && i >= 1 && i <= 8) {
+      const zoneName = config[`zone_${i}`] || `Zone ${i}`;
+      const carModel = config[`detail_car${i}`];
+
+      // Format: "Zone 1: C350"
+      label = carModel ? `${zoneName}: ${carModel}` : zoneName;
+      color = config[`color_${i}`] || color;
+    }
+  }
+
+  return { label, color };
 }
 
 /**
@@ -130,33 +169,12 @@ function createZoneInterestChart(zoneData, config = null) {
 
   // Map labels and colors if config is provided
   const mappedData = rawLabels.map((zoneKey, index) => {
-    let label = zoneKey;
-    let color = getColorByIndex(index);
-
-    if (config) {
-      // Look for matching zone_X index
-      // If zoneKey is "zone_1", try to find config.zone_1
-      const match = zoneKey.match(/zone_(\d+)/i);
-      if (match) {
-        const i = match[1];
-        label = config[`zone_${i}`] || config[`detail_car${i}`] || label;
-        color = config[`color_${i}`] || color;
-      } else {
-        // Try mapping by matching the value in config.zone_1...8
-        for (let i = 1; i <= 8; i++) {
-          if (config[`zone_${i}`] === zoneKey) {
-            label = config[`zone_${i}`];
-            color = config[`color_${i}`] || color;
-            break;
-          }
-        }
-      }
-    }
+    const info = resolveZoneInfo(zoneKey, config, index);
 
     return {
-      label: label,
+      label: info.label,
       value: zoneData[zoneKey],
-      color: color,
+      color: info.color,
     };
   });
 
@@ -515,33 +533,13 @@ function createDailyZoneChart(dateZoneData, config = null) {
 
   // Create datasets for each zone
   const datasets = zones.map((zoneKey, index) => {
-    let label = zoneKey;
-    let color = getColorByIndex(index);
-
-    if (config) {
-      // Look for matching zone_X index
-      const match = zoneKey.match(/zone_(\d+)/i);
-      if (match) {
-        const i = match[1];
-        label = config[`zone_${i}`] || config[`detail_car${i}`] || label;
-        color = config[`color_${i}`] || color;
-      } else {
-        // Try mapping by name
-        for (let i = 1; i <= 8; i++) {
-          if (config[`zone_${i}`] === zoneKey) {
-            label = config[`zone_${i}`];
-            color = config[`color_${i}`] || color;
-            break;
-          }
-        }
-      }
-    }
+    const info = resolveZoneInfo(zoneKey, config, index);
 
     return {
-      label: label,
+      label: info.label,
       data: dates.map((date) => dateZoneData[date][zoneKey] || 0),
-      backgroundColor: color,
-      borderColor: color,
+      backgroundColor: info.color,
+      borderColor: info.color,
       borderWidth: 2,
     };
   });
