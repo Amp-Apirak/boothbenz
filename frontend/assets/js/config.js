@@ -1,9 +1,3 @@
-/**
- * Application Configuration - Thonburi Phanich Dashboard
- * Version: 1.0.0
- * Description: รวมค่าคงที่และการตั้งค่าระบบ (ใช้แทน .env)
- */
-
 window.APP_CONFIG = {
   // IP Server ปัจจุบัน (แก้ไขที่นี่ที่เดียว)
   BASE_URL: "http://192.168.1.91:8111",
@@ -15,6 +9,18 @@ window.APP_CONFIG = {
   // ข้อมูลเวอร์ชัน
   VERSION: "2.5.0",
   DEVELOPER: "Thonburi Phanich Dev Team",
+
+  // Link สำหรับปุ่ม Home
+  HOME_URL: "https://www.google.com",
 };
 
 console.log("⚙️ Configuration Loaded: ", window.APP_CONFIG.BASE_URL);
+
+// Auto-apply Home Link to #btnHome on any page
+document.addEventListener("DOMContentLoaded", () => {
+  const btnHome = document.getElementById("btnHome");
+  if (btnHome && window.APP_CONFIG && window.APP_CONFIG.HOME_URL) {
+    btnHome.href = window.APP_CONFIG.HOME_URL;
+    console.log("🏠 Home Link Applied:", btnHome.href);
+  }
+});
