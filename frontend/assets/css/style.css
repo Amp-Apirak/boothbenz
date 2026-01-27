@@ -402,38 +402,96 @@ section {
 
 .date-display {
   background: var(--white);
-  border: 2px solid #dc3545;
+  border: 1px solid #dc3545;
+  border-left: 5px solid #dc3545;
   border-radius: var(--radius-md);
-  padding: 1rem;
+  padding: 0.5rem;
   text-align: center;
   box-shadow: var(--shadow-sm);
+  transition: all var(--transition-normal);
+  height: 68px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.date-display:hover {
+  box-shadow: var(--shadow-md);
+  transform: scale(1.02);
 }
 
 .date-display i {
-  font-size: 1.5rem;
+  font-size: 1rem;
   color: #dc3545;
   display: block;
-  margin-bottom: 0.5rem;
+  margin-bottom: 2px;
 }
 
 .date-text {
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: 700;
   color: var(--dark-gray);
+  line-height: 1;
 }
 
 .form-control,
 .form-select {
-  padding: 0.75rem 1rem;
-  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.95rem;
   border-radius: var(--radius-md);
-  border: 1px solid #dee2e6;
+  border: 1px solid #e0e0e0;
+  height: 44px; /* Fixed height to match buttons */
+  background-color: #fdfdfd;
 }
 
 .form-control:focus,
 .form-select:focus {
   border-color: var(--primary-blue);
   box-shadow: 0 0 0 0.2rem rgba(0, 102, 204, 0.25);
+}
+
+.btn-search-premium {
+  background: linear-gradient(135deg, var(--primary-blue) 0%, #004a99 100%);
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 0.65rem 1.5rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 6px rgba(0, 102, 204, 0.2);
+  transition: all var(--transition-normal);
+  height: 44px;
+}
+
+.btn-search-premium:hover {
+  background: linear-gradient(135deg, #007bff 0%, var(--primary-blue) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 102, 204, 0.3);
+  color: white;
+}
+
+.btn-clear-premium {
+  background: var(--white);
+  border: 2px solid #e0e0e0;
+  color: #666;
+  border-radius: var(--radius-md);
+  padding: 0.65rem 1.5rem;
+  font-weight: 600;
+  transition: all var(--transition-normal);
+  height: 44px;
+}
+
+.btn-clear-premium:hover {
+  background: #f8f9fa;
+  border-color: #ccc;
+  color: #333;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.btn-search-premium i,
+.btn-clear-premium i {
+  margin-right: 8px;
 }
 
 /* ==========================================================================
