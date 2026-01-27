@@ -121,23 +121,23 @@
     <!-- ROW 5: Filters Section -->
     <section id="filters" class="filters-section">
       <div class="container-fluid">
-        <div class="row align-items-center g-3">
-          <div class="col-md-2">
-            <div class="date-display">
-              <i class="bi bi-calendar3"></i>
-              <span id="currentDate" class="date-text">--</span>
+        <div class="row align-items-end g-2">
+          <div class="col-md-1">
+            <div class="date-display p-2">
+              <i class="bi bi-calendar3 small"></i>
+              <span id="currentDate" class="date-text h4 mb-0">--</span>
             </div>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-2">
             <div class="filter-group">
               <label class="form-label small text-muted mb-1"
                 ><i class="bi bi-calendar-range"></i> ช่วงวันที่</label
               >
               <input
                 type="text"
-                class="form-control"
+                class="form-control form-control-sm"
                 id="dateRangePicker"
-                placeholder="Select date range"
+                placeholder="เลือกวันที่"
               />
             </div>
           </div>
@@ -146,31 +146,31 @@
               <label class="form-label small text-muted mb-1"
                 ><i class="bi bi-person-badge"></i> ประเภท</label
               >
-              <select class="form-select" id="filterType">
+              <select class="form-select form-select-sm" id="filterType">
                 <option value="all">ทั้งหมด</option>
                 <option value="customer" selected>Customer</option>
                 <option value="employee">Employee</option>
               </select>
             </div>
           </div>
-          <div class="col-md-2">
+          <div class="col-md-1">
             <div class="filter-group">
               <label class="form-label small text-muted mb-1"
                 ><i class="bi bi-gender-ambiguous"></i> เพศ</label
               >
-              <select class="form-select" id="filterGender">
+              <select class="form-select form-select-sm" id="filterGender">
                 <option value="all">ทั้งหมด</option>
-                <option value="man">ชาย (Man)</option>
-                <option value="woman">หญิง (Woman)</option>
+                <option value="man">ชาย</option>
+                <option value="woman">หญิง</option>
               </select>
             </div>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-2">
             <div class="filter-group">
               <label class="form-label small text-muted mb-1"
                 ><i class="bi bi-emoji-smile"></i> พฤติกรรม</label
               >
-              <select class="form-select" id="filterEmotion">
+              <select class="form-select form-select-sm" id="filterEmotion">
                 <option value="all">ทั้งหมด</option>
                 <option value="happy">Happy</option>
                 <option value="sad">Sad</option>
@@ -180,6 +180,37 @@
                 <option value="angry">Angry</option>
                 <option value="disgust">Disgust</option>
               </select>
+            </div>
+          </div>
+          <div class="col-md-1">
+            <div class="filter-group">
+              <label class="form-label small text-muted mb-1"
+                ><i class="bi bi-geo-alt"></i> โซน</label
+              >
+              <select class="form-select form-select-sm" id="filterZone">
+                <option value="all">ทั้งหมด</option>
+                <option value="1">Zone 1</option>
+                <option value="2">Zone 2</option>
+                <option value="3">Zone 3</option>
+                <option value="4">Zone 4</option>
+                <option value="5">Zone 5</option>
+                <option value="6">Zone 6</option>
+                <option value="7">Zone 7</option>
+                <option value="8">Zone 8</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="d-flex gap-2">
+              <button class="btn btn-primary btn-sm w-100" id="btnSearch">
+                <i class="bi bi-search"></i> ค้นหา
+              </button>
+              <button
+                class="btn btn-outline-secondary btn-sm w-100"
+                id="btnClear"
+              >
+                <i class="bi bi-x-circle"></i> เคลียร์
+              </button>
             </div>
           </div>
         </div>

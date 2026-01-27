@@ -222,16 +222,39 @@ async function searchEvents(params) {
     collection,
     start,
     end,
-    limit = 100,
+    type,
+    gender,
+    emotion,
+    zone,
+    limit = 500,
     skip = 0,
     sort = -1,
   } = params;
+
   if (!db || !collection || !start || !end) {
-    return { success: false, error: "Missing required search parameters" };
+    return {
+      success: false,
+      error: "Missing required search parameters (db, collection, start, end)",
+    };
   }
 
   try {
-    const url = `/BenzEventSearch?db=${db}&collection=${collection}&start=${start}&end=${end}&limit=${limit}&skip=${skip}&sort=${sort}`;
+    const queryParams = new URLSearchParams({
+      db,
+      collection,
+      start,
+      end,
+      limit,
+      skip,
+      sort,
+    });
+
+    if (type && type !== "all") queryParams.append("type", type);
+    if (gender && gender !== "all") queryParams.append("gender", gender);
+    if (emotion && emotion !== "all") queryParams.append("emotion", emotion);
+    if (zone && zone !== "all") queryParams.append("zone", zone);
+
+    const url = `/BenzEventSearch?${queryParams.toString()}`;
     const data = await apiFetch(url);
     return {
       success: true,

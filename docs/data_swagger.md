@@ -325,6 +325,78 @@
             "description": "ISO datetime end Ex. 2026-01-18T09:39:00"
           },
           {
+            "name": "type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "customer | employee",
+              "title": "Type"
+            },
+            "description": "customer | employee"
+          },
+          {
+            "name": "gender",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "man | woman",
+              "title": "Gender"
+            },
+            "description": "man | woman"
+          },
+          {
+            "name": "emotion",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "happy | sad | neutral",
+              "title": "Emotion"
+            },
+            "description": "happy | sad | neutral"
+          },
+          {
+            "name": "zone",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "zone number",
+              "title": "Zone"
+            },
+            "description": "zone number"
+          },
+          {
             "name": "limit",
             "in": "query",
             "required": false,

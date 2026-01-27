@@ -1,6 +1,6 @@
 window.APP_CONFIG = {
   // IP Server ปัจจุบัน (แก้ไขที่นี่ที่เดียว)
-  BASE_URL: "http://192.168.1.91:8111",
+  BASE_URL: "https://edge-ai-mongo.k-lynx.com",
 
   // การตั้งค่าอื่นๆ
   API_PREFIX: "/benzEvents/api",
@@ -11,7 +11,7 @@ window.APP_CONFIG = {
   DEVELOPER: "Thonburi Phanich Dev Team",
 
   // Link สำหรับปุ่ม Home
-  HOME_URL: "https://www.google.com",
+  HOME_URL: "https://benz-demo.k-lynx.com/aiGui/api",
 };
 
 console.log("⚙️ Configuration Loaded: ", window.APP_CONFIG.BASE_URL);

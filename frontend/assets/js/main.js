@@ -23,6 +23,7 @@ const appState = {
     type: "customer",
     gender: "all",
     emotion: "all",
+    zone: "all",
   },
 };
 
@@ -523,8 +524,8 @@ function initializeDateRangePicker() {
   }
 
   dateRangePicker.daterangepicker({
-    startDate: moment().subtract(7, "days"),
-    endDate: moment(),
+    startDate: moment().startOf("day"),
+    endDate: moment().endOf("day"),
     locale: {
       format: "DD/MM/YYYY",
       separator: " - ",
@@ -572,8 +573,6 @@ function initializeDateRangePicker() {
       start: appState.dateRange.start,
       end: appState.dateRange.end,
     });
-
-    loadDashboardData();
   });
 
   const picker = dateRangePicker.data("daterangepicker");
@@ -606,7 +605,7 @@ function setupEventListeners() {
         // 1. Load Web Config from API (benzInfoGet)
         await loadWebConfig();
 
-        // 2. Load Dashboard Data from API (BenzEventGet)
+        // 2. Load Dashboard Data from API (BenzEventSearch)
         await loadDashboardData();
 
         console.log("✅ Data loaded for:", selectedDB);
@@ -621,26 +620,77 @@ function setupEventListeners() {
 
   updateCurrentDateDisplay();
 
-  // Advanced Filters Event Listeners
-  ["filterType", "filterGender", "filterEmotion"].forEach((id) => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.addEventListener("change", (e) => {
-        const filterKey =
-          id === "filterType"
-            ? "type"
-            : id === "filterGender"
-              ? "gender"
-              : "emotion";
-        appState.filters[filterKey] = e.target.value;
-        console.log(`🔍 Filter changed: ${filterKey} = ${e.target.value}`);
-        applyFilters();
-        updateDashboard();
-      });
-    }
-  });
+  // Advanced Filters Event Listeners (Update state only, reload on Search)
+  ["filterType", "filterGender", "filterEmotion", "filterZone"].forEach(
+    (id) => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.addEventListener("change", (e) => {
+          const filterKey =
+            id === "filterType"
+              ? "type"
+              : id === "filterGender"
+                ? "gender"
+                : id === "filterEmotion"
+                  ? "emotion"
+                  : "zone";
+          appState.filters[filterKey] = e.target.value;
+          console.log(`🔍 State updated: ${filterKey} = ${e.target.value}`);
+        });
+      }
+    },
+  );
+
+  // Search Button
+  const btnSearch = document.getElementById("btnSearch");
+  if (btnSearch) {
+    btnSearch.addEventListener("click", () => {
+      loadDashboardData();
+    });
+  }
+
+  // Clear Button
+  const btnClear = document.getElementById("btnClear");
+  if (btnClear) {
+    btnClear.addEventListener("click", () => {
+      clearFilters();
+    });
+  }
 
   console.log("✅ Event listeners setup complete");
+}
+
+/**
+ * Clear All Filters
+ */
+function clearFilters() {
+  console.log("🧹 Clearing all filters...");
+
+  // 1. Reset State
+  appState.filters = {
+    type: "all",
+    gender: "all",
+    emotion: "all",
+    zone: "all",
+  };
+
+  const todayStart = moment().startOf("day");
+  const todayEnd = moment().endOf("day");
+  appState.dateRange.start = todayStart.toDate();
+  appState.dateRange.end = todayEnd.toDate();
+
+  // 2. Reset UI
+  $("#filterType").val("all");
+  $("#filterGender").val("all");
+  $("#filterEmotion").val("all");
+  $("#filterZone").val("all");
+
+  const drp = $("#dateRangePicker").data("daterangepicker");
+  drp.setStartDate(todayStart);
+  drp.setEndDate(todayEnd);
+
+  // 3. Reload Data
+  loadDashboardData();
 }
 
 /**
@@ -651,7 +701,7 @@ function setupEventListeners() {
 
 /**
  * Load Dashboard Data from API
- * GET /benzEvents/api/BenzEventGet
+ * GET /benzEvents/api/BenzEventSearch
  */
 async function loadDashboardData() {
   if (appState.isLoading) {
@@ -668,89 +718,59 @@ async function loadDashboardData() {
   showLoading();
 
   try {
-    console.log("📥 Loading dashboard data from API...");
-    console.log("📡 Database:", appState.currentDatabase);
-    console.log("📡 Collection:", appState.currentCollection);
+    const { start, end } = appState.dateRange;
+    const { type, gender, emotion, zone } = appState.filters;
 
-    const result = await API.getAllDocuments(
-      appState.currentDatabase,
-      appState.currentCollection,
-    );
+    // Convert dates to YYYY-MM-DDTHH:mm:ss for API (Removed .SS to avoid 422 error)
+    const startStr = start
+      ? moment(start).utc().format("YYYY-MM-DD[T]HH:mm:ss")
+      : "";
+    const endStr = end ? moment(end).utc().format("YYYY-MM-DD[T]HH:mm:ss") : "";
+
+    console.log("📥 Searching dashboard data from API...");
+    console.log("📡 Parameters:", {
+      db: appState.currentDatabase,
+      collection: appState.currentCollection,
+      startStr,
+      endStr,
+      filters: appState.filters,
+    });
+
+    const result = await API.searchEvents({
+      db: appState.currentDatabase,
+      collection: appState.currentCollection,
+      start: startStr,
+      end: endStr,
+      type,
+      gender,
+      emotion,
+      zone,
+    });
 
     if (result.success) {
       appState.allDocuments = result.docs;
+      appState.filteredDocuments = result.docs; // In server-side filtering, these are the same
       console.log(`✅ Loaded ${result.docs.length} documents from API`);
 
       if (result.docs.length === 0) {
-        showInfoBanner("ℹ️ ไม่พบข้อมูลในฐานข้อมูลนี้");
+        showInfoBanner("ℹ️ ไม่พบข้อมูลที่ตรงตามเงื่อนไขการกรอง");
       }
     } else {
       console.warn("⚠️ API returned error:", result.error);
       appState.allDocuments = [];
+      appState.filteredDocuments = [];
       showInfoBanner("⚠️ ไม่สามารถโหลดข้อมูลได้: " + result.error);
     }
 
-    applyFilters();
     updateDashboard();
   } catch (error) {
     console.error("❌ Error loading data:", error);
     appState.allDocuments = [];
+    appState.filteredDocuments = [];
     showInfoBanner("❌ เกิดข้อผิดพลาดในการโหลดข้อมูล");
   } finally {
     appState.isLoading = false;
     hideLoading();
-  }
-}
-
-/**
- * Apply All Filters (Date, Type, Gender, Emotion)
- */
-function applyFilters() {
-  const { start, end } = appState.dateRange;
-  const { type, gender, emotion } = appState.filters;
-
-  let filtered = appState.allDocuments;
-
-  // 1. Filter by Date Range
-  if (start && end) {
-    const endDate = new Date(end);
-    endDate.setHours(23, 59, 59, 999);
-
-    filtered = filtered.filter((doc) => {
-      const docDate = new Date(doc.timestamp || doc.date);
-      if (!docDate || isNaN(docDate.getTime())) return false;
-      return docDate >= start && docDate <= endDate;
-    });
-  }
-
-  // 2. Filter by Type
-  if (type !== "all") {
-    filtered = filtered.filter(
-      (doc) => (doc.type || "").toLowerCase() === type.toLowerCase(),
-    );
-  }
-
-  // 3. Filter by Gender
-  if (gender !== "all") {
-    filtered = filtered.filter(
-      (doc) => (doc.gender || "").toLowerCase() === gender.toLowerCase(),
-    );
-  }
-
-  // 4. Filter by Emotion
-  if (emotion !== "all") {
-    filtered = filtered.filter(
-      (doc) => (doc.emotion || "").toLowerCase() === emotion.toLowerCase(),
-    );
-  }
-
-  appState.filteredDocuments = filtered;
-  console.log(
-    `📊 Filtered: ${appState.filteredDocuments.length} / ${appState.allDocuments.length} documents`,
-  );
-
-  if (filtered.length === 0) {
-    showInfoBanner("ℹ️ ไม่พบข้อมูลที่ตรงตามเงื่อนไขการกรอง");
   }
 }
 
