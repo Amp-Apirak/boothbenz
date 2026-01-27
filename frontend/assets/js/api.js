@@ -463,6 +463,45 @@ async function patchWebConfig(id, formData) {
 }
 
 /**
+ * Create New Database Entry
+ * POST /benzEvents/api/benzCreateDB
+ * Content-Type: application/x-www-form-urlencoded
+ */
+async function createBenzDB(dbData) {
+  try {
+    const params = new URLSearchParams();
+    for (const key in dbData) {
+      params.append(key, dbData[key]);
+    }
+
+    const response = await fetch(getApiUrl("/benzCreateDB"), {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: params,
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.detail || `HTTP Error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return {
+      success: true,
+      data: data,
+    };
+  } catch (error) {
+    console.error("❌ Create Benz DB error:", error);
+    return {
+      success: false,
+      error: error.message,
+    };
+  }
+}
+
+/**
  * ==========================================================================
  * Data Processing Functions
  * ==========================================================================
@@ -567,6 +606,7 @@ window.API = {
   uploadWebConfig,
   patchWebConfig,
   deleteWebConfig,
+  createBenzDB,
   clearWebConfigCache,
   calculateKPIData,
   groupByZone,

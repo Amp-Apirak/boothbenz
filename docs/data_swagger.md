@@ -599,6 +599,46 @@
           }
         }
       }
+    },
+    "/benzEvents/api/benzCreateDB": {
+      "post": {
+        "tags": [
+          "Benz-info"
+        ],
+        "summary": "Upload Info",
+        "operationId": "upload_info_benzEvents_api_benzCreateDB_post",
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_upload_info_benzEvents_api_benzCreateDB_post"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
 
 },
@@ -907,6 +947,28 @@
 ],
 "title": "Car Img1"
 },
+"zone_1": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Zone 1"
+},
+"color_1": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Color 1"
+},
 "detail_car2": {
 "anyOf": [
 {
@@ -929,6 +991,28 @@
 }
 ],
 "title": "Car Img2"
+},
+"zone_2": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Zone 2"
+},
+"color_2": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Color 2"
 },
 "detail_car3": {
 "anyOf": [
@@ -953,6 +1037,28 @@
 ],
 "title": "Car Img3"
 },
+"zone_3": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Zone 3"
+},
+"color_3": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Color 3"
+},
 "detail_car4": {
 "anyOf": [
 {
@@ -975,6 +1081,28 @@
 }
 ],
 "title": "Car Img4"
+},
+"zone_4": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Zone 4"
+},
+"color_4": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Color 4"
 },
 "detail_car5": {
 "anyOf": [
@@ -999,6 +1127,28 @@
 ],
 "title": "Car Img5"
 },
+"zone_5": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Zone 5"
+},
+"color_5": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Color 5"
+},
 "detail_car6": {
 "anyOf": [
 {
@@ -1021,6 +1171,28 @@
 }
 ],
 "title": "Car Img6"
+},
+"zone_6": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Zone 6"
+},
+"color_6": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Color 6"
 },
 "detail_car7": {
 "anyOf": [
@@ -1045,6 +1217,28 @@
 ],
 "title": "Car Img7"
 },
+"zone_7": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Zone 7"
+},
+"color_7": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Color 7"
+},
 "detail_car8": {
 "anyOf": [
 {
@@ -1067,6 +1261,28 @@
 }
 ],
 "title": "Car Img8"
+},
+"zone_8": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Zone 8"
+},
+"color_8": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Color 8"
 },
 "txt_body": {
 "anyOf": [
@@ -1106,6 +1322,34 @@
 },
 "type": "object",
 "title": "Body_update_info_benzEvents_api_benzInfoUpdate**id**patch"
+},
+"Body_upload_info_benzEvents_api_benzCreateDB_post": {
+"properties": {
+"database_name": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "DATABASE"
+},
+"database_label": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "LABEL"
+}
+},
+"type": "object",
+"title": "Body_upload_info_benzEvents_api_benzCreateDB_post"
 },
 "Body_upload_info_benzEvents_api_benzInfoUpload_post": {
 "properties": {
@@ -1410,6 +1654,28 @@
 ],
 "title": "Car Img1"
 },
+"zone_1": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Zone 1"
+},
+"color_1": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Color 1"
+},
 "detail_car2": {
 "anyOf": [
 {
@@ -1432,6 +1698,28 @@
 }
 ],
 "title": "Car Img2"
+},
+"zone_2": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Zone 2"
+},
+"color_2": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Color 2"
 },
 "detail_car3": {
 "anyOf": [
@@ -1456,6 +1744,28 @@
 ],
 "title": "Car Img3"
 },
+"zone_3": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Zone 3"
+},
+"color_3": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Color 3"
+},
 "detail_car4": {
 "anyOf": [
 {
@@ -1478,6 +1788,28 @@
 }
 ],
 "title": "Car Img4"
+},
+"zone_4": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Zone 4"
+},
+"color_4": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Color 4"
 },
 "detail_car5": {
 "anyOf": [
@@ -1502,6 +1834,28 @@
 ],
 "title": "Car Img5"
 },
+"zone_5": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Zone 5"
+},
+"color_5": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Color 5"
+},
 "detail_car6": {
 "anyOf": [
 {
@@ -1524,6 +1878,28 @@
 }
 ],
 "title": "Car Img6"
+},
+"zone_6": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Zone 6"
+},
+"color_6": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Color 6"
 },
 "detail_car7": {
 "anyOf": [
@@ -1548,6 +1924,28 @@
 ],
 "title": "Car Img7"
 },
+"zone_7": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Zone 7"
+},
+"color_7": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Color 7"
+},
 "detail_car8": {
 "anyOf": [
 {
@@ -1570,6 +1968,28 @@
 }
 ],
 "title": "Car Img8"
+},
+"zone_8": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Zone 8"
+},
+"color_8": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Color 8"
 },
 "txt_body": {
 "anyOf": [

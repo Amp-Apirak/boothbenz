@@ -111,8 +111,12 @@ async function initDatabaseSelector() {
     if (result.success && result.databases) {
       let options = '<option value="">-- เลือกฐานข้อมูล --</option>';
       result.databases.forEach((db) => {
-        if (db.startsWith("db_")) {
-          options += `<option value="${db}">${db}</option>`;
+        const dbName = typeof db === "object" ? db.database_name : db;
+        const dbLabel =
+          typeof db === "object" ? db.database_label || db.database_name : db;
+
+        if (dbName.startsWith("db_")) {
+          options += `<option value="${dbName}">${dbLabel}</option>`;
         }
       });
       dbSelect.html(options);

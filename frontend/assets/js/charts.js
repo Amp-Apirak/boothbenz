@@ -11,74 +11,74 @@ const chartInstances = {};
 
 // Chart Colors Palette
 const CHART_COLORS = {
-    blue: '#0066CC',
-    red: '#FF6384',
-    cyan: '#36A2EB',
-    yellow: '#FFCE56',
-    green: '#4BC0C0',
-    purple: '#9966FF',
-    orange: '#FF9F40',
-    gray: '#C9CBCF',
-    pink: '#FFB6C1',
-    brown: '#795548',
+  blue: "#0066CC",
+  red: "#FF6384",
+  cyan: "#36A2EB",
+  yellow: "#FFCE56",
+  green: "#4BC0C0",
+  purple: "#9966FF",
+  orange: "#FF9F40",
+  gray: "#C9CBCF",
+  pink: "#FFB6C1",
+  brown: "#795548",
 };
 
 // Default Chart Configuration
 const defaultChartConfig = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-        legend: {
-            display: true,
-            position: 'top',
-            labels: {
-                font: {
-                    size: 14,
-                    family: "'Prompt', 'Sarabun', sans-serif",
-                },
-                padding: 15,
-                usePointStyle: true,
-            },
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: {
+      display: true,
+      position: "top",
+      labels: {
+        font: {
+          size: 14,
+          family: "'Prompt', 'Sarabun', sans-serif",
         },
-        tooltip: {
-            backgroundColor: 'rgba(0, 0, 0, 0.8)',
-            titleFont: {
-                size: 14,
-                family: "'Prompt', 'Sarabun', sans-serif",
-            },
-            bodyFont: {
-                size: 13,
-                family: "'Prompt', 'Sarabun', sans-serif",
-            },
-            padding: 12,
-            cornerRadius: 8,
-        },
+        padding: 15,
+        usePointStyle: true,
+      },
     },
-    scales: {
-        y: {
-            beginAtZero: true,
-            ticks: {
-                font: {
-                    size: 12,
-                    family: "'Prompt', 'Sarabun', sans-serif",
-                },
-            },
-            grid: {
-                color: 'rgba(0, 0, 0, 0.05)',
-            },
-        },
-        x: {
-            ticks: {
-                font: {
-                    size: 12,
-                    family: "'Prompt', 'Sarabun', sans-serif",
-                },
-            },
-            grid: {
-                display: false,
-            },
-        },
+    tooltip: {
+      backgroundColor: "rgba(0, 0, 0, 0.8)",
+      titleFont: {
+        size: 14,
+        family: "'Prompt', 'Sarabun', sans-serif",
+      },
+      bodyFont: {
+        size: 13,
+        family: "'Prompt', 'Sarabun', sans-serif",
+      },
+      padding: 12,
+      cornerRadius: 8,
     },
+  },
+  scales: {
+    y: {
+      beginAtZero: true,
+      ticks: {
+        font: {
+          size: 12,
+          family: "'Prompt', 'Sarabun', sans-serif",
+        },
+      },
+      grid: {
+        color: "rgba(0, 0, 0, 0.05)",
+      },
+    },
+    x: {
+      ticks: {
+        font: {
+          size: 12,
+          family: "'Prompt', 'Sarabun', sans-serif",
+        },
+      },
+      grid: {
+        display: false,
+      },
+    },
+  },
 };
 
 /**
@@ -91,18 +91,18 @@ const defaultChartConfig = {
  * Destroy existing chart instance
  */
 function destroyChart(chartId) {
-    if (chartInstances[chartId]) {
-        chartInstances[chartId].destroy();
-        delete chartInstances[chartId];
-    }
+  if (chartInstances[chartId]) {
+    chartInstances[chartId].destroy();
+    delete chartInstances[chartId];
+  }
 }
 
 /**
  * Get color from palette by index
  */
 function getColorByIndex(index) {
-    const colors = Object.values(CHART_COLORS);
-    return colors[index % colors.length];
+  const colors = Object.values(CHART_COLORS);
+  return colors[index % colors.length];
 }
 
 /**
@@ -115,78 +115,120 @@ function getColorByIndex(index) {
  * ROW 8: Zone Interest Bar Chart
  * แสดงกราฟแท่งแนวตั้ง จำนวนลูกค้าแต่ละโซน (รุ่นรถ)
  */
-function createZoneInterestChart(zoneData) {
-    const chartId = 'zoneInterestChart';
-    destroyChart(chartId);
+function createZoneInterestChart(zoneData, config = null) {
+  const chartId = "zoneInterestChart";
+  destroyChart(chartId);
 
-    const ctx = document.getElementById(chartId);
-    if (!ctx) {
-        console.error(`Canvas element #${chartId} not found`);
-        return null;
+  const ctx = document.getElementById(chartId);
+  if (!ctx) {
+    console.error(`Canvas element #${chartId} not found`);
+    return null;
+  }
+
+  // Get raw labels (e.g., "zone_1", "zone_2" or actual names)
+  const rawLabels = Object.keys(zoneData);
+
+  // Map labels and colors if config is provided
+  const mappedData = rawLabels.map((zoneKey, index) => {
+    let label = zoneKey;
+    let color = getColorByIndex(index);
+
+    if (config) {
+      // Look for matching zone_X index
+      // If zoneKey is "zone_1", try to find config.zone_1
+      const match = zoneKey.match(/zone_(\d+)/i);
+      if (match) {
+        const i = match[1];
+        label = config[`zone_${i}`] || config[`detail_car${i}`] || label;
+        color = config[`color_${i}`] || color;
+      } else {
+        // Try mapping by matching the value in config.zone_1...8
+        for (let i = 1; i <= 8; i++) {
+          if (config[`zone_${i}`] === zoneKey) {
+            label = config[`zone_${i}`];
+            color = config[`color_${i}`] || color;
+            break;
+          }
+        }
+      }
     }
 
-    const labels = Object.keys(zoneData);
-    const data = Object.values(zoneData);
-    const colors = labels.map((_, index) => getColorByIndex(index));
+    return {
+      label: label,
+      value: zoneData[zoneKey],
+      color: color,
+    };
+  });
 
-    chartInstances[chartId] = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: 'จำนวนลูกค้า',
-                data: data,
-                backgroundColor: colors,
-                borderColor: colors.map(color => color.replace(')', ', 0.8)').replace('rgb', 'rgba')),
-                borderWidth: 2,
-                borderRadius: 8,
-            }],
-        },
-        options: {
-            ...defaultChartConfig,
-            plugins: {
-                ...defaultChartConfig.plugins,
-                title: {
-                    display: false,
-                },
-                tooltip: {
-                    ...defaultChartConfig.plugins.tooltip,
-                    callbacks: {
-                        label: function (context) {
-                            return `จำนวน: ${context.parsed.y.toLocaleString()} คน`;
-                        },
-                    },
-                },
-            },
-            scales: {
-                ...defaultChartConfig.scales,
-                y: {
-                    ...defaultChartConfig.scales.y,
-                    title: {
-                        display: true,
-                        text: 'จำนวนลูกค้า (คน)',
-                        font: {
-                            size: 13,
-                            weight: 'bold',
-                        },
-                    },
-                },
-                x: {
-                    ...defaultChartConfig.scales.x,
-                    title: {
-                        display: true,
-                        text: 'รุ่นรถ',
-                        font: {
-                            size: 13,
-                            weight: 'bold',
-                        },
-                    },
-                },
-            },
-        },
-    });
+  const labels = mappedData.map((d) => d.label);
+  const data = mappedData.map((d) => d.value);
+  const colors = mappedData.map((d) => d.color);
 
-    return chartInstances[chartId];
+  chartInstances[chartId] = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: "จำนวนลูกค้า",
+          data: data,
+          backgroundColor: colors,
+          borderColor: colors.map((color) => {
+            if (color.startsWith("#")) {
+              return color; // Hex colors are fine as is or can be lightened
+            }
+            return color.replace(")", ", 0.8)").replace("rgb", "rgba");
+          }),
+          borderWidth: 2,
+          borderRadius: 8,
+        },
+      ],
+    },
+    options: {
+      ...defaultChartConfig,
+      plugins: {
+        ...defaultChartConfig.plugins,
+        title: {
+          display: false,
+        },
+        tooltip: {
+          ...defaultChartConfig.plugins.tooltip,
+          callbacks: {
+            label: function (context) {
+              return `จำนวน: ${context.parsed.y.toLocaleString()} คน`;
+            },
+          },
+        },
+      },
+      scales: {
+        ...defaultChartConfig.scales,
+        y: {
+          ...defaultChartConfig.scales.y,
+          title: {
+            display: true,
+            text: "จำนวนลูกค้า (คน)",
+            font: {
+              size: 13,
+              weight: "bold",
+            },
+          },
+        },
+        x: {
+          ...defaultChartConfig.scales.x,
+          title: {
+            display: true,
+            text: "รุ่นรถ",
+            font: {
+              size: 13,
+              weight: "bold",
+            },
+          },
+        },
+      },
+    },
+  });
+
+  return chartInstances[chartId];
 }
 
 /**
@@ -194,76 +236,80 @@ function createZoneInterestChart(zoneData) {
  * แสดงกราฟแท่งแนวตั้ง จำนวนลูกค้าแต่ละช่วงเวลา
  */
 function createHourlyTrafficChart(hourData) {
-    const chartId = 'hourlyTrafficChart';
-    destroyChart(chartId);
+  const chartId = "hourlyTrafficChart";
+  destroyChart(chartId);
 
-    const ctx = document.getElementById(chartId);
-    if (!ctx) {
-        console.error(`Canvas element #${chartId} not found`);
-        return null;
-    }
+  const ctx = document.getElementById(chartId);
+  if (!ctx) {
+    console.error(`Canvas element #${chartId} not found`);
+    return null;
+  }
 
-    const labels = Object.keys(hourData).sort();
-    const data = labels.map(label => hourData[label]);
+  const labels = Object.keys(hourData).sort(
+    (a, b) => parseInt(a) - parseInt(b),
+  );
+  const data = labels.map((label) => hourData[label]);
 
-    chartInstances[chartId] = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: 'จำนวนลูกค้า',
-                data: data,
-                backgroundColor: CHART_COLORS.blue,
-                borderColor: CHART_COLORS.blue,
-                borderWidth: 2,
-                borderRadius: 8,
-            }],
+  chartInstances[chartId] = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: "จำนวนลูกค้า",
+          data: data,
+          backgroundColor: CHART_COLORS.blue,
+          borderColor: CHART_COLORS.blue,
+          borderWidth: 2,
+          borderRadius: 8,
         },
-        options: {
-            ...defaultChartConfig,
-            plugins: {
-                ...defaultChartConfig.plugins,
-                title: {
-                    display: false,
-                },
-                tooltip: {
-                    ...defaultChartConfig.plugins.tooltip,
-                    callbacks: {
-                        label: function (context) {
-                            return `จำนวน: ${context.parsed.y.toLocaleString()} คน`;
-                        },
-                    },
-                },
-            },
-            scales: {
-                ...defaultChartConfig.scales,
-                y: {
-                    ...defaultChartConfig.scales.y,
-                    title: {
-                        display: true,
-                        text: 'จำนวนลูกค้า (คน)',
-                        font: {
-                            size: 13,
-                            weight: 'bold',
-                        },
-                    },
-                },
-                x: {
-                    ...defaultChartConfig.scales.x,
-                    title: {
-                        display: true,
-                        text: 'ช่วงเวลา',
-                        font: {
-                            size: 13,
-                            weight: 'bold',
-                        },
-                    },
-                },
-            },
+      ],
+    },
+    options: {
+      ...defaultChartConfig,
+      plugins: {
+        ...defaultChartConfig.plugins,
+        title: {
+          display: false,
         },
-    });
+        tooltip: {
+          ...defaultChartConfig.plugins.tooltip,
+          callbacks: {
+            label: function (context) {
+              return `จำนวน: ${context.parsed.y.toLocaleString()} คน`;
+            },
+          },
+        },
+      },
+      scales: {
+        ...defaultChartConfig.scales,
+        y: {
+          ...defaultChartConfig.scales.y,
+          title: {
+            display: true,
+            text: "จำนวนลูกค้า (คน)",
+            font: {
+              size: 13,
+              weight: "bold",
+            },
+          },
+        },
+        x: {
+          ...defaultChartConfig.scales.x,
+          title: {
+            display: true,
+            text: "ช่วงเวลา",
+            font: {
+              size: 13,
+              weight: "bold",
+            },
+          },
+        },
+      },
+    },
+  });
 
-    return chartInstances[chartId];
+  return chartInstances[chartId];
 }
 
 /**
@@ -271,76 +317,80 @@ function createHourlyTrafficChart(hourData) {
  * แสดงกราฟแท่งแนวตั้ง จำนวนลูกค้าแยกตามระยะเวลา (นาที)
  */
 function createDwellTimeChart(dwellData) {
-    const chartId = 'dwellTimeChart';
-    destroyChart(chartId);
+  const chartId = "dwellTimeChart";
+  destroyChart(chartId);
 
-    const ctx = document.getElementById(chartId);
-    if (!ctx) {
-        console.error(`Canvas element #${chartId} not found`);
-        return null;
-    }
+  const ctx = document.getElementById(chartId);
+  if (!ctx) {
+    console.error(`Canvas element #${chartId} not found`);
+    return null;
+  }
 
-    const labels = Object.keys(dwellData).sort((a, b) => parseInt(a) - parseInt(b));
-    const data = labels.map(label => dwellData[label]);
+  const labels = Object.keys(dwellData).sort(
+    (a, b) => parseInt(a) - parseInt(b),
+  );
+  const data = labels.map((label) => dwellData[label]);
 
-    chartInstances[chartId] = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: labels.map(l => `${l} นาที`),
-            datasets: [{
-                label: 'จำนวนลูกค้า',
-                data: data,
-                backgroundColor: CHART_COLORS.cyan,
-                borderColor: CHART_COLORS.cyan,
-                borderWidth: 2,
-                borderRadius: 8,
-            }],
+  chartInstances[chartId] = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: labels.map((l) => `${l} นาที`),
+      datasets: [
+        {
+          label: "จำนวนลูกค้า",
+          data: data,
+          backgroundColor: CHART_COLORS.cyan,
+          borderColor: CHART_COLORS.cyan,
+          borderWidth: 2,
+          borderRadius: 8,
         },
-        options: {
-            ...defaultChartConfig,
-            plugins: {
-                ...defaultChartConfig.plugins,
-                title: {
-                    display: false,
-                },
-                tooltip: {
-                    ...defaultChartConfig.plugins.tooltip,
-                    callbacks: {
-                        label: function (context) {
-                            return `จำนวน: ${context.parsed.y.toLocaleString()} คน`;
-                        },
-                    },
-                },
-            },
-            scales: {
-                ...defaultChartConfig.scales,
-                y: {
-                    ...defaultChartConfig.scales.y,
-                    title: {
-                        display: true,
-                        text: 'จำนวนลูกค้า (คน)',
-                        font: {
-                            size: 13,
-                            weight: 'bold',
-                        },
-                    },
-                },
-                x: {
-                    ...defaultChartConfig.scales.x,
-                    title: {
-                        display: true,
-                        text: 'ระยะเวลาในพื้นที่ (นาที)',
-                        font: {
-                            size: 13,
-                            weight: 'bold',
-                        },
-                    },
-                },
-            },
+      ],
+    },
+    options: {
+      ...defaultChartConfig,
+      plugins: {
+        ...defaultChartConfig.plugins,
+        title: {
+          display: false,
         },
-    });
+        tooltip: {
+          ...defaultChartConfig.plugins.tooltip,
+          callbacks: {
+            label: function (context) {
+              return `จำนวน: ${context.parsed.y.toLocaleString()} คน`;
+            },
+          },
+        },
+      },
+      scales: {
+        ...defaultChartConfig.scales,
+        y: {
+          ...defaultChartConfig.scales.y,
+          title: {
+            display: true,
+            text: "จำนวนลูกค้า (คน)",
+            font: {
+              size: 13,
+              weight: "bold",
+            },
+          },
+        },
+        x: {
+          ...defaultChartConfig.scales.x,
+          title: {
+            display: true,
+            text: "ระยะเวลาในพื้นที่ (นาที)",
+            font: {
+              size: 13,
+              weight: "bold",
+            },
+          },
+        },
+      },
+    },
+  });
 
-    return chartInstances[chartId];
+  return chartInstances[chartId];
 }
 
 /**
@@ -348,86 +398,88 @@ function createDwellTimeChart(dwellData) {
  * แสดงกราฟแท่งแนวตั้ง จำนวนลูกค้าแต่ละวัน
  */
 function createDailyTrafficChart(dateData) {
-    const chartId = 'dailyTrafficChart';
-    destroyChart(chartId);
+  const chartId = "dailyTrafficChart";
+  destroyChart(chartId);
 
-    const ctx = document.getElementById(chartId);
-    if (!ctx) {
-        console.error(`Canvas element #${chartId} not found`);
-        return null;
-    }
+  const ctx = document.getElementById(chartId);
+  if (!ctx) {
+    console.error(`Canvas element #${chartId} not found`);
+    return null;
+  }
 
-    const labels = Object.keys(dateData).sort();
-    const data = labels.map(label => dateData[label]);
+  const labels = Object.keys(dateData).sort();
+  const data = labels.map((label) => dateData[label]);
 
-    // Format dates for display (e.g., "2025-11-24" -> "24 พ.ย. 2025")
-    const formattedLabels = labels.map(dateStr => {
-        const date = new Date(dateStr);
-        return date.toLocaleDateString('th-TH', {
-            day: 'numeric',
-            month: 'short',
-            year: 'numeric'
-        });
+  // Format dates for display (e.g., "2025-11-24" -> "24 พ.ย. 2025")
+  const formattedLabels = labels.map((dateStr) => {
+    const date = new Date(dateStr);
+    return date.toLocaleDateString("th-TH", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
     });
+  });
 
-    chartInstances[chartId] = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: formattedLabels,
-            datasets: [{
-                label: 'จำนวนลูกค้า',
-                data: data,
-                backgroundColor: CHART_COLORS.green,
-                borderColor: CHART_COLORS.green,
-                borderWidth: 2,
-                borderRadius: 8,
-            }],
+  chartInstances[chartId] = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: formattedLabels,
+      datasets: [
+        {
+          label: "จำนวนลูกค้า",
+          data: data,
+          backgroundColor: CHART_COLORS.green,
+          borderColor: CHART_COLORS.green,
+          borderWidth: 2,
+          borderRadius: 8,
         },
-        options: {
-            ...defaultChartConfig,
-            plugins: {
-                ...defaultChartConfig.plugins,
-                title: {
-                    display: false,
-                },
-                tooltip: {
-                    ...defaultChartConfig.plugins.tooltip,
-                    callbacks: {
-                        label: function (context) {
-                            return `จำนวน: ${context.parsed.y.toLocaleString()} คน`;
-                        },
-                    },
-                },
-            },
-            scales: {
-                ...defaultChartConfig.scales,
-                y: {
-                    ...defaultChartConfig.scales.y,
-                    title: {
-                        display: true,
-                        text: 'จำนวนลูกค้า (คน)',
-                        font: {
-                            size: 13,
-                            weight: 'bold',
-                        },
-                    },
-                },
-                x: {
-                    ...defaultChartConfig.scales.x,
-                    title: {
-                        display: true,
-                        text: 'วันที่',
-                        font: {
-                            size: 13,
-                            weight: 'bold',
-                        },
-                    },
-                },
-            },
+      ],
+    },
+    options: {
+      ...defaultChartConfig,
+      plugins: {
+        ...defaultChartConfig.plugins,
+        title: {
+          display: false,
         },
-    });
+        tooltip: {
+          ...defaultChartConfig.plugins.tooltip,
+          callbacks: {
+            label: function (context) {
+              return `จำนวน: ${context.parsed.y.toLocaleString()} คน`;
+            },
+          },
+        },
+      },
+      scales: {
+        ...defaultChartConfig.scales,
+        y: {
+          ...defaultChartConfig.scales.y,
+          title: {
+            display: true,
+            text: "จำนวนลูกค้า (คน)",
+            font: {
+              size: 13,
+              weight: "bold",
+            },
+          },
+        },
+        x: {
+          ...defaultChartConfig.scales.x,
+          title: {
+            display: true,
+            text: "วันที่",
+            font: {
+              size: 13,
+              weight: "bold",
+            },
+          },
+        },
+      },
+    },
+  });
 
-    return chartInstances[chartId];
+  return chartInstances[chartId];
 }
 
 /**
@@ -435,96 +487,96 @@ function createDailyTrafficChart(dateData) {
  * แสดงกราฟแท่งแนวตั้ง จำนวนลูกค้าแยกตามวันและโซน (Stacked)
  */
 function createDailyZoneChart(dateZoneData) {
-    const chartId = 'dailyZoneChart';
-    destroyChart(chartId);
+  const chartId = "dailyZoneChart";
+  destroyChart(chartId);
 
-    const ctx = document.getElementById(chartId);
-    if (!ctx) {
-        console.error(`Canvas element #${chartId} not found`);
-        return null;
-    }
+  const ctx = document.getElementById(chartId);
+  if (!ctx) {
+    console.error(`Canvas element #${chartId} not found`);
+    return null;
+  }
 
-    // Get all dates and zones
-    const dates = Object.keys(dateZoneData).sort();
-    const allZones = new Set();
-    dates.forEach(date => {
-        Object.keys(dateZoneData[date]).forEach(zone => allZones.add(zone));
+  // Get all dates and zones
+  const dates = Object.keys(dateZoneData).sort();
+  const allZones = new Set();
+  dates.forEach((date) => {
+    Object.keys(dateZoneData[date]).forEach((zone) => allZones.add(zone));
+  });
+  const zones = Array.from(allZones);
+
+  // Format dates for display
+  const formattedLabels = dates.map((dateStr) => {
+    const date = new Date(dateStr);
+    return date.toLocaleDateString("th-TH", {
+      day: "numeric",
+      month: "short",
     });
-    const zones = Array.from(allZones);
+  });
 
-    // Format dates for display
-    const formattedLabels = dates.map(dateStr => {
-        const date = new Date(dateStr);
-        return date.toLocaleDateString('th-TH', {
-            day: 'numeric',
-            month: 'short'
-        });
-    });
+  // Create datasets for each zone
+  const datasets = zones.map((zone, index) => ({
+    label: zone,
+    data: dates.map((date) => dateZoneData[date][zone] || 0),
+    backgroundColor: getColorByIndex(index),
+    borderColor: getColorByIndex(index),
+    borderWidth: 2,
+  }));
 
-    // Create datasets for each zone
-    const datasets = zones.map((zone, index) => ({
-        label: zone,
-        data: dates.map(date => dateZoneData[date][zone] || 0),
-        backgroundColor: getColorByIndex(index),
-        borderColor: getColorByIndex(index),
-        borderWidth: 2,
-    }));
-
-    chartInstances[chartId] = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: formattedLabels,
-            datasets: datasets,
+  chartInstances[chartId] = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: formattedLabels,
+      datasets: datasets,
+    },
+    options: {
+      ...defaultChartConfig,
+      plugins: {
+        ...defaultChartConfig.plugins,
+        title: {
+          display: false,
         },
-        options: {
-            ...defaultChartConfig,
-            plugins: {
-                ...defaultChartConfig.plugins,
-                title: {
-                    display: false,
-                },
-                tooltip: {
-                    ...defaultChartConfig.plugins.tooltip,
-                    mode: 'index',
-                    intersect: false,
-                    callbacks: {
-                        label: function (context) {
-                            return `${context.dataset.label}: ${context.parsed.y.toLocaleString()} คน`;
-                        },
-                    },
-                },
+        tooltip: {
+          ...defaultChartConfig.plugins.tooltip,
+          mode: "index",
+          intersect: false,
+          callbacks: {
+            label: function (context) {
+              return `${context.dataset.label}: ${context.parsed.y.toLocaleString()} คน`;
             },
-            scales: {
-                ...defaultChartConfig.scales,
-                y: {
-                    ...defaultChartConfig.scales.y,
-                    stacked: true,
-                    title: {
-                        display: true,
-                        text: 'จำนวนลูกค้า (คน)',
-                        font: {
-                            size: 13,
-                            weight: 'bold',
-                        },
-                    },
-                },
-                x: {
-                    ...defaultChartConfig.scales.x,
-                    stacked: true,
-                    title: {
-                        display: true,
-                        text: 'วันที่',
-                        font: {
-                            size: 13,
-                            weight: 'bold',
-                        },
-                    },
-                },
-            },
+          },
         },
-    });
+      },
+      scales: {
+        ...defaultChartConfig.scales,
+        y: {
+          ...defaultChartConfig.scales.y,
+          stacked: true,
+          title: {
+            display: true,
+            text: "จำนวนลูกค้า (คน)",
+            font: {
+              size: 13,
+              weight: "bold",
+            },
+          },
+        },
+        x: {
+          ...defaultChartConfig.scales.x,
+          stacked: true,
+          title: {
+            display: true,
+            text: "วันที่",
+            font: {
+              size: 13,
+              weight: "bold",
+            },
+          },
+        },
+      },
+    },
+  });
 
-    return chartInstances[chartId];
+  return chartInstances[chartId];
 }
 
 /**
@@ -537,25 +589,31 @@ function createDailyZoneChart(dateZoneData) {
  * Update Hourly Traffic Table (Row 9)
  */
 function updateHourlyTrafficTable(hourData) {
-    const tableBody = document.getElementById('hourlyTrafficTable');
-    if (!tableBody) {
-        console.error('Table element #hourlyTrafficTable not found');
-        return;
-    }
+  const tableBody = document.getElementById("hourlyTrafficTable");
+  if (!tableBody) {
+    console.error("Table element #hourlyTrafficTable not found");
+    return;
+  }
 
-    // Sort by hour
-    const sortedHours = Object.keys(hourData).sort();
+  // Sort by hour numerically
+  const sortedHours = Object.keys(hourData).sort(
+    (a, b) => parseInt(a) - parseInt(b),
+  );
 
-    // Create table rows
-    const rows = sortedHours.map((hour, index) => `
+  // Create table rows
+  const rows = sortedHours
+    .map(
+      (hour, index) => `
         <tr>
             <td>${index + 1}</td>
             <td>${hour}</td>
             <td><strong>${hourData[hour].toLocaleString()}</strong></td>
         </tr>
-    `).join('');
+    `,
+    )
+    .join("");
 
-    tableBody.innerHTML = rows;
+  tableBody.innerHTML = rows;
 }
 
 /**
@@ -566,23 +624,23 @@ function updateHourlyTrafficTable(hourData) {
 
 // Make functions available globally
 window.Charts = {
-    // Chart Creation
-    createZoneInterestChart,
-    createHourlyTrafficChart,
-    createDwellTimeChart,
-    createDailyTrafficChart,
-    createDailyZoneChart,
+  // Chart Creation
+  createZoneInterestChart,
+  createHourlyTrafficChart,
+  createDwellTimeChart,
+  createDailyTrafficChart,
+  createDailyZoneChart,
 
-    // Table Updates
-    updateHourlyTrafficTable,
+  // Table Updates
+  updateHourlyTrafficTable,
 
-    // Helper Functions
-    destroyChart,
-    getColorByIndex,
+  // Helper Functions
+  destroyChart,
+  getColorByIndex,
 
-    // Chart Instances (for debugging)
-    instances: chartInstances,
-    colors: CHART_COLORS,
+  // Chart Instances (for debugging)
+  instances: chartInstances,
+  colors: CHART_COLORS,
 };
 
-console.log('✅ Charts Handler loaded successfully');
+console.log("✅ Charts Handler loaded successfully");

@@ -113,8 +113,8 @@ async function loadDatabases() {
       console.log("✅ Databases loaded from API:", result.databases);
 
       // Set default database to first one if not set
-      if (!appState.currentDatabase) {
-        appState.currentDatabase = result.databases[0];
+      if (!appState.currentDatabase && result.databases.length > 0) {
+        appState.currentDatabase = result.databases[0].database_name;
       }
     } else {
       console.warn("⚠️ No databases found from API");
@@ -144,21 +144,34 @@ function updateDatabaseSelect() {
     return;
   }
 
-  // สร้าง options - แสดงชื่อ database โดยตรง
+  // สร้าง options - แสดง label (ถ้ามี) แต่ส่ง value เป็น name
   select.innerHTML = databases
-    .map(
-      (db) => `
-        <option value="${db}" ${db === appState.currentDatabase ? "selected" : ""}>
-            ${db}
+    .map((db) => {
+      const dbName = typeof db === "object" ? db.database_name : db;
+      const dbLabel =
+        typeof db === "object" ? db.database_label || db.database_name : db;
+
+      return `
+        <option value="${dbName}" ${dbName === appState.currentDatabase ? "selected" : ""}>
+            ${dbLabel}
         </option>
-    `,
-    )
+    `;
+    })
     .join("");
 
   // ถ้า currentDatabase ไม่อยู่ในรายการ ให้เลือกตัวแรก
-  if (!databases.includes(appState.currentDatabase) && databases.length > 0) {
-    appState.currentDatabase = databases[0];
-    select.value = databases[0];
+  const currentExists = databases.find((db) => {
+    const dbName = typeof db === "object" ? db.database_name : db;
+    return dbName === appState.currentDatabase;
+  });
+
+  if (!currentExists && databases.length > 0) {
+    const firstDbName =
+      typeof databases[0] === "object"
+        ? databases[0].database_name
+        : databases[0];
+    appState.currentDatabase = firstDbName;
+    select.value = firstDbName;
   }
 
   console.log(`📋 Database dropdown updated with ${databases.length} options`);
@@ -785,7 +798,7 @@ function updateKPICards(docs) {
 function createAllCharts(docs) {
   // Row 8: Zone Interest Chart
   const zoneData = API.groupByZone(docs);
-  Charts.createZoneInterestChart(zoneData);
+  Charts.createZoneInterestChart(zoneData, appState.webConfig);
 
   // Row 9: Hourly Traffic Chart + Table
   const hourData = API.groupByHour(docs);

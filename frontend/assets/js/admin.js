@@ -117,6 +117,7 @@ function openEditMode(id) {
     `<i class="bi bi-pencil-square me-2 text-warning"></i> แก้ไขข้อมูล: ${cfg.database_name}`,
   );
   $("#btnSubmitText").text("ยืนยันการแก้ไขข้อมูล");
+  $("#btnQuickCreate").addClass("d-none"); // Hide in edit mode
   $("#config_id").val(id);
 
   // 2. เติมข้อมูลเดิมใส่ฟอร์ม (เฉพาะข้อความ)
@@ -139,10 +140,16 @@ function openEditMode(id) {
   form.txt_body.value = cfg.txt_body || "";
   form.txt_body_detail.value = cfg.txt_body_detail || "";
 
-  // Car Names (detail_car1-8)
+  // Car Names, Zones, Colors (1-8)
   for (let i = 1; i <= 8; i++) {
     if (form[`detail_car${i}`]) {
       form[`detail_car${i}`].value = cfg[`detail_car${i}`] || "";
+    }
+    if (form[`zone_${i}`]) {
+      form[`zone_${i}`].value = cfg[`zone_${i}`] || "";
+    }
+    if (form[`color_${i}`]) {
+      form[`color_${i}`].value = cfg[`color_${i}`] || "#0d6efd";
     }
   }
 
@@ -167,7 +174,6 @@ function openEditMode(id) {
   const modal = new bootstrap.Modal(document.getElementById("uploadModal"));
   modal.show();
 }
-
 /**
  * Reset Form to Add Mode
  */
@@ -176,9 +182,57 @@ function resetFormToAddMode() {
     `<i class="bi bi-plus-square-fill me-2 text-primary"></i> เพิ่มข้อมูลฐานข้อมูลใหม่`,
   );
   $("#btnSubmitText").text("เพิ่มรายการใหม่");
+  $("#btnQuickCreate").removeClass("d-none"); // Show Quick Create button
   $("#config_id").val("");
   document.getElementById("uploadForm").reset();
   $(".input-preview").removeClass("active").attr("src", "");
+}
+
+/**
+ * Handle Quick Create from Modal
+ */
+async function handleQuickCreate() {
+  const name = $('input[name="database_name"]').val();
+  const label = $('input[name="database_label"]').val();
+
+  if (!name || !label) {
+    Swal.fire(
+      "ข้อมูลไม่ครบ",
+      "กรุณากรอก DB Name และ DB Label ก่อนครับ",
+      "warning",
+    );
+    return;
+  }
+
+  const btn = $("#btnQuickCreate");
+  btn
+    .prop("disabled", true)
+    .html(
+      '<span class="spinner-border spinner-border-sm me-2"></span>กำลังสร้าง...',
+    );
+
+  try {
+    const result = await API.createBenzDB({
+      database_name: name,
+      database_label: label,
+    });
+
+    if (result.success) {
+      Swal.fire("สำเร็จ!", "สร้างฐานข้อมูลในระบบเรียบร้อยแล้ว", "success");
+      // ไม่ต้องปิด modal เพื่อให้เขาพิมพ์ต่อได้ถ้าต้องการ
+      loadAllConfigs();
+    } else {
+      Swal.fire("ข้อผิดพลาด", result.error || "ไม่สามารถสร้างได้", "error");
+    }
+  } catch (error) {
+    Swal.fire("Error", "เกิดข้อผิดพลาดในการเชื่อมต่อ", "error");
+  } finally {
+    btn
+      .prop("disabled", false)
+      .html(
+        '<i class="bi bi-lightning-fill me-1"></i> สร้างเฉพาะ DB (2 ฟิลด์แรก)',
+      );
+  }
 }
 
 /**
@@ -232,6 +286,19 @@ async function handleFormSubmit(form) {
     } else {
       // MODE: ADD (POST)
       console.log(`📤 Uploading new config`);
+
+      // Auto-initialization DB if it's a new entry
+      try {
+        await API.createBenzDB({
+          database_name: rawFormData.get("database_name"),
+          database_label: rawFormData.get("database_label"),
+        });
+      } catch (e) {
+        console.warn(
+          "DB might already exist or creation failed, proceeding to config upload...",
+        );
+      }
+
       result = await API.uploadWebConfig(formData);
     }
 
@@ -313,10 +380,11 @@ function viewDetail(id) {
   `;
 
   for (let i = 1; i <= 8; i++) {
-    if (cfg[`car_img${i}`] || cfg[`detail_car${i}`]) {
+    if (cfg[`car_img${i}`] || cfg[`detail_car${i}`] || cfg[`zone_${i}`]) {
       html += `
             <div class="col-md-3 mb-2">
-                <div class="bg-white border rounded p-1 text-center h-100 shadow-sm">
+                <div class="bg-white border rounded p-1 text-center h-100 shadow-sm" style="border-top: 4px solid ${cfg[`color_${i}`] || "#eee"} !important;">
+                    <div class="x-small text-muted fw-bold mb-1">${cfg[`zone_${i}`] || `โซนที่ ${i}`}</div>
                     ${cfg[`car_img${i}`] ? `<img src="${cfg[`car_img${i}`]}" class="rounded mb-1" style="width: 100%; height: 60px; object-fit: cover;">` : '<div class="bg-light rounded mb-1" style="height: 60px; display: flex; align-items: center; justify-content: center;"><i class="bi bi-image text-muted"></i></div>'}
                     <div class="small fw-bold text-truncate" title="${cfg[`detail_car${i}`] || "-"}">${cfg[`detail_car${i}`] || "รอนิยามชื่อรถ"}</div>
                 </div>
