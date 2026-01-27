@@ -446,24 +446,36 @@ function renderCarGallery(config) {
 
   container.closest("section").style.display = "block";
 
-  let colClass = "col-lg-4 col-md-6";
-  if (cars.length <= 2) {
-    colClass = "col-lg-6 col-md-6";
-  } else if (cars.length <= 4) {
-    colClass = "col-lg-3 col-md-6";
+  container.classList.add("justify-content-center");
+
+  let colClass = "col-lg-3 col-md-6";
+  if (cars.length === 1) {
+    colClass = "col-lg-4 col-md-8";
+  } else if (cars.length === 2) {
+    colClass = "col-lg-4 col-md-6";
   }
 
   container.innerHTML = cars
     .map((car) => {
+      // Get car name, zone name and color from config
       const carName =
         config[`detail_car${car.index}`] || `รถคันที่ ${car.index}`;
+      const zoneName = config[`zone_${car.index}`] || `Zone ${car.index}`;
+      const color =
+        config[`color_${car.index}`] || Charts.getColorByIndex(car.index - 1);
+
       return `
         <div class="${colClass}">
-            <div class="car-card">
-                <img src="${car.image}" alt="${carName}" class="car-image"
-                     onerror="this.src='https://via.placeholder.com/400x250/343A40/FFFFFF?text=Mercedes-Benz'">
-                <div class="car-info">
-                    <h4 class="car-name">${carName}</h4>
+            <div class="car-card" style="border-top: 5px solid ${color}">
+                <div class="car-image-frame" style="height: 220px; display: flex; align-items: center; justify-content: center; padding: 10px; background: #fff;">
+                    <img src="${car.image}" alt="${carName}" class="car-image" style="object-fit: contain; width: 100%; height: 100%;"
+                         onerror="this.src='https://via.placeholder.com/400x250/343A40/FFFFFF?text=Mercedes-Benz'">
+                </div>
+                <div class="car-info" style="padding: 1rem 1.2rem; border-top: 1px solid #eee;">
+                    <div class="mb-2">
+                        <span class="badge" style="background-color: ${color}; font-size: 0.75rem; padding: 0.35rem 0.75rem; border-radius: 50px;">${zoneName}</span>
+                    </div>
+                    <h4 class="car-name" style="font-size: 1.15rem; margin-bottom: 0; font-weight: 700; color: #333;">${carName}</h4>
                 </div>
             </div>
         </div>
@@ -817,7 +829,7 @@ function createAllCharts(docs) {
 
   // Row 14: Daily Zone Breakdown Chart
   const dateZoneData = API.groupByDateAndZone(docs);
-  Charts.createDailyZoneChart(dateZoneData);
+  Charts.createDailyZoneChart(dateZoneData, appState.webConfig);
 
   console.log("✅ All charts created");
 }

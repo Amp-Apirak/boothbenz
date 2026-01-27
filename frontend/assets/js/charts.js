@@ -486,7 +486,7 @@ function createDailyTrafficChart(dateData) {
  * ROW 14: Daily Zone Breakdown Chart
  * แสดงกราฟแท่งแนวตั้ง จำนวนลูกค้าแยกตามวันและโซน (Stacked)
  */
-function createDailyZoneChart(dateZoneData) {
+function createDailyZoneChart(dateZoneData, config = null) {
   const chartId = "dailyZoneChart";
   destroyChart(chartId);
 
@@ -514,13 +514,37 @@ function createDailyZoneChart(dateZoneData) {
   });
 
   // Create datasets for each zone
-  const datasets = zones.map((zone, index) => ({
-    label: zone,
-    data: dates.map((date) => dateZoneData[date][zone] || 0),
-    backgroundColor: getColorByIndex(index),
-    borderColor: getColorByIndex(index),
-    borderWidth: 2,
-  }));
+  const datasets = zones.map((zoneKey, index) => {
+    let label = zoneKey;
+    let color = getColorByIndex(index);
+
+    if (config) {
+      // Look for matching zone_X index
+      const match = zoneKey.match(/zone_(\d+)/i);
+      if (match) {
+        const i = match[1];
+        label = config[`zone_${i}`] || config[`detail_car${i}`] || label;
+        color = config[`color_${i}`] || color;
+      } else {
+        // Try mapping by name
+        for (let i = 1; i <= 8; i++) {
+          if (config[`zone_${i}`] === zoneKey) {
+            label = config[`zone_${i}`];
+            color = config[`color_${i}`] || color;
+            break;
+          }
+        }
+      }
+    }
+
+    return {
+      label: label,
+      data: dates.map((date) => dateZoneData[date][zoneKey] || 0),
+      backgroundColor: color,
+      borderColor: color,
+      borderWidth: 2,
+    };
+  });
 
   chartInstances[chartId] = new Chart(ctx, {
     type: "bar",
