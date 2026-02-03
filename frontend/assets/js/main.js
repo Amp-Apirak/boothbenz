@@ -658,6 +658,44 @@ function setupEventListeners() {
     });
   }
 
+  // Pinit IT Toggle Button - Show/Hide Admin Menu
+  const btnPinitToggle = document.getElementById("btnPinitToggle");
+  const btnAdmin = document.getElementById("btnAdmin");
+  const btnEvent = document.getElementById("btnEvent");
+
+  if (btnPinitToggle && btnAdmin && btnEvent) {
+    // Check if admin menu should be visible from localStorage
+    const isAdminVisible = localStorage.getItem("adminMenuVisible") === "true";
+    if (isAdminVisible) {
+      btnAdmin.classList.remove("d-none");
+      btnEvent.classList.remove("d-none");
+      btnPinitToggle.classList.add("bg-primary", "text-white");
+      btnPinitToggle.classList.remove("bg-light", "text-dark");
+    }
+
+    btnPinitToggle.addEventListener("click", () => {
+      const isHidden = btnAdmin.classList.contains("d-none");
+
+      if (isHidden) {
+        // Show admin menus
+        btnAdmin.classList.remove("d-none");
+        btnEvent.classList.remove("d-none");
+        btnPinitToggle.classList.add("bg-primary", "text-white");
+        btnPinitToggle.classList.remove("bg-light", "text-dark");
+        localStorage.setItem("adminMenuVisible", "true");
+        console.log("🔓 Admin menu shown");
+      } else {
+        // Hide admin menus
+        btnAdmin.classList.add("d-none");
+        btnEvent.classList.add("d-none");
+        btnPinitToggle.classList.remove("bg-primary", "text-white");
+        btnPinitToggle.classList.add("bg-light", "text-dark");
+        localStorage.setItem("adminMenuVisible", "false");
+        console.log("🔒 Admin menu hidden");
+      }
+    });
+  }
+
   console.log("✅ Event listeners setup complete");
 }
 

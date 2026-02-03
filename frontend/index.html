@@ -42,14 +42,22 @@
         <div class="row align-items-center">
           <div class="col-12">
             <div class="database-selector-wrapper">
-              <div class="btn-group me-auto shadow-sm">
+              <div class="btn-group me-auto shadow-sm" id="navButtonGroup">
                 <a href="#" id="btnHome" class="btn btn-outline-light btn-sm">
                   <i class="bi bi-house-fill"></i> Home
                 </a>
-                <a href="admin.html" class="btn btn-outline-light btn-sm">
+                <a
+                  href="admin.html"
+                  id="btnAdmin"
+                  class="btn btn-outline-light btn-sm d-none"
+                >
                   <i class="bi bi-gear-fill"></i> Admin
                 </a>
-                <a href="event_mgmt.html" class="btn btn-outline-light btn-sm">
+                <a
+                  href="event_mgmt.html"
+                  id="btnEvent"
+                  class="btn btn-outline-light btn-sm d-none"
+                >
                   <i class="bi bi-people-fill"></i> Event
                 </a>
               </div>
@@ -100,7 +108,15 @@
               </h3>
             </div>
             <div class="hero-logo">
-              <span class="badge bg-light text-dark">Pinit IT</span>
+              <button
+                type="button"
+                id="btnPinitToggle"
+                class="badge bg-light text-dark border-0"
+                style="cursor: pointer; transition: all 0.3s ease"
+                title="คลิกเพื่อแสดง/ซ่อนเมนู Admin"
+              >
+                <i class="bi bi-gear me-1"></i>Pinit IT
+              </button>
             </div>
           </div>
         </div>
