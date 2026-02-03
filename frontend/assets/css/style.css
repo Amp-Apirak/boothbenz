@@ -151,27 +151,34 @@ section {
 }
 
 .database-select {
-  max-width: 250px;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  color: var(--white);
-  font-size: 0.95rem;
-  padding: 0.5rem 1rem;
-  border-radius: var(--radius-md);
+  min-width: 200px !important;
+  max-width: 280px !important;
+  background: #16213e !important;
+  background-color: #16213e !important;
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  color: #ffffff !important;
+  font-size: 0.95rem !important;
+  font-weight: 500 !important;
+  padding: 0.5rem 1rem !important;
+  border-radius: 8px !important;
   cursor: pointer;
-  transition: var(--transition-fast);
+  transition: all 0.2s ease;
 }
 
 .database-select:focus {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: var(--secondary-yellow);
-  box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.25);
-  color: var(--white);
+  background: #1a2744 !important;
+  background-color: #1a2744 !important;
+  border-color: #ffc107 !important;
+  box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.25) !important;
+  color: #ffffff !important;
+  outline: none !important;
 }
 
 .database-select option {
-  background: #16213e;
-  color: var(--white);
+  background: #16213e !important;
+  background-color: #16213e !important;
+  color: #ffffff !important;
+  padding: 8px;
 }
 
 /* ==========================================================================

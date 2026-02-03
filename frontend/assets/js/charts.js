@@ -204,6 +204,17 @@ function createZoneInterestChart(zoneData, config = null) {
     },
     options: {
       ...defaultChartConfig,
+      onClick: (event, elements) => {
+        if (elements.length > 0) {
+          const index = elements[0].index;
+          const zoneKey = rawLabels[index]; // e.g., "1", "2" or "zone_1"
+          const label = labels[index]; // e.g., "Zone 1: C350"
+
+          if (typeof window.showZoneDetails === "function") {
+            window.showZoneDetails(zoneKey, label);
+          }
+        }
+      },
       plugins: {
         ...defaultChartConfig.plugins,
         title: {
@@ -344,15 +355,18 @@ function createDwellTimeChart(dwellData) {
     return null;
   }
 
-  const labels = Object.keys(dwellData).sort(
-    (a, b) => parseInt(a) - parseInt(b),
-  );
+  // Sort labels numerically (extract number from "X นาที")
+  const labels = Object.keys(dwellData).sort((a, b) => {
+    const numA = parseInt(a) || 0;
+    const numB = parseInt(b) || 0;
+    return numA - numB;
+  });
   const data = labels.map((label) => dwellData[label]);
 
   chartInstances[chartId] = new Chart(ctx, {
     type: "bar",
     data: {
-      labels: labels.map((l) => `${l} นาที`),
+      labels: labels, // Labels already include "นาที" from groupByDwellTime
       datasets: [
         {
           label: "จำนวนลูกค้า",

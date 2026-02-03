@@ -113,9 +113,10 @@ async function loadDatabases() {
       appState.availableDatabases = result.databases;
       console.log("✅ Databases loaded from API:", result.databases);
 
-      // Set default database to first one if not set
-      if (!appState.currentDatabase && result.databases.length > 0) {
+      // Always set default database to first one in the list
+      if (result.databases.length > 0) {
         appState.currentDatabase = result.databases[0].database_name;
+        console.log("📌 Default database set to:", appState.currentDatabase);
       }
     } else {
       console.warn("⚠️ No databases found from API");
@@ -467,7 +468,7 @@ function renderCarGallery(config) {
 
       return `
         <div class="${colClass}">
-            <div class="car-card" style="border-top: 5px solid ${color}">
+            <div class="car-card" id="car-card-${car.index}" style="border-top: 5px solid ${color}; transition: all 0.3s ease;">
                 <div class="car-image-frame" style="height: 220px; display: flex; align-items: center; justify-content: center; padding: 10px; background: #fff;">
                     <img src="${car.image}" alt="${carName}" class="car-image" style="object-fit: contain; width: 100%; height: 100%;"
                          onerror="this.src='https://via.placeholder.com/400x250/343A40/FFFFFF?text=Mercedes-Benz'">
@@ -666,9 +667,9 @@ function setupEventListeners() {
 function clearFilters() {
   console.log("🧹 Clearing all filters...");
 
-  // 1. Reset State
+  // 1. Reset State (type is always customer)
   appState.filters = {
-    type: "all",
+    type: "customer",
     gender: "all",
     emotion: "all",
     zone: "all",
@@ -679,8 +680,7 @@ function clearFilters() {
   appState.dateRange.start = todayStart.toDate();
   appState.dateRange.end = todayEnd.toDate();
 
-  // 2. Reset UI
-  $("#filterType").val("all");
+  // 2. Reset UI (filterType removed - type is fixed to customer)
   $("#filterGender").val("all");
   $("#filterEmotion").val("all");
   $("#filterZone").val("all");
@@ -779,6 +779,117 @@ async function loadDashboardData() {
  * Dashboard Update
  * ==========================================================================
  */
+
+/**
+ * Show Zone Details (Called from Chart Click)
+ * Scrolls to the car card and highlights it
+ */
+function showZoneDetails(zoneKey, label) {
+  console.log(`🔍 Interacting with ${label} (Key: ${zoneKey})`);
+
+  // Extract zone number for matching
+  const zoneNumMatch = String(zoneKey).match(/(\d+)/);
+  const zoneNum = zoneNumMatch ? zoneNumMatch[1] : zoneKey;
+
+  // 1. Try to scroll to the Car Card in the gallery
+  const carCard = document.getElementById(`car-card-${zoneNum}`);
+  if (carCard) {
+    // Smooth scroll to the card
+    carCard.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
+
+    // Add highlight effect
+    const originalShadow = carCard.style.boxShadow;
+    const originalTransform = carCard.style.transform;
+
+    carCard.style.boxShadow = "0 0 25px rgba(0, 102, 204, 0.6)";
+    carCard.style.transform = "scale(1.05)";
+    carCard.style.zIndex = "10";
+
+    setTimeout(() => {
+      carCard.style.boxShadow = originalShadow;
+      carCard.style.transform = originalTransform;
+      carCard.style.zIndex = "1";
+    }, 2000);
+
+    return; // Stop here if we found the car card
+  }
+
+  // 2. Fallback: If no car card exists, show the Image Gallery Modal (original behavior)
+  const docs = appState.filteredDocuments.filter((doc) => {
+    return (
+      String(doc.zone) === String(zoneNum) ||
+      String(doc.zone) === String(zoneKey)
+    );
+  });
+
+  if (docs.length === 0) {
+    Swal.fire({
+      title: `<span style="font-family: 'Prompt', sans-serif;">${label}</span>`,
+      text: "ไม่พบข้อมูลภาพในช่วงเวลาที่เลือก",
+      icon: "info",
+      confirmButtonText: "ตกลง",
+    });
+    return;
+  }
+
+  // Limit to 24 items for performance
+  const displayDocs = docs.slice(0, 24);
+
+  const galleryHtml = `
+    <div class="container-fluid py-3">
+      <div class="row g-3">
+        ${displayDocs
+          .map((doc) => {
+            const time = moment(doc.timestamp).format("HH:mm:ss");
+            const imgUrl = doc.images?.full || doc.images?.face;
+            const type = doc.type || "unknown";
+            const emotion = doc.emotion || "";
+
+            return `
+            <div class="col-md-3 col-sm-4 col-6">
+              <div class="gallery-card border rounded shadow-sm overflow-hidden h-100" style="transition: transform 0.2s;">
+                <div class="ratio ratio-1x1 bg-dark">
+                  <img src="${imgUrl}" 
+                       class="object-fit-cover" 
+                       style="cursor: zoom-in;" 
+                       onclick="window.open('${imgUrl}', '_blank')"
+                       onerror="this.src='https://via.placeholder.com/300?text=No+Image'">
+                </div>
+                <div class="p-2 bg-light text-start shadow-sm" style="font-size: 0.75rem;">
+                   <div class="d-flex justify-content-between">
+                     <span class="text-muted"><i class="bi bi-clock"></i> ${time}</span>
+                     <span class="badge ${type === "customer" ? "bg-primary" : "bg-secondary"}">${type}</span>
+                   </div>
+                   ${emotion ? `<div class="mt-1 text-capitalize text-muted small"><i class="bi bi-emoji-smile"></i> ${emotion}</div>` : ""}
+                </div>
+              </div>
+            </div>
+          `;
+          })
+          .join("")}
+      </div>
+    </div>
+  `;
+
+  Swal.fire({
+    title: `<div style="font-family: 'Prompt', sans-serif; border-bottom: 2px solid #0066CC; padding-bottom: 10px; margin-bottom: 10px;">${label}</div>`,
+    html: galleryHtml,
+    width: "1000px",
+    showCloseButton: true,
+    showConfirmButton: false,
+    background: "#ffffff",
+    customClass: {
+      popup: "premium-swal-popup",
+      htmlContainer: "p-0",
+    },
+  });
+}
+
+// Expose to window for Chart.js access
+window.showZoneDetails = showZoneDetails;
 
 /**
  * Update Dashboard with Data

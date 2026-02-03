@@ -572,14 +572,31 @@ function groupByDate(docs) {
 }
 
 function groupByDwellTime(docs) {
-  const groups = { "0-5": 0, "6-15": 0, "16-30": 0, "31+": 0 };
+  const groups = {};
+
   docs.forEach((doc) => {
-    const dwell = doc.dwell_time || 0;
-    if (dwell <= 5) groups["0-5"]++;
-    else if (dwell <= 15) groups["6-15"]++;
-    else if (dwell <= 30) groups["16-30"]++;
-    else groups["31+"]++;
+    let dwellMinutes = 0;
+
+    // Calculate dwell time from time.start and time.end
+    if (doc.time && doc.time.start && doc.time.end) {
+      const startTime = new Date(doc.time.start);
+      const endTime = new Date(doc.time.end);
+
+      // Calculate difference in minutes
+      const diffMs = endTime - startTime;
+      dwellMinutes = Math.round(diffMs / 60000); // Convert ms to minutes
+    } else if (doc.time_obj) {
+      // Fallback: use time_obj (seconds) if available
+      dwellMinutes = Math.round(doc.time_obj / 60);
+    }
+
+    // Minimum 1 minute, maximum reasonable limit (cap at 60 min for display)
+    dwellMinutes = Math.max(1, Math.min(dwellMinutes, 60));
+
+    const key = `${dwellMinutes} นาที`;
+    groups[key] = (groups[key] || 0) + 1;
   });
+
   return groups;
 }
 
