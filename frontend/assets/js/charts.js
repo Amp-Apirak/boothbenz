@@ -11,7 +11,7 @@ const chartInstances = {};
 
 // Chart Colors Palette
 const CHART_COLORS = {
-  blue: "#0066CC",
+  blue: "#0d6efd", // Bootstrap Primary Blue
   red: "#FF6384",
   cyan: "#36A2EB",
   yellow: "#FFCE56",
@@ -217,6 +217,9 @@ function createZoneInterestChart(zoneData, config = null) {
       },
       plugins: {
         ...defaultChartConfig.plugins,
+        legend: {
+          display: false, // Hide the legend
+        },
         title: {
           display: false,
         },
@@ -371,8 +374,8 @@ function createDwellTimeChart(dwellData) {
         {
           label: "จำนวนลูกค้า",
           data: data,
-          backgroundColor: CHART_COLORS.cyan,
-          borderColor: CHART_COLORS.cyan,
+          backgroundColor: CHART_COLORS.blue,
+          borderColor: CHART_COLORS.blue,
           borderWidth: 2,
           borderRadius: 8,
         },
@@ -460,8 +463,8 @@ function createDailyTrafficChart(dateData) {
         {
           label: "จำนวนลูกค้า",
           data: data,
-          backgroundColor: CHART_COLORS.green,
-          borderColor: CHART_COLORS.green,
+          backgroundColor: CHART_COLORS.blue,
+          borderColor: CHART_COLORS.blue,
           borderWidth: 2,
           borderRadius: 8,
         },
