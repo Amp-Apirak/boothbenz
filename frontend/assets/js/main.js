@@ -37,6 +37,9 @@ const appState = {
  * Initialize Application
  */
 async function initializeApp() {
+  // Clear Browser Data on Entry (Cookies & Cache/Storage)
+  clearBrowserData();
+
   console.log("🚀 Initializing Thonburi Phanich Dashboard...");
   console.log("📡 Mode: API Only (No Mock Data)");
 
@@ -1116,6 +1119,41 @@ function setupImageErrorHandling() {
       this.src =
         "https://via.placeholder.com/1200x600/6C757D/FFFFFF?text=CCTV+Layout";
     };
+  }
+}
+
+/**
+ * Clear All Browser Data (Cookies, LocalStorage, SessionStorage, Cache)
+ */
+function clearBrowserData() {
+  console.log("🧹 Clearing browser data (Cookies & Cache)...");
+
+  try {
+    // 1. Clear LocalStorage & SessionStorage
+    localStorage.clear();
+    sessionStorage.clear();
+
+    // 2. Clear All Cookies
+    const cookies = document.cookie.split(";");
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i];
+      const eqPos = cookie.indexOf("=");
+      const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+      document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+    }
+
+    // 3. Clear Cache API (if supported)
+    if ("caches" in window) {
+      caches.keys().then((names) => {
+        names.forEach((name) => {
+          caches.delete(name);
+        });
+      });
+    }
+
+    console.log("✅ Browser data cleared successfully");
+  } catch (error) {
+    console.warn("⚠️ Could not clear some browser data:", error);
   }
 }
 
