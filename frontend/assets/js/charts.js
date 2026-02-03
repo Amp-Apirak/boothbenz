@@ -641,15 +641,20 @@ function updateHourlyTrafficTable(hourData) {
 
   // Create table rows
   const rows = sortedHours
-    .map(
-      (hour, index) => `
+    .map((hour, index) => {
+      // Format hour as "10:00 น."
+      const formattedHour = `${hour.padStart(2, "0")}:00 น.`;
+      const count = hourData[hour];
+      // Add blue color if count > 0
+      const countStyle = count > 0 ? 'style="color: #0d6efd;"' : "";
+      return `
         <tr>
             <td>${index + 1}</td>
-            <td>${hour}</td>
-            <td><strong>${hourData[hour].toLocaleString()}</strong></td>
+            <td>${formattedHour}</td>
+            <td><strong ${countStyle}>${count.toLocaleString()}</strong></td>
         </tr>
-    `,
-    )
+    `;
+    })
     .join("");
 
   tableBody.innerHTML = rows;
