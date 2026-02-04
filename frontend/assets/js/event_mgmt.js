@@ -166,7 +166,7 @@ async function loadUsersData(dbName) {
       result = await API.getDocuments({
         db: dbName,
         col: "users",
-        limit: 100,
+        limit: 500,
         sort_field: "_id",
         sort_dir: -1,
       });

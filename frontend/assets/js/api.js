@@ -146,7 +146,7 @@ async function getDocuments(params) {
     db,
     col,
     skip = 0,
-    limit = 100,
+    limit = 500,
     sort_field = "_id",
     sort_dir = -1,
   } = params;
@@ -252,7 +252,7 @@ async function searchEvents(params) {
     if (type && type !== "all") queryParams.append("type", type);
     if (gender && gender !== "all") queryParams.append("gender", gender);
     if (emotion && emotion !== "all") queryParams.append("emotion", emotion);
-    if (zone && zone !== "all") queryParams.append("zone", zone);
+    if (zone && zone !== "all") queryParams.append("zone", parseInt(zone));
 
     const url = `/BenzEventSearch?${queryParams.toString()}`;
     const data = await apiFetch(url);

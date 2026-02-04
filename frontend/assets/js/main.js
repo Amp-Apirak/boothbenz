@@ -763,10 +763,8 @@ async function loadDashboardData() {
     const { type, gender, emotion, zone } = appState.filters;
 
     // Convert dates to YYYY-MM-DDTHH:mm:ss for API (Removed .SS to avoid 422 error)
-    const startStr = start
-      ? moment(start).utc().format("YYYY-MM-DD[T]HH:mm:ss")
-      : "";
-    const endStr = end ? moment(end).utc().format("YYYY-MM-DD[T]HH:mm:ss") : "";
+    const startStr = start ? moment(start).format("YYYY-MM-DD[T]HH:mm:ss") : "";
+    const endStr = end ? moment(end).format("YYYY-MM-DD[T]HH:mm:ss") : "";
 
     console.log("📥 Searching dashboard data from API...");
     console.log("📡 Parameters:", {
