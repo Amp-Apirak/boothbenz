@@ -577,17 +577,17 @@ function groupByDwellTime(docs) {
   docs.forEach((doc) => {
     let dwellMinutes = 0;
 
-    // Calculate dwell time from time.start and time.end
-    if (doc.time && doc.time.start && doc.time.end) {
+    // Primary: use time_obj (seconds) if available
+    if (doc.time_obj) {
+      dwellMinutes = Math.round(doc.time_obj / 60);
+    } else if (doc.time && doc.time.start && doc.time.end) {
+      // Fallback: calculate dwell time from time.start and time.end
       const startTime = new Date(doc.time.start);
       const endTime = new Date(doc.time.end);
 
       // Calculate difference in minutes
       const diffMs = endTime - startTime;
       dwellMinutes = Math.round(diffMs / 60000); // Convert ms to minutes
-    } else if (doc.time_obj) {
-      // Fallback: use time_obj (seconds) if available
-      dwellMinutes = Math.round(doc.time_obj / 60);
     }
 
     // Minimum 1 minute, maximum reasonable limit (cap at 60 min for display)
