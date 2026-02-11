@@ -1,23 +1,23 @@
 {
-  "openapi": "3.1.0",
-  "info": {
-    "title": "Benz Showroom API",
-    "version": "0.0.1"
-  },
-  "paths": {
-    "/benzEvents/api/BenzEventMongo": {
-      "get": {
-        "tags": [
-          "Benz-event"
-        ],
-        "summary": "Health Monogodb",
-        "operationId": "health_monogoDB_benzEvents_api_BenzEventMongo_get",
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
+"openapi": "3.1.0",
+"info": {
+"title": "Benz Showroom API",
+"version": "0.0.1"
+},
+"paths": {
+"/benzEvents/api/BenzEventMongo": {
+"get": {
+"tags": [
+"Benz-event"
+],
+"summary": "Health Monogodb",
+"operationId": "health_monogoDB_benzEvents_api_BenzEventMongo_get",
+"responses": {
+"200": {
+"description": "Successful Response",
+"content": {
+"application/json": {
+"schema": {
 
                 }
               }
@@ -711,1458 +711,1532 @@
           }
         }
       }
-    }
-  },
-  "components": {
-    "schemas": {
-      "Body_update_info_benzEvents_api_benzInfoUpdate__id__patch": {
-        "properties": {
-          "database_name": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "DATABASE",
-            "description": "**DATABASE**"
-          },
-          "database_label": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Database Label"
-          },
-          "txt_header": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "HEADER",
-            "description": "**HEADER**"
-          },
-          "txt_header_detail": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Txt Header Detail"
-          },
-          "img_header": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "binary"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Img Header"
-          },
-          "txt_header2": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Txt Header2"
-          },
-          "txt_header2_detail": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Txt Header2 Detail"
-          },
-          "img_header2": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "binary"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Img Header2"
-          },
-          "detail_link1": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "DETAIL",
-            "description": "**DETAIL**"
-          },
-          "img_link1": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "binary"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Img Link1"
-          },
-          "detail_link2": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Detail Link2"
-          },
-          "img_link2": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "binary"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Img Link2"
-          },
-          "detail_link3": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Detail Link3"
-          },
-          "img_link3": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "binary"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Img Link3"
-          },
-          "detail_link4": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Detail Link4"
-          },
-          "img_link4": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "binary"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Img Link4"
-          },
-          "detail_link5": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Detail Link5"
-          },
-          "img_link5": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "binary"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Img Link5"
-          },
-          "detail_link6": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Detail Link6"
-          },
-          "img_link6": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "binary"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Img Link6"
-          },
-          "detail_link7": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Detail Link7"
-          },
-          "img_link7": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "binary"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Img Link7"
-          },
-          "detail_link8": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Detail Link8"
-          },
-          "img_link8": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "binary"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Img Link8"
-          },
-          "detail_car1": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "CARS",
-            "description": "**CARS**"
-          },
-          "car_img1": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "binary"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Car Img1"
-          },
-          "zone_1": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Zone 1"
-          },
-          "color_1": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Color 1"
-          },
-          "detail_car2": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Detail Car2"
-          },
-          "car_img2": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "binary"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Car Img2"
-          },
-          "zone_2": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Zone 2"
-          },
-          "color_2": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Color 2"
-          },
-          "detail_car3": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Detail Car3"
-          },
-          "car_img3": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "binary"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Car Img3"
-          },
-          "zone_3": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Zone 3"
-          },
-          "color_3": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Color 3"
-          },
-          "detail_car4": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Detail Car4"
-          },
-          "car_img4": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "binary"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Car Img4"
-          },
-          "zone_4": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Zone 4"
-          },
-          "color_4": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Color 4"
-          },
-          "detail_car5": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Detail Car5"
-          },
-          "car_img5": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "binary"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Car Img5"
-          },
-          "zone_5": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Zone 5"
-          },
-          "color_5": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Color 5"
-          },
-          "detail_car6": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Detail Car6"
-          },
-          "car_img6": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "binary"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Car Img6"
-          },
-          "zone_6": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Zone 6"
-          },
-          "color_6": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Color 6"
-          },
-          "detail_car7": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Detail Car7"
-          },
-          "car_img7": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "binary"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Car Img7"
-          },
-          "zone_7": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Zone 7"
-          },
-          "color_7": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Color 7"
-          },
-          "detail_car8": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Detail Car8"
-          },
-          "car_img8": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "binary"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Car Img8"
-          },
-          "zone_8": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Zone 8"
-          },
-          "color_8": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Color 8"
-          },
-          "txt_body": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "BODY",
-            "description": "**BODY**"
-          },
-          "txt_body_detail": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Txt Body Detail"
-          },
-          "img_body": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "binary"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Img Body"
-          }
-        },
-        "type": "object",
-        "title": "Body_update_info_benzEvents_api_benzInfoUpdate__id__patch"
-      },
-      "Body_upload_info_benzEvents_api_benzCreateDB_post": {
-        "properties": {
-          "database_name": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "DATABASE"
-          },
-          "database_label": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "LABEL"
-          }
-        },
-        "type": "object",
-        "title": "Body_upload_info_benzEvents_api_benzCreateDB_post"
-      },
-      "Body_upload_info_benzEvents_api_benzInfoUpload_post": {
-        "properties": {
-          "database_name": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "DATABASE",
-            "description": "**DATABASE**"
-          },
-          "database_label": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Database Label"
-          },
-          "txt_header": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "HEADER",
-            "description": "**HEADER**"
-          },
-          "txt_header_detail": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Txt Header Detail"
-          },
-          "img_header": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "binary"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Img Header"
-          },
-          "txt_header2": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Txt Header2"
-          },
-          "txt_header2_detail": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Txt Header2 Detail"
-          },
-          "img_header2": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "binary"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Img Header2"
-          },
-          "detail_link1": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "DETAIL",
-            "description": "**DETAIL**"
-          },
-          "img_link1": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "binary"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Img Link1"
-          },
-          "detail_link2": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Detail Link2"
-          },
-          "img_link2": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "binary"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Img Link2"
-          },
-          "detail_link3": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Detail Link3"
-          },
-          "img_link3": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "binary"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Img Link3"
-          },
-          "detail_link4": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Detail Link4"
-          },
-          "img_link4": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "binary"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Img Link4"
-          },
-          "detail_link5": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Detail Link5"
-          },
-          "img_link5": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "binary"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Img Link5"
-          },
-          "detail_link6": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Detail Link6"
-          },
-          "img_link6": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "binary"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Img Link6"
-          },
-          "detail_link7": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Detail Link7"
-          },
-          "img_link7": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "binary"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Img Link7"
-          },
-          "detail_link8": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Detail Link8"
-          },
-          "img_link8": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "binary"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Img Link8"
-          },
-          "detail_car1": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "CARS",
-            "description": "**CARS**"
-          },
-          "car_img1": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "binary"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Car Img1"
-          },
-          "zone_1": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Zone 1"
-          },
-          "color_1": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Color 1"
-          },
-          "detail_car2": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Detail Car2"
-          },
-          "car_img2": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "binary"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Car Img2"
-          },
-          "zone_2": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Zone 2"
-          },
-          "color_2": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Color 2"
-          },
-          "detail_car3": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Detail Car3"
-          },
-          "car_img3": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "binary"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Car Img3"
-          },
-          "zone_3": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Zone 3"
-          },
-          "color_3": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Color 3"
-          },
-          "detail_car4": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Detail Car4"
-          },
-          "car_img4": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "binary"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Car Img4"
-          },
-          "zone_4": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Zone 4"
-          },
-          "color_4": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Color 4"
-          },
-          "detail_car5": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Detail Car5"
-          },
-          "car_img5": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "binary"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Car Img5"
-          },
-          "zone_5": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Zone 5"
-          },
-          "color_5": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Color 5"
-          },
-          "detail_car6": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Detail Car6"
-          },
-          "car_img6": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "binary"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Car Img6"
-          },
-          "zone_6": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Zone 6"
-          },
-          "color_6": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Color 6"
-          },
-          "detail_car7": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Detail Car7"
-          },
-          "car_img7": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "binary"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Car Img7"
-          },
-          "zone_7": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Zone 7"
-          },
-          "color_7": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Color 7"
-          },
-          "detail_car8": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Detail Car8"
-          },
-          "car_img8": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "binary"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Car Img8"
-          },
-          "zone_8": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Zone 8"
-          },
-          "color_8": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Color 8"
-          },
-          "txt_body": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "BODY",
-            "description": "**BODY**"
-          },
-          "txt_body_detail": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Txt Body Detail"
-          },
-          "img_body": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "binary"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Img Body"
-          }
-        },
-        "type": "object",
-        "title": "Body_upload_info_benzEvents_api_benzInfoUpload_post"
-      },
-      "HTTPValidationError": {
-        "properties": {
-          "detail": {
-            "items": {
-              "$ref": "#/components/schemas/ValidationError"
-            },
-            "type": "array",
-            "title": "Detail"
-          }
-        },
-        "type": "object",
-        "title": "HTTPValidationError"
-      },
-      "UpdateTypeBody": {
-        "properties": {
-          "type": {
-            "type": "string",
-            "maxLength": 100,
-            "minLength": 1,
-            "title": "Type",
-            "description": "new type value"
-          }
-        },
-        "type": "object",
-        "required": [
-          "type"
+    },
+    "/benzEvents/api/benzInfoClearField/{id}/{field_name}": {
+      "delete": {
+        "tags": [
+          "Benz-info"
         ],
-        "title": "UpdateTypeBody"
-      },
-      "ValidationError": {
-        "properties": {
-          "loc": {
-            "items": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "integer"
+        "summary": "Clear Info Field",
+        "operationId": "clear_info_field_benzEvents_api_benzInfoClearField__id___field_name__delete",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "field_name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Field Name"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
                 }
-              ]
-            },
-            "type": "array",
-            "title": "Location"
+              }
+            }
           },
-          "msg": {
-            "type": "string",
-            "title": "Message"
-          },
-          "type": {
-            "type": "string",
-            "title": "Error Type"
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
           }
-        },
-        "type": "object",
-        "required": [
-          "loc",
-          "msg",
-          "type"
-        ],
-        "title": "ValidationError"
+        }
       }
     }
-  }
+
+},
+"components": {
+"schemas": {
+"Body_update_info_benzEvents_api_benzInfoUpdate**id**patch": {
+"properties": {
+"database_name": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "DATABASE",
+"description": "**DATABASE**"
+},
+"database_label": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Database Label"
+},
+"txt_header": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "HEADER",
+"description": "**HEADER**"
+},
+"txt_header_detail": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Txt Header Detail"
+},
+"img_header": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Img Header"
+},
+"txt_header2": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Txt Header2"
+},
+"txt_header2_detail": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Txt Header2 Detail"
+},
+"img_header2": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Img Header2"
+},
+"txt_header2_sub": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Txt Header2 Sub"
+},
+"detail_link1": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "DETAIL",
+"description": "**DETAIL**"
+},
+"img_link1": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Img Link1"
+},
+"detail_link2": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Link2"
+},
+"img_link2": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Img Link2"
+},
+"detail_link3": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Link3"
+},
+"img_link3": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Img Link3"
+},
+"detail_link4": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Link4"
+},
+"img_link4": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Img Link4"
+},
+"detail_link5": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Link5"
+},
+"img_link5": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Img Link5"
+},
+"detail_link6": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Link6"
+},
+"img_link6": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Img Link6"
+},
+"detail_link7": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Link7"
+},
+"img_link7": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Img Link7"
+},
+"detail_link8": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Link8"
+},
+"img_link8": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Img Link8"
+},
+"detail_car1": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "CARS",
+"description": "**CARS**"
+},
+"car_img1": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Car Img1"
+},
+"zone_1": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Zone 1"
+},
+"color_1": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Color 1"
+},
+"detail_car2": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Car2"
+},
+"car_img2": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Car Img2"
+},
+"zone_2": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Zone 2"
+},
+"color_2": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Color 2"
+},
+"detail_car3": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Car3"
+},
+"car_img3": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Car Img3"
+},
+"zone_3": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Zone 3"
+},
+"color_3": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Color 3"
+},
+"detail_car4": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Car4"
+},
+"car_img4": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Car Img4"
+},
+"zone_4": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Zone 4"
+},
+"color_4": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Color 4"
+},
+"detail_car5": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Car5"
+},
+"car_img5": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Car Img5"
+},
+"zone_5": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Zone 5"
+},
+"color_5": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Color 5"
+},
+"detail_car6": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Car6"
+},
+"car_img6": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Car Img6"
+},
+"zone_6": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Zone 6"
+},
+"color_6": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Color 6"
+},
+"detail_car7": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Car7"
+},
+"car_img7": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Car Img7"
+},
+"zone_7": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Zone 7"
+},
+"color_7": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Color 7"
+},
+"detail_car8": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Car8"
+},
+"car_img8": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Car Img8"
+},
+"zone_8": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Zone 8"
+},
+"color_8": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Color 8"
+},
+"txt_body": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "BODY",
+"description": "**BODY**"
+},
+"txt_body_detail": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Txt Body Detail"
+},
+"img_body": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Img Body"
+}
+},
+"type": "object",
+"title": "Body_update_info_benzEvents_api_benzInfoUpdate**id**patch"
+},
+"Body_upload_info_benzEvents_api_benzCreateDB_post": {
+"properties": {
+"database_name": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "DATABASE"
+},
+"database_label": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "LABEL"
+}
+},
+"type": "object",
+"title": "Body_upload_info_benzEvents_api_benzCreateDB_post"
+},
+"Body_upload_info_benzEvents_api_benzInfoUpload_post": {
+"properties": {
+"database_name": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "DATABASE",
+"description": "**DATABASE**"
+},
+"database_label": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Database Label"
+},
+"txt_header": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "HEADER",
+"description": "**HEADER**"
+},
+"txt_header_detail": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Txt Header Detail"
+},
+"img_header": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Img Header"
+},
+"txt_header2": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Txt Header2"
+},
+"txt_header2_detail": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Txt Header2 Detail"
+},
+"img_header2": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Img Header2"
+},
+"txt_header2_sub": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Txt Header2 Sub"
+},
+"detail_link1": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "DETAIL",
+"description": "**DETAIL**"
+},
+"img_link1": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Img Link1"
+},
+"detail_link2": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Link2"
+},
+"img_link2": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Img Link2"
+},
+"detail_link3": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Link3"
+},
+"img_link3": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Img Link3"
+},
+"detail_link4": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Link4"
+},
+"img_link4": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Img Link4"
+},
+"detail_link5": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Link5"
+},
+"img_link5": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Img Link5"
+},
+"detail_link6": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Link6"
+},
+"img_link6": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Img Link6"
+},
+"detail_link7": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Link7"
+},
+"img_link7": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Img Link7"
+},
+"detail_link8": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Link8"
+},
+"img_link8": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Img Link8"
+},
+"detail_car1": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "CARS",
+"description": "**CARS**"
+},
+"car_img1": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Car Img1"
+},
+"zone_1": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Zone 1"
+},
+"color_1": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Color 1"
+},
+"detail_car2": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Car2"
+},
+"car_img2": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Car Img2"
+},
+"zone_2": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Zone 2"
+},
+"color_2": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Color 2"
+},
+"detail_car3": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Car3"
+},
+"car_img3": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Car Img3"
+},
+"zone_3": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Zone 3"
+},
+"color_3": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Color 3"
+},
+"detail_car4": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Car4"
+},
+"car_img4": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Car Img4"
+},
+"zone_4": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Zone 4"
+},
+"color_4": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Color 4"
+},
+"detail_car5": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Car5"
+},
+"car_img5": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Car Img5"
+},
+"zone_5": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Zone 5"
+},
+"color_5": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Color 5"
+},
+"detail_car6": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Car6"
+},
+"car_img6": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Car Img6"
+},
+"zone_6": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Zone 6"
+},
+"color_6": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Color 6"
+},
+"detail_car7": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Car7"
+},
+"car_img7": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Car Img7"
+},
+"zone_7": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Zone 7"
+},
+"color_7": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Color 7"
+},
+"detail_car8": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Detail Car8"
+},
+"car_img8": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Car Img8"
+},
+"zone_8": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Zone 8"
+},
+"color_8": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Color 8"
+},
+"txt_body": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "BODY",
+"description": "**BODY**"
+},
+"txt_body_detail": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Txt Body Detail"
+},
+"img_body": {
+"anyOf": [
+{
+"type": "string",
+"format": "binary"
+},
+{
+"type": "null"
+}
+],
+"title": "Img Body"
+}
+},
+"type": "object",
+"title": "Body_upload_info_benzEvents_api_benzInfoUpload_post"
+},
+"HTTPValidationError": {
+"properties": {
+"detail": {
+"items": {
+"$ref": "#/components/schemas/ValidationError"
+},
+"type": "array",
+"title": "Detail"
+}
+},
+"type": "object",
+"title": "HTTPValidationError"
+},
+"UpdateTypeBody": {
+"properties": {
+"type": {
+"type": "string",
+"maxLength": 100,
+"minLength": 1,
+"title": "Type",
+"description": "new type value"
+}
+},
+"type": "object",
+"required": [
+"type"
+],
+"title": "UpdateTypeBody"
+},
+"ValidationError": {
+"properties": {
+"loc": {
+"items": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "integer"
+}
+]
+},
+"type": "array",
+"title": "Location"
+},
+"msg": {
+"type": "string",
+"title": "Message"
+},
+"type": {
+"type": "string",
+"title": "Error Type"
+}
+},
+"type": "object",
+"required": [
+"loc",
+"msg",
+"type"
+],
+"title": "ValidationError"
+}
+}
+}
 }

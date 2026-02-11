@@ -612,6 +612,46 @@ function groupByDateAndZone(docs) {
 }
 
 /**
+ * Clear specific field in Benz Info
+ * DELETE /benzEvents/api/benzInfoClearField/{id}/{field_name}
+ */
+async function clearBenzInfoField(id, fieldName) {
+  if (!id || !fieldName) {
+    return {
+      success: false,
+      error: "ID and field name are required",
+    };
+  }
+
+  try {
+    const url = getApiUrl(`/benzInfoClearField/${id}/${fieldName}`);
+    const response = await fetch(url, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.detail || `HTTP Error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return {
+      success: true,
+      data: data,
+    };
+  } catch (error) {
+    console.error("❌ Clear Benz Info Field error:", error);
+    return {
+      success: false,
+      error: error.message,
+    };
+  }
+}
+
+/**
  * ==========================================================================
  * Export API Functions
  * ==========================================================================
@@ -647,6 +687,7 @@ window.API = {
   patchWebConfig,
   deleteWebConfig,
   createBenzDB,
+  clearBenzInfoField,
   clearWebConfigCache,
   calculateKPIData,
   groupByZone,

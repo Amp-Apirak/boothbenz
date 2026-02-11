@@ -22,6 +22,32 @@ $(document).ready(function () {
   $("#uploadModal").on("hidden.bs.modal", function () {
     resetFormToAddMode();
   });
+
+  // Event listeners for file inputs to update clear buttons
+  $("#uploadForm input[type='file']").on("change", function() {
+    const fieldName = $(this).attr("name");
+    const file = this.files[0];
+    const prevEl = $(`#prev_${fieldName}`);
+    
+    if (file) {
+      // Show preview of new file
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        prevEl.attr("src", e.target.result).addClass("active");
+      };
+      reader.readAsDataURL(file);
+      
+      // Remove clear button when new file is selected
+      $(this).next(".btn-danger").remove();
+    } else {
+      prevEl.removeClass("active").attr("src", "");
+    }
+    
+    // Update clear buttons after a short delay
+    setTimeout(() => {
+      addClearButtonToImageFields();
+    }, 100);
+  });
 });
 
 /**
@@ -170,7 +196,12 @@ function openEditMode(id) {
     }
   });
 
-  // 4. เปิด Modal
+  // 4. เพิ่มปุ่มลบภาพสำหรับฟิลด์ที่มีรูปภาพ
+  setTimeout(() => {
+    addClearButtonToImageFields();
+  }, 100);
+
+  // 5. เปิด Modal
   const modal = new bootstrap.Modal(document.getElementById("uploadModal"));
   modal.show();
 }
@@ -186,6 +217,9 @@ function resetFormToAddMode() {
   $("#config_id").val("");
   document.getElementById("uploadForm").reset();
   $(".input-preview").removeClass("active").attr("src", "");
+  
+  // Remove all clear buttons when resetting to add mode
+  $("#uploadForm input[type='file']").next(".btn-danger").remove();
 }
 
 /**
@@ -441,4 +475,109 @@ async function confirmDelete(id, name) {
       Swal.fire("ผิดพลาด", res.error, "error");
     }
   }
+}
+
+/**
+ * Clear specific field (Delete Image)
+ * ลบภาพหรือข้อมูลในฟิลด์ที่เลือก
+ */
+async function clearSpecificField(id, fieldName, fieldLabel) {
+  const result = await Swal.fire({
+    title: "ยืนยันการลบภาพ?",
+    text: `ต้องการลบ ${fieldLabel} ออกจากระบบหรือไม่?`,
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#dc3545",
+    cancelButtonColor: "#6c757d",
+    confirmButtonText: "ยืนยันการลบ",
+    cancelButtonText: "ยกเลิก",
+  });
+
+  if (result.isConfirmed) {
+    try {
+      const res = await API.clearBenzInfoField(id, fieldName);
+      if (res.success) {
+        Swal.fire("ลบสำเร็จ!", `${fieldLabel} ถูกลบเรียบร้อยแล้ว`, "success");
+        
+        // ถ้ากำลังแก้ไขอยู่ ให้ล้าง preview ด้วย
+        const configId = $("#config_id").val();
+        if (configId === id) {
+          const prevEl = $(`#prev_${fieldName}`);
+          prevEl.removeClass("active").attr("src", "");
+        }
+        
+        loadAllConfigs();
+      } else {
+        Swal.fire("ผิดพลาด", res.error, "error");
+      }
+    } catch (error) {
+      Swal.fire("ผิดพลาด", "เกิดข้อผิดพลาดในการเชื่อมต่อ", "error");
+    }
+  }
+}
+
+/**
+ * Add clear button to image preview in edit mode
+ */
+function addClearButtonToImageFields() {
+  const configId = $("#config_id").val();
+  if (!configId) return; // Only show in edit mode
+
+  // List of image fields that can have clear buttons
+  const imageFields = [
+    "img_header", "img_header2", "img_body",
+    "img_link1", "img_link2", "img_link3", "img_link4", "img_link5", "img_link6", "img_link7", "img_link8",
+    "car_img1", "car_img2", "car_img3", "car_img4", "car_img5", "car_img6", "car_img7", "car_img8"
+  ];
+
+  imageFields.forEach(fieldName => {
+    const previewEl = $(`#prev_${fieldName}`);
+    const fileInput = $(`input[name="${fieldName}"]`);
+    
+    if (previewEl.length && fileInput.length) {
+      // Check if image exists
+      if (previewEl.hasClass("active") && previewEl.attr("src")) {
+        // Add clear button next to file input
+        const clearBtn = `<button type="button" class="btn btn-danger btn-sm ms-2" onclick="clearSpecificField('${configId}', '${fieldName}', '${getFieldLabel(fieldName)}')">
+          <i class="bi bi-trash"></i> ลบภาพ
+        </button>`;
+        
+        // Remove existing clear button if any
+        fileInput.next(".btn-danger").remove();
+        // Add new clear button
+        fileInput.after(clearBtn);
+      } else {
+        // Remove clear button if no image
+        fileInput.next(".btn-danger").remove();
+      }
+    }
+  });
+}
+
+/**
+ * Get field label in Thai
+ */
+function getFieldLabel(fieldName) {
+  const labels = {
+    "img_header": "โลโก้ (R1)",
+    "img_header2": "แบนเนอร์หลัก (R2)",
+    "img_body": "รูปผังงาน",
+    "img_link1": "ภาพกล้อง 1",
+    "img_link2": "ภาพกล้อง 2",
+    "img_link3": "ภาพกล้อง 3",
+    "img_link4": "ภาพกล้อง 4",
+    "img_link5": "ภาพกล้อง 5",
+    "img_link6": "ภาพกล้อง 6",
+    "img_link7": "ภาพกล้อง 7",
+    "img_link8": "ภาพกล้อง 8",
+    "car_img1": "รูปรถ 1",
+    "car_img2": "รูปรถ 2",
+    "car_img3": "รูปรถ 3",
+    "car_img4": "รูปรถ 4",
+    "car_img5": "รูปรถ 5",
+    "car_img6": "รูปรถ 6",
+    "car_img7": "รูปรถ 7",
+    "car_img8": "รูปรถ 8"
+  };
+  return labels[fieldName] || fieldName;
 }
