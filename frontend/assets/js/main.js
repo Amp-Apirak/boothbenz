@@ -361,6 +361,14 @@ function updateHeroSection(config) {
   if (txtHeader2Detail && config.txt_header2_detail) {
     txtHeader2Detail.textContent = config.txt_header2_detail;
   }
+
+  const txtHeader2Sub = document.getElementById("txtHeader2Sub");
+  if (txtHeader2Sub && config.txt_header2_sub) {
+    txtHeader2Sub.textContent = config.txt_header2_sub;
+    txtHeader2Sub.style.display = "block";
+  } else if (txtHeader2Sub) {
+    txtHeader2Sub.style.display = "none";
+  }
 }
 
 /**

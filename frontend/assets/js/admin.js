@@ -155,6 +155,7 @@ function openEditMode(id) {
   form.txt_header.value = cfg.txt_header || "";
   form.txt_header_detail.value = cfg.txt_header_detail || "";
   form.txt_header2.value = cfg.txt_header2 || "";
+  form.txt_header2_sub.value = cfg.txt_header2_sub || "";
   form.txt_header2_detail.value = cfg.txt_header2_detail || "";
 
   // CCTV Links
