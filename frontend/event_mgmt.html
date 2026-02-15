@@ -133,6 +133,149 @@
         border-radius: 8px;
       }
     </style>
+    <!-- Styles from root index.html (layout, cards, heatmap, gallery) -->
+    <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto; margin: 16px; }
+
+    .layout { display:block; }
+    .main { width: 100%; }
+
+    .mainRow { display:flex; gap:12px; align-items:flex-start; }
+    .content { flex: 1 1 auto; min-width: 640px; }
+    .side {
+      width: 320px;
+      flex: 0 0 auto;
+      border: 1px solid #e5e5e5;
+      border-radius: 12px;
+      padding: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,.04);
+      position: sticky;
+      top: 12px;
+      background: #fff;
+      max-height: calc(100vh - 32px);
+      overflow: auto;
+    }
+
+    .bar { display:flex; flex-wrap:wrap; gap:8px; align-items:end; margin-bottom:16px; }
+    label { font-size: 12px; color:#444; display:block; margin-bottom:4px; }
+    input, select, button { padding:8px; border:1px solid #ccc; border-radius:8px; }
+    button { cursor:pointer; }
+
+    .grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap:12px; }
+    .card { border:1px solid #e5e5e5; border-radius:12px; padding:12px; box-shadow: 0 2px 8px rgba(0,0,0,.04); background:#fff; }
+    .row { display:flex; gap:12px; }
+    .imgWrap { width:110px; height:110px; border-radius:12px; overflow:hidden; background:#f3f3f3; flex:0 0 auto; }
+    .imgWrap img { width:100%; height:100%; object-fit:cover; display:block; }
+    .meta { font-size:13px; color:#222; line-height:1.35; }
+    .muted { color:#666; font-size:12px; }
+    .actions { display:flex; gap:8px; align-items:center; margin-top:10px; }
+    .pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; border:1px solid #ddd; }
+    .pill.customer { background:#eef7ff; }
+    .pill.employee { background:#fff3e6; }
+    .error { color:#b00020; white-space:pre-wrap; }
+
+    .side h3 { margin: 0 0 10px; font-size: 14px; }
+    .side .mini { font-size: 12px; color: #666; line-height: 1.35; margin-bottom: 10px; }
+    .galleryGrid {
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:8px;
+      margin-top: 12px;
+    }
+    .thumb {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border-radius: 10px;
+      overflow:hidden;
+      background:#f3f3f3;
+      border: 1px solid #eee;
+      position: relative;
+      cursor: pointer;
+    }
+    .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+    .thumb .cap {
+      position:absolute;
+      left:6px; right:6px; bottom:6px;
+      background: rgba(0,0,0,.55);
+      color:#fff;
+      font-size:10px;
+      padding:2px 6px;
+      border-radius:999px;
+      white-space: nowrap;
+      overflow:hidden;
+      text-overflow: ellipsis;
+    }
+    .preview {
+      margin-top: 12px;
+      border-top: 1px solid #eee;
+      padding-top: 12px;
+    }
+    .previewImgWrap {
+      width: 100%;
+      border-radius: 12px;
+      overflow:hidden;
+      background:#f3f3f3;
+      border: 1px solid #eee;
+    }
+    .previewImgWrap img { width:100%; height:auto; display:block; }
+    .preview .name { margin-top: 8px; font-size: 12px; color:#333; word-break: break-all; }
+
+    .tip {
+      margin-top: 10px;
+      padding: 8px 10px;
+      background: #fafafa;
+      border: 1px solid #eee;
+      border-radius: 10px;
+      font-size: 12px;
+      color: #444;
+      line-height: 1.4;
+    }
+    code { background: #f2f2f2; padding: 1px 4px; border-radius: 6px; }
+
+    /* --- Heatmap --- */
+    .heatWrap { margin: 12px 0; }
+    .heatBar { display:flex; gap:10px; align-items:end; flex-wrap:wrap; margin-bottom:10px; }
+    .heatmap {
+      overflow:auto;
+      border:1px solid #eee;
+      border-radius:12px;
+      background:#fff;
+      padding:10px;
+    }
+    .heatGrid { display:grid; gap:4px; align-items:stretch; }
+    .heatHead {
+      position: sticky;
+      top: 0;
+      background: #fff;
+      z-index: 2;
+      padding-bottom: 6px;
+    }
+    .heatCell {
+      height: 26px;
+      border-radius: 8px;
+      border: 1px solid #f0f0f0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size: 11px;
+      color:#222;
+      white-space: nowrap;
+      user-select:none;
+    }
+    .heatLabel {
+      justify-content:flex-start;
+      padding: 0 8px;
+      font-weight:600;
+      background:#fafafa;
+      border:1px solid #eee;
+    }
+    .heatTick {
+      background:#fafafa;
+      border:1px solid #eee;
+      font-size: 10px;
+      padding: 0 6px;
+    }
+    </style>
   </head>
   <body>
     <!-- Global Navigation Bar -->
@@ -162,92 +305,150 @@
     </nav>
 
     <div class="container-fluid mgmt-section px-4">
-      <!-- DB Selector Card -->
-      <div class="db-selector-card">
-        <div class="row align-items-center">
-          <div class="col-md-5">
-            <h4 class="mb-0 fw-bold">
-              <i class="bi bi-database-fill-gear me-2"></i>
-              ระบบบริหารจัดการข้อมูลผู้เข้างาน
-            </h4>
-            <p class="mb-0 small opacity-75">
-              จัดการประเภทและข้อมูลผู้เข้าชม (Users)
-            </p>
-          </div>
-          <div class="col-md-7 mt-3 mt-md-0">
-            <div
-              class="d-flex gap-2 align-items-center justify-content-md-end flex-wrap"
-            >
-              <!-- Date Range Picker -->
-              <div id="reportrange" class="mgmt-control text-dark">
-                <i class="bi bi-calendar3 me-2 text-primary"></i>
-                <span></span> <i class="bi bi-chevron-down ms-2 opacity-50"></i>
-              </div>
+      <div class="layout">
+        <div class="main">
 
-              <!-- DB Selector -->
-              <select class="form-select mgmt-control" id="dbSelect">
-                <option value="">กำลังโหลดฐานข้อมูล...</option>
+          <div class="bar">
+            <div>
+              <label>API_BASE</label>
+              <input id="apiBase" style="width:380px" value="https://edge-ai-mongo.k-lynx.com/benzEvents/api" />
+            </div>
+
+            <div>
+              <label>db</label>
+              <select id="db">
+                <option value="db_MegaBangna_20260202">db_MegaBangna_20260202</option>
+                <option value="db_CentralEmbassy_20260203">db_CentralEmbassy_20260203</option>
+                <option value="db_CentralLadprao_20260212">db_CentralLadprao_20260212</option>
               </select>
+            </div>
 
-              <!-- Refresh Button -->
-              <button
-                class="btn btn-primary"
-                id="btnRefresh"
-                title="รีเฟรชข้อมูล"
-              >
-                <i class="bi bi-arrow-clockwise fs-5"></i>
-              </button>
+            <div>
+              <label>collection (Search)</label>
+              <input id="collection" value="users" />
+            </div>
+
+            <div>
+              <label>col (Update)</label>
+              <input id="colUpdate" value="users" />
+            </div>
+
+            <div>
+              <label>start</label>
+              <input id="start" style="width:240px" value="2026-01-29T17:00:00.000Z" />
+            </div>
+
+            <div>
+              <label>end</label>
+              <input id="end" style="width:240px" />
+            </div>
+
+            <div>
+              <label>zone</label>
+              <select id="zone">
+                <option value="">ทั้งหมด</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+              </select>
+            </div>
+
+            <div>
+              <label>gender</label>
+              <select id="gender">
+                <option value="">ทั้งหมด</option>
+                <option value="Man">Man</option>
+                <option value="Woman">Woman</option>
+              </select>
+            </div>
+
+            <div>
+              <label>emotion</label>
+              <select id="emotion">
+                <option value="">ทั้งหมด</option>
+                <option value="Happy">Happy</option>
+                <option value="Neutral">Neutral</option>
+                <option value="Confused">Confused</option>
+                <option value="Disgust">Disgust</option>
+              </select>
+            </div>
+
+            <div>
+              <label>เรียงตาม time_obj</label>
+              <select id="timeSort">
+                <option value="-1" selected>มากสุด → น้อยสุด</option>
+                <option value="1">น้อยสุด → มากสุด</option>
+              </select>
+            </div>
+
+            <div>
+              <label>&nbsp;</label>
+              <button id="btnLoad">โหลดข้อมูล</button>
             </div>
           </div>
-        </div>
-      </div>
 
-      <!-- Users Table Card -->
-      <div class="card table-card border-0">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-          <h5 class="fw-bold mb-0 text-dark">
-            <i class="bi bi-list-ul me-2"></i> รายชื่อผู้ใช้งานในระบบ
-            <span id="userCount" class="badge bg-secondary ms-2 opacity-75"
-              >0</span
-            >
-          </h5>
-          <div class="d-flex gap-2">
-            <input
-              type="text"
-              id="tableSearch"
-              class="form-control form-control-sm"
-              placeholder="ค้นหาด้วย ID/UUID..."
-              style="width: 250px"
-            />
+          <div class="heatWrap">
+            <div class="heatBar">
+              <div>
+                <label>Heatmap bucket</label>
+                <select id="heatBucket">
+                  <option value="5">5 นาที</option>
+                  <option value="10">10 นาที</option>
+                  <option value="15" selected>15 นาที</option>
+                  <option value="30">30 นาที</option>
+                  <option value="60">60 นาที</option>
+                </select>
+              </div>
+              <div class="muted" id="heatStatus" style="align-self:center"></div>
+            </div>
+
+            <div class="heatmap">
+              <div id="heatmap"></div>
+            </div>
           </div>
-        </div>
 
-        <div class="table-responsive">
-          <table class="table table-hover align-middle">
-            <thead class="table-light">
-              <tr>
-                <th>ใบหน้า</th>
-                <th>Timestamp</th>
-                <th>UUID / ID</th>
-                <th>ประเภท (Type)</th>
-                <th>เพศ / อารมณ์ / อายุ</th>
-                <th>โซน (Zone)</th>
-                <th class="text-center">Action</th>
-              </tr>
-            </thead>
-            <tbody id="usersTableBody">
-              <tr>
-                <td colspan="7" class="text-center py-5 text-muted">
-                  <i class="bi bi-database-slash fs-1 d-block mb-2"></i>
-                  กรุณาเลือกฐานข้อมูลเพื่อโหลดข้อมูล
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+          <div class="mainRow">
+            <div class="content">
+              <div class="muted" id="status"></div>
+              <div class="error" id="err"></div>
 
-        <div class="d-flex justify-content-between align-items-center mt-3">
-          <div class="small text-muted">แสดงข้อมูลสูงสุด 500 รายการล่าสุด</div>
+              <hr />
+              <div class="grid" id="grid"></div>
+            </div>
+
+            <div class="side">
+              <h3>Face Gallery (MinIO / S3)</h3>
+              <div class="mini">
+                ดึงรายชื่อรูปจาก MinIO ด้วย <code>?list-type=2</code> (ไม่ใช้ directory listing แล้ว)
+              </div>
+
+              <div>
+                <label>Bucket URL</label>
+                <input id="galleryUrl" style="width:100%" value="https://edge-ai-s3subevent.k-lynx.com/face" />
+              </div>
+
+              <div style="display:flex; gap:8px; margin-top:10px; align-items:center">
+                <button id="btnGalleryReload">โหลดรูปทั้งหมด</button>
+                <span class="muted" id="galleryStatus"></span>
+              </div>
+
+              <div class="tip">
+                ถ้าโหลดไม่ขึ้น ให้ลองเปิด URL นี้ในเบราว์เซอร์:<br/>
+                <code>http://192.168.1.98:9000/face?list-type=2</code><br/>
+                - ถ้าเห็น XML รายชื่อไฟล์ = ผ่าน<br/>
+                - ถ้า <code>AccessDenied</code> = policy / public ยังไม่เปิด
+              </div>
+
+              <div class="galleryGrid" id="galleryGrid"></div>
+
+              <div class="preview" id="preview" style="display:none">
+                <div class="previewImgWrap">
+                  <img id="previewImg" src="" alt="preview"/>
+                </div>
+                <div class="name" id="previewName"></div>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
@@ -347,6 +548,560 @@
       }
       setInterval(updateClock, 1000);
       updateClock();
+    </script>
+
+    <!-- Inline script merged from root index.html (wrapped to avoid jQuery $ conflicts) -->
+    <script>
+    (function(){
+      const $ = (id) => document.getElementById(id);
+
+      window.__lastDocs = [];
+
+      function normalizeBase(base) { return String(base || "").trim().replace(/\/+$/, ""); }
+
+      function buildQuery(params) {
+        const usp = new URLSearchParams();
+        for (const [k, v] of Object.entries(params)) {
+          if (v === undefined || v === null) continue;
+          if (typeof v === "string" && v.trim() === "") continue;
+          usp.set(k, String(v));
+        }
+        return usp.toString();
+      }
+
+      function pad2(n){ return String(n).padStart(2,"0"); }
+
+      function normalizeThaiZ(input, isEnd=false) {
+        let s = String(input || "").trim();
+        if (!s) return s;
+
+        if (s.includes(" ") && !s.includes("T")) s = s.replace(" ", "T");
+
+        if (s.endsWith("Z")) {
+          if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/.test(s)) {
+            s = s.replace(/Z$/, ".000Z");
+          }
+          if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}Z$/.test(s)) {
+            s = s.replace(/Z$/, ":00.000Z");
+          }
+          if (isEnd) s = s.replace(/\.000Z$/, ".999Z").replace(/\.([0-9]{3})Z$/, ".999Z");
+          return s;
+        }
+
+        if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(s)) s += ":00";
+
+        if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$/.test(s)) {
+          return s + (isEnd ? ".999Z" : ".000Z");
+        }
+
+        return s;
+      }
+
+
+      function parseThaiZToMs(v) {
+        if (v == null) return null;
+        if (typeof v === "number" && Number.isFinite(v)) return v;
+        if (v instanceof Date) {
+          const ms = v.getTime();
+          return Number.isNaN(ms) ? null : ms;
+        }
+        if (typeof v !== "string") return null;
+
+        let s = v.trim();
+        if (!s) return null;
+
+        if (/^\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}/.test(s) && !s.includes("T")) {
+          s = s.replace(" ", "T");
+        }
+
+        if (s.endsWith("Z")) s = s.slice(0, -1);
+
+        let msPart = 0;
+        const mMs = s.match(/^(.*)\.(\d{3})$/);
+        if (mMs) {
+          s = mMs[1];
+          msPart = Number(mMs[2]) || 0;
+        }
+
+        if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(s)) s += ":00";
+
+        const m = s.match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})$/);
+        if (!m) return null;
+
+        const Y  = Number(m[1]);
+        const MO = Number(m[2]) - 1;
+        const D  = Number(m[3]);
+        const H  = Number(m[4]);
+        const MI = Number(m[5]);
+        const SE = Number(m[6]);
+
+        const dt = new Date(Y, MO, D, H, MI, SE, msPart);
+        const out = dt.getTime();
+        return Number.isNaN(out) ? null : out;
+      }
+
+      function prettyTime(t) {
+        if (!t) return "-";
+        if (typeof t === "string") return t;
+        if (t.start && t.end) return `${t.start} → ${t.end}`;
+        return JSON.stringify(t);
+      }
+
+      async function apiGet(url) {
+        const res = await fetch(url, { method: "GET" });
+        const text = await res.text();
+        let data;
+        try { data = JSON.parse(text); } catch { data = { raw: text }; }
+        if (!res.ok) throw new Error(`GET ${url}\n${res.status} ${res.statusText}\n${text}`);
+        return data;
+      }
+
+      async function apiPatch(url, bodyObj) {
+        const res = await fetch(url, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(bodyObj),
+        });
+        const text = await res.text();
+        let data;
+        try { data = JSON.parse(text); } catch { data = { raw: text }; }
+        if (!res.ok) throw new Error(`PATCH ${url}\n${res.status} ${res.statusText}\n${text}`);
+        return data;
+      }
+
+      function toSortKey(doc) {
+        const t = doc?.time_obj;
+
+        if (typeof t === "number" && Number.isFinite(t)) return t;
+
+        if (typeof t === "string") {
+          const s = t.trim();
+          if (/^\d+(\.\d+)?$/.test(s)) return Number(s);
+          const ms = parseThaiZToMs(s);
+          if (ms !== null) return ms;
+        }
+
+        const start = doc?.time?.start;
+        if (typeof start === "string") {
+          const ms2 = parseThaiZToMs(start);
+          if (ms2 !== null) return ms2;
+        }
+
+        return 0;
+      }
+
+      function sortDocsByTimeObj(docs, dir) {
+        const d = Number(dir) === 1 ? 1 : -1;
+        return docs.slice().sort((a, b) => (toSortKey(a) - toSortKey(b)) * d);
+      }
+
+      function renderCard(doc, ctx) {
+        const faceUrl = doc?.images?.face || "";
+        const currentType = (doc?.type || "").toLowerCase();
+        const safeType = currentType === "employee" ? "employee" : "customer";
+        const pillClass = safeType;
+
+        const el = document.createElement("div");
+        el.className = "card";
+
+        el.innerHTML = `
+          <div class="row">
+            <div class="imgWrap">
+              ${faceUrl ? `<img src="${faceUrl}" alt="face" />` : ``}
+            </div>
+            <div class="meta">
+              <div>
+                <span class="pill ${pillClass}">type: <b>${safeType}</b></span>
+              </div>
+              <div><b>${doc.gender ?? "-"}</b> อายุ <b>${doc.age ?? "-"}</b> | emotion: <b>${doc.emotion ?? "-"}</b></div>
+              <div class="muted">zone: ${doc.zone ?? "-"} | time_obj: ${doc.time_obj ?? "-"}</div>
+              <div class="muted">เวลา: ${prettyTime(doc.time)}</div>
+              <div class="muted">_id: ${doc._id ?? "-"}</div>
+            </div>
+          </div>
+
+          <div class="actions">
+            <select class="typeSel">
+              <option value="customer" ${safeType==="customer" ? "selected": ""}>customer</option>
+              <option value="employee" ${safeType==="employee" ? "selected": ""}>employee</option>
+            </select>
+            <button class="btnSave">บันทึก</button>
+            <span class="muted msg"></span>
+          </div>
+        `;
+
+        const sel = el.querySelector(".typeSel");
+        const btn = el.querySelector(".btnSave");
+        const msg = el.querySelector(".msg");
+
+        btn.addEventListener("click", async () => {
+          msg.textContent = "กำลังอัปเดต...";
+          btn.disabled = true;
+
+          const newType = sel.value;
+
+          const patchUrl = normalizeBase(ctx.apiBase) + `/BenzEventUpdate/${encodeURIComponent(doc._id)}/type` +
+            `?${buildQuery({ db: ctx.db, col: ctx.colUpdate })}`;
+
+          try {
+            const out = await apiPatch(patchUrl, { type: newType });
+            const updatedType = (out?.doc?.type || newType).toLowerCase();
+            const finalType = updatedType === "employee" ? "employee" : "customer";
+
+            msg.textContent = `อัปเดตแล้ว → ${finalType}`;
+            const pill = el.querySelector(".pill");
+            pill.classList.toggle("employee", finalType === "employee");
+            pill.classList.toggle("customer", finalType !== "employee");
+            pill.innerHTML = `type: <b>${finalType}</b>`;
+          } catch (e) {
+            msg.textContent = "อัปเดตไม่สำเร็จ";
+            alert(String(e));
+          } finally {
+            btn.disabled = false;
+          }
+        });
+
+        return el;
+      }
+
+      // Heatmap constants and functions
+      const HEAT_START_MIN = 10 * 60; // 10:00
+      const HEAT_END_MIN   = 21 * 60; // 21:00
+
+      function fmtBucketFromMin(minOfDay) {
+        const h = Math.floor(minOfDay / 60);
+        const m = minOfDay % 60;
+        return `${pad2(h)}:${pad2(m)}`;
+      }
+
+      function parseDocMinOfDay(doc) {
+        const ms = parseThaiZToMs(doc?.time?.start);
+        if (ms == null) return null;
+        const d = new Date(ms);
+        return d.getHours() * 60 + d.getMinutes();
+      }
+
+      function floorToBucketMin(minOfDay, bucketMin) {
+        return Math.floor(minOfDay / bucketMin) * bucketMin;
+      }
+
+      function buildHeatmapMatrix(docs, bucketMin) {
+        const zones = Array.from(new Set(docs.map(d => d?.zone).filter(z => z !== undefined && z !== null)))
+          .map(z => Number(z))
+          .filter(n => Number.isFinite(n))
+          .sort((a,b)=>a-b);
+
+        const buckets = [];
+        for (let m = HEAT_START_MIN; m <= HEAT_END_MIN; m += bucketMin) buckets.push(m);
+
+        if (!zones.length || !buckets.length) return { zones, buckets, mat: [], max: 0 };
+
+        const zIndex = new Map(zones.map((z,i)=>[z,i]));
+        const bIndex = new Map(buckets.map((m,i)=>[m,i]));
+        const mat = Array.from({length: zones.length}, () => Array.from({length: buckets.length}, () => 0));
+
+        for (const d of docs) {
+          const z = Number(d?.zone);
+          if (!zIndex.has(z)) continue;
+
+          const minOfDay = parseDocMinOfDay(d);
+          if (minOfDay == null) continue;
+
+          if (minOfDay < HEAT_START_MIN || minOfDay > HEAT_END_MIN) continue;
+
+          const bm = floorToBucketMin(minOfDay, bucketMin);
+          if (!bIndex.has(bm)) continue;
+
+          mat[zIndex.get(z)][bIndex.get(bm)] += 1;
+        }
+
+        let max = 0;
+        for (const row of mat) for (const v of row) if (v > max) max = v;
+
+        return { zones, buckets, mat, max };
+      }
+
+      function heatColor(value, max) {
+        if (!max || value <= 0) return "rgba(0,0,0,0.02)";
+
+        let t = value / max;
+        if (t < 0) t = 0;
+        if (t > 1) t = 1;
+
+        t = Math.pow(t, 0.85);
+
+        const stops = [
+          { p: 0.00, r:  20, g:  30, b: 120 },
+          { p: 0.25, r:   0, g: 140, b: 255 },
+          { p: 0.50, r:   0, g: 220, b: 120 },
+          { p: 0.75, r: 255, g: 210, b:   0 },
+          { p: 1.00, r: 255, g:  60, b:   0 },
+        ];
+
+        let a = stops[0], c = stops[stops.length - 1];
+        for (let i = 0; i < stops.length - 1; i++) {
+          const s1 = stops[i], s2 = stops[i + 1];
+          if (t >= s1.p && t <= s2.p) { a = s1; c = s2; break; }
+        }
+
+        const u = (t - a.p) / Math.max(1e-9, (c.p - a.p));
+        const r = Math.round(a.r + (c.r - a.r) * u);
+        const g = Math.round(a.g + (c.g - a.g) * u);
+        const b = Math.round(a.b + (c.b - a.b) * u);
+
+        const alpha = 0.20 + 0.80 * t;
+
+        return `rgba(${r},${g},${b},${alpha})`;
+      }
+
+      function renderHeatmapFromDocs(docs) {
+        const bucketMin = Number($("heatBucket").value) || 15;
+        const out = buildHeatmapMatrix(docs, bucketMin);
+
+        const host = $("heatmap");
+        host.innerHTML = "";
+
+        if (!out.zones.length || !out.buckets.length) {
+          $("heatStatus").textContent = "ไม่มีข้อมูลพอสำหรับ heatmap (อาจไม่มี zone หรือเวลา)";
+          return;
+        }
+
+        $("heatStatus").textContent =
+          `ช่วง ${fmtBucketFromMin(HEAT_START_MIN)}-${fmtBucketFromMin(HEAT_END_MIN)} | zones ${out.zones.length} × time ${out.buckets.length} | max=${out.max}`;
+
+        const grid = document.createElement("div");
+        grid.className = "heatGrid";
+        grid.style.gridTemplateColumns = `140px repeat(${out.buckets.length}, 52px)`;
+        grid.style.gridTemplateRows = `30px repeat(${out.zones.length}, 30px)`;
+
+        const corner = document.createElement("div");
+        corner.className = "heatCell heatLabel heatHead";
+        corner.textContent = "zone \\ time";
+        grid.appendChild(corner);
+
+        for (const m of out.buckets) {
+          const h = document.createElement("div");
+          h.className = "heatCell heatTick heatHead";
+          h.textContent = fmtBucketFromMin(m);
+          h.title = fmtBucketFromMin(m);
+          grid.appendChild(h);
+        }
+
+        for (let zi = 0; zi < out.zones.length; zi++) {
+          const z = out.zones[zi];
+
+          const zl = document.createElement("div");
+          zl.className = "heatCell heatLabel";
+          zl.textContent = `zone ${z}`;
+          grid.appendChild(zl);
+
+          for (let bi = 0; bi < out.buckets.length; bi++) {
+            const v = out.mat[zi][bi];
+            const c = document.createElement("div");
+            c.className = "heatCell";
+            c.style.background = heatColor(v, out.max);
+            c.textContent = v ? String(v) : "";
+            c.title = `zone ${z}\n${fmtBucketFromMin(out.buckets[bi])}\ncount=${v}`;
+            grid.appendChild(c);
+          }
+        }
+
+        host.appendChild(grid);
+      }
+
+      async function loadDocs() {
+        $("err").textContent = "";
+        $("grid").innerHTML = "";
+        $("status").textContent = "กำลังโหลด...";
+
+        const apiBase = normalizeBase($("apiBase").value);
+        const db = $("db").value.trim();
+        const collection = $("collection").value.trim();
+        const colUpdate = $("colUpdate").value.trim();
+
+        const start = normalizeThaiZ($("start").value, false);
+        const end   = normalizeThaiZ($("end").value, true);
+
+        const zone = $("zone").value.trim();
+        const gender = $("gender").value.trim();
+        const emotion = $("emotion").value.trim();
+
+        const timeSort = Number($("timeSort").value);
+
+        const searchUrl = apiBase + "/BenzEventSearch?" + buildQuery({
+          db,
+          collection,
+          start,
+          end,
+          zone: zone ? Number(zone) : "",
+          gender,
+          emotion,
+          limit: 500,
+          skip: 0,
+          sort: timeSort
+        });
+
+        try {
+          const data = await apiGet(searchUrl);
+          const docsRaw = data?.docs ?? [];
+          const docs = sortDocsByTimeObj(docsRaw, timeSort);
+
+          window.__lastDocs = docs;
+
+          $("status").textContent = `พบ ${docs.length} รายการ`;
+
+          renderHeatmapFromDocs(docs);
+
+          const ctx = { apiBase, db, collection, colUpdate };
+          for (const d of docs) $("grid").appendChild(renderCard(d, ctx));
+        } catch (e) {
+          $("status").textContent = "";
+          $("err").textContent = String(e);
+          window.__lastDocs = [];
+          renderHeatmapFromDocs([]);
+        }
+      }
+
+      // MinIO / S3 Face Gallery utilities
+      function isImageName(name) {
+        const s = String(name || "").toLowerCase();
+        return s.endsWith(".jpg") || s.endsWith(".jpeg") || s.endsWith(".png") || s.endsWith(".webp") || s.endsWith(".gif");
+      }
+
+      function unique(arr) { return Array.from(new Set(arr)); }
+
+      function normalizeBaseNoSlash(base) { return String(base || "").trim().replace(/\/+$/, ""); }
+
+      function joinObjectUrl(bucketBaseUrl, key) {
+        const b = normalizeBaseNoSlash(bucketBaseUrl);
+        const parts = String(key || "").split("/").filter(Boolean);
+        const enc = parts.map(p => encodeURIComponent(p));
+        return b + "/" + enc.join("/");
+      }
+
+      function parseS3ListXml(xmlText) {
+        const xml = String(xmlText || "");
+        const doc = new DOMParser().parseFromString(xml, "application/xml");
+
+        const errMsg = doc.querySelector("Error > Message")?.textContent;
+        const errCode = doc.querySelector("Error > Code")?.textContent;
+        if (errMsg || errCode) {
+          throw new Error(`S3 Error: ${errCode || "Error"} ${errMsg || ""}`.trim());
+        }
+
+        const keys = Array.from(doc.querySelectorAll("Contents > Key")).map(n => n.textContent || "");
+
+        const isTruncated = (doc.querySelector("IsTruncated")?.textContent || "").toLowerCase() === "true";
+        const nextToken = doc.querySelector("NextContinuationToken")?.textContent || "";
+
+        return { keys, isTruncated, nextToken };
+      }
+
+      async function listAllObjectsS3(bucketBaseUrl, maxKeys=1000) {
+        const base = normalizeBaseNoSlash(bucketBaseUrl);
+        let all = [];
+        let token = "";
+
+        for (let guard = 0; guard < 50; guard++) {
+          const qs = new URLSearchParams();
+          qs.set("list-type", "2");
+          qs.set("max-keys", String(maxKeys));
+          if (token) qs.set("continuation-token", token);
+
+          const url = `${base}?${qs.toString()}`;
+
+          const res = await fetch(url, { method: "GET", cache: "no-store" });
+          const text = await res.text();
+          if (!res.ok) {
+            throw new Error(`ListObjects failed: ${res.status} ${res.statusText}\n${text}`);
+          }
+
+          const { keys, isTruncated, nextToken } = parseS3ListXml(text);
+          all.push(...keys);
+
+          if (!isTruncated) break;
+          if (!nextToken) break;
+          token = nextToken;
+        }
+
+        return unique(all);
+      }
+
+      async function loadGalleryAuto() {
+        const statusEl = $("galleryStatus");
+        const grid = $("galleryGrid");
+
+        statusEl.textContent = "กำลังโหลด...";
+        grid.innerHTML = "";
+        $("preview").style.display = "none";
+
+        const bucketBase = normalizeBaseNoSlash($("galleryUrl").value);
+
+        try {
+          const keys = await listAllObjectsS3(bucketBase, 1000);
+          const imgs = keys.filter(isImageName);
+
+          if (!imgs.length) {
+            statusEl.textContent = "เจอ 0 รูป (อาจไม่มีไฟล์รูป หรือ list ถูกปิด)";
+            return;
+          }
+
+          statusEl.textContent = `พบ ${imgs.length} รูป`;
+
+          for (const key of imgs) {
+            const src = joinObjectUrl(bucketBase, key);
+
+            const box = document.createElement("div");
+            box.className = "thumb";
+            box.innerHTML = `
+              <img src="${src}" alt="${key}" loading="lazy" />
+              <div class="cap" title="${key}">${key}</div>
+            `;
+
+            box.addEventListener("click", () => {
+              $("preview").style.display = "block";
+              $("previewImg").src = src;
+              $("previewName").textContent = src;
+            });
+
+            box.querySelector("img").addEventListener("error", () => {
+              box.style.display = "none";
+            });
+
+            grid.appendChild(box);
+          }
+        } catch (e) {
+          console.error(e);
+          statusEl.textContent = `โหลดไม่สำเร็จ: ${String(e)}`;
+        }
+      }
+
+      $("btnLoad").addEventListener("click", loadDocs);
+      $("timeSort").addEventListener("change", loadDocs);
+
+      $("heatBucket").addEventListener("change", () => renderHeatmapFromDocs(window.__lastDocs || []));
+
+      $("btnGalleryReload").addEventListener("click", loadGalleryAuto);
+
+      function formatNowAsThaiZ(isEnd=false) {
+        const d = new Date();
+        const Y = d.getFullYear();
+        const MO = pad2(d.getMonth()+1);
+        const DA = pad2(d.getDate());
+        const H = pad2(d.getHours());
+        const MI = pad2(d.getMinutes());
+        const SE = pad2(d.getSeconds());
+        return `${Y}-${MO}-${DA}T${H}:${MI}:${SE}${isEnd ? ".999Z" : ".000Z"}`;
+      }
+
+      function setCurrentTime() {
+        document.getElementById("end").value = formatNowAsThaiZ(true);
+      }
+
+      setCurrentTime();
+      loadDocs();
+      loadGalleryAuto();
+    })();
     </script>
   </body>
 </html>
