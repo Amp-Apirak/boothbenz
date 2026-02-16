@@ -6,26 +6,15 @@
     <title>Event Management - Thonburi Phanich</title>
 
     <!-- Bootstrap 5 CSS -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
     <!-- Bootstrap Icons -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
-    />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" />
     <!-- Google Fonts -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <!-- Icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <!-- Date Range Picker CSS -->
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"
-    />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <!-- Custom CSS -->
     <link rel="stylesheet" href="assets/css/style.css" />
 
@@ -34,50 +23,7 @@
         background-color: #f4f7f9;
         font-family: "Prompt", sans-serif;
       }
-      .mgmt-section {
-        padding: 30px 0;
-      }
-      .table-card {
-        background: white;
-        border-radius: 12px;
-        padding: 20px;
-        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
-        border: none;
-      }
-      .user-face {
-        width: 45px;
-        height: 45px;
-        object-fit: cover;
-        border-radius: 50%;
-        border: 2px solid #fff;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      }
-      .db-selector-card {
-        background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
-        color: white;
-        border-radius: 12px;
-        padding: 15px 25px;
-        margin-bottom: 25px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-      }
-      .badge-type {
-        font-weight: 500;
-        padding: 0.5em 0.8em;
-        border-radius: 6px;
-        text-transform: capitalize;
-      }
-      .type-visitor {
-        background-color: #edf2f7;
-        color: #4a5568;
-      }
-      .type-customer {
-        background-color: #c6f6d5;
-        color: #22543d;
-      }
-      .type-employee {
-        background-color: #feebc8;
-        color: #7b341e;
-      }
+      .mgmt-section { padding: 30px 0; }
 
       .top-nav-bar {
         background: #000;
@@ -103,186 +49,250 @@
         font-weight: 600;
       }
 
-      /* UI Refinements */
-      .mgmt-control {
-        height: 38px;
-        display: flex;
-        align-items: center;
-        font-size: 0.85rem;
-        border-radius: 8px !important;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      /* ========= UI HEIGHT FIX ========= */
+      .mgmt-control{
+        height: 40px;
+        min-height: 40px;
+        display:flex;
+        align-items:center;
+        font-size:14px;
+        border-radius:8px !important;
+        box-sizing:border-box;
+        background:#fff;
       }
-      #reportrange {
+      #reportrange{
+        cursor:pointer;
+        height: 40px;
+        min-height: 40px;
+        padding: 0 15px;             /* ✅ ไม่ให้เตี้ย */
+        border: 1px solid #dee2e6;
+        min-width: 320px;
+        user-select:none;
+      }
+
+      /* ========= Styles from root index.html (layout, cards, heatmap, gallery) ========= */
+      body { margin: 16px; }
+
+      .layout { display:block; }
+      .main { width: 100%; }
+
+      .mainRow { display:flex; gap:12px; align-items:flex-start; }
+      .content { flex: 1 1 auto; min-width: 640px; }
+      .side {
+        width: 320px;
+        flex: 0 0 auto;
+        border: 1px solid #e5e5e5;
+        border-radius: 12px;
+        padding: 12px;
+        box-shadow: 0 2px 10px rgba(0,0,0,.04);
+        position: sticky;
+        top: 12px;
         background: #fff;
-        cursor: pointer;
-        padding: 5px 15px;
-        border: 1px solid #dee2e6;
-        min-width: 250px;
+        max-height: calc(100vh - 32px);
+        overflow: auto;
       }
-      #dbSelect {
-        max-width: 200px;
-        border: 1px solid #dee2e6;
-      }
-      #btnRefresh {
-        height: 38px;
-        width: 38px;
-        padding: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+
+      .bar { display:flex; flex-wrap:wrap; gap:8px; align-items:end; margin-bottom:16px; }
+      label { font-size: 12px; color:#444; display:block; margin-bottom:4px; }
+      input, select, button { padding:8px; border:1px solid #ccc; border-radius:8px; }
+      button { cursor:pointer; }
+
+      .bar input,
+      .bar select,
+      .bar button {
+        height: 40px;
+        min-height: 40px;
+        box-sizing: border-box;
+        font-size: 14px;
         border-radius: 8px;
       }
-    </style>
-    <!-- Styles from root index.html (layout, cards, heatmap, gallery) -->
-    <style>
-    body { font-family: system-ui, -apple-system, Segoe UI, Roboto; margin: 16px; }
+      .bar > div { display:flex; flex-direction:column; }
 
-    .layout { display:block; }
-    .main { width: 100%; }
+      .grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap:12px; }
+      .card { border:1px solid #e5e5e5; border-radius:12px; padding:12px; box-shadow: 0 2px 8px rgba(0,0,0,.04); background:#fff; }
+      .row { display:flex; gap:12px; }
+      .imgPair { display: flex; gap: 12px; align-items: stretch; }
 
-    .mainRow { display:flex; gap:12px; align-items:flex-start; }
-    .content { flex: 1 1 auto; min-width: 640px; }
-    .side {
-      width: 320px;
-      flex: 0 0 auto;
-      border: 1px solid #e5e5e5;
-      border-radius: 12px;
-      padding: 12px;
-      box-shadow: 0 2px 10px rgba(0,0,0,.04);
-      position: sticky;
-      top: 12px;
-      background: #fff;
-      max-height: calc(100vh - 32px);
-      overflow: auto;
-    }
+      .imgBoxFace {
+        width: 110px;
+        height: 110px;
+        border-radius: 12px;
+        overflow: hidden;
+        background: #f3f3f3;
+        flex: 0 0 auto;
+      }
+      .imgBoxFull {
+        flex: 1 1 auto;
+        height: 180px;
+        border-radius: 12px;
+        overflow: hidden;
+        background: #f3f3f3;
+      }
+      .imgBoxFace img,
+      .imgBoxFull img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
 
-    .bar { display:flex; flex-wrap:wrap; gap:8px; align-items:end; margin-bottom:16px; }
-    label { font-size: 12px; color:#444; display:block; margin-bottom:4px; }
-    input, select, button { padding:8px; border:1px solid #ccc; border-radius:8px; }
-    button { cursor:pointer; }
+      .meta { font-size:13px; color:#222; line-height:1.35; }
+      .muted { color:#666; font-size:12px; }
+      .actions { display:flex; gap:8px; align-items:center; margin-top:10px; }
 
-    .grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap:12px; }
-    .card { border:1px solid #e5e5e5; border-radius:12px; padding:12px; box-shadow: 0 2px 8px rgba(0,0,0,.04); background:#fff; }
-    .row { display:flex; gap:12px; }
-    .imgWrap { width:110px; height:110px; border-radius:12px; overflow:hidden; background:#f3f3f3; flex:0 0 auto; }
-    .imgWrap img { width:100%; height:100%; object-fit:cover; display:block; }
-    .meta { font-size:13px; color:#222; line-height:1.35; }
-    .muted { color:#666; font-size:12px; }
-    .actions { display:flex; gap:8px; align-items:center; margin-top:10px; }
-    .pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; border:1px solid #ddd; }
-    .pill.customer { background:#eef7ff; }
-    .pill.employee { background:#fff3e6; }
-    .error { color:#b00020; white-space:pre-wrap; }
+      .card .actions{
+        display:flex;
+        gap:8px;
+        width:100%;
+        margin-top:8px;
+        align-items:center;
+      }
+      .card .actions .typeSel{
+        flex:1;
+        height:34px;
+        font-size:13px;
+        padding:0 10px;
+        border-radius:8px;
+      }
+      .card .actions .btnSave{
+        height:34px;
+        padding:0 14px;
+        font-size:13px;
+        border-radius:8px;
+        background:#111;
+        color:#fff;
+        border:none;
+        white-space:nowrap;
+      }
+      .card .actions .msg{
+        flex:0 0 auto;
+        font-size:11px;
+      }
 
-    .side h3 { margin: 0 0 10px; font-size: 14px; }
-    .side .mini { font-size: 12px; color: #666; line-height: 1.35; margin-bottom: 10px; }
-    .galleryGrid {
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap:8px;
-      margin-top: 12px;
-    }
-    .thumb {
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      border-radius: 10px;
-      overflow:hidden;
-      background:#f3f3f3;
-      border: 1px solid #eee;
-      position: relative;
-      cursor: pointer;
-    }
-    .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
-    .thumb .cap {
-      position:absolute;
-      left:6px; right:6px; bottom:6px;
-      background: rgba(0,0,0,.55);
-      color:#fff;
-      font-size:10px;
-      padding:2px 6px;
-      border-radius:999px;
-      white-space: nowrap;
-      overflow:hidden;
-      text-overflow: ellipsis;
-    }
-    .preview {
-      margin-top: 12px;
-      border-top: 1px solid #eee;
-      padding-top: 12px;
-    }
-    .previewImgWrap {
-      width: 100%;
-      border-radius: 12px;
-      overflow:hidden;
-      background:#f3f3f3;
-      border: 1px solid #eee;
-    }
-    .previewImgWrap img { width:100%; height:auto; display:block; }
-    .preview .name { margin-top: 8px; font-size: 12px; color:#333; word-break: break-all; }
+      .pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; border:1px solid #ddd; }
+      .pill.customer { background:#eef7ff; }
+      .pill.employee { background:#fff3e6; }
+      .error { color:#b00020; white-space:pre-wrap; }
 
-    .tip {
-      margin-top: 10px;
-      padding: 8px 10px;
-      background: #fafafa;
-      border: 1px solid #eee;
-      border-radius: 10px;
-      font-size: 12px;
-      color: #444;
-      line-height: 1.4;
-    }
-    code { background: #f2f2f2; padding: 1px 4px; border-radius: 6px; }
+      .side h3 { margin: 0 0 10px; font-size: 14px; }
 
-    /* --- Heatmap --- */
-    .heatWrap { margin: 12px 0; }
-    .heatBar { display:flex; gap:10px; align-items:end; flex-wrap:wrap; margin-bottom:10px; }
-    .heatmap {
-      overflow:auto;
-      border:1px solid #eee;
-      border-radius:12px;
-      background:#fff;
-      padding:10px;
-    }
-    .heatGrid { display:grid; gap:4px; align-items:stretch; }
-    .heatHead {
-      position: sticky;
-      top: 0;
-      background: #fff;
-      z-index: 2;
-      padding-bottom: 6px;
-    }
-    .heatCell {
-      height: 26px;
-      border-radius: 8px;
-      border: 1px solid #f0f0f0;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size: 11px;
-      color:#222;
-      white-space: nowrap;
-      user-select:none;
-    }
-    .heatLabel {
-      justify-content:flex-start;
-      padding: 0 8px;
-      font-weight:600;
-      background:#fafafa;
-      border:1px solid #eee;
-    }
-    .heatTick {
-      background:#fafafa;
-      border:1px solid #eee;
-      font-size: 10px;
-      padding: 0 6px;
-    }
+      .gallery-actions{
+        display:flex;
+        gap:8px;
+        margin-top:10px;
+        width:100%;
+        align-items:center;
+      }
+      .gallery-btn{
+        height:30px;
+        font-size:12px;
+        padding:0 12px;
+        border-radius:8px;
+        border:1px solid #111;
+        background:#111;
+        color:#fff;
+        flex:1;
+        white-space:nowrap;
+      }
+      #galleryStatus{ flex:1; font-size:12px; }
+
+      .galleryGrid {
+        display:grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap:8px;
+        margin-top: 12px;
+      }
+      .thumb {
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        border-radius: 10px;
+        overflow:hidden;
+        background:#f3f3f3;
+        border: 1px solid #eee;
+        position: relative;
+        cursor: pointer;
+      }
+      .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+      .thumb .cap {
+        position:absolute;
+        left:6px; right:6px; bottom:6px;
+        background: rgba(0,0,0,.55);
+        color:#fff;
+        font-size:10px;
+        padding:2px 6px;
+        border-radius:999px;
+        white-space: nowrap;
+        overflow:hidden;
+        text-overflow: ellipsis;
+      }
+      .preview { margin-top: 12px; border-top: 1px solid #eee; padding-top: 12px; }
+      .previewImgWrap { width: 100%; border-radius: 12px; overflow:hidden; background:#f3f3f3; border: 1px solid #eee; }
+      .previewImgWrap img { width:100%; height:auto; display:block; }
+      .preview .name { margin-top: 8px; font-size: 12px; color:#333; word-break: break-all; }
+
+      .tip {
+        margin-top: 10px;
+        padding: 8px 10px;
+        background: #fafafa;
+        border: 1px solid #eee;
+        border-radius: 10px;
+        font-size: 12px;
+        color: #444;
+        line-height: 1.4;
+      }
+      code { background: #f2f2f2; padding: 1px 4px; border-radius: 6px; }
+
+      .heatWrap { margin: 12px 0; }
+      .heatBar { display:flex; gap:10px; align-items:end; flex-wrap:wrap; margin-bottom:10px; }
+      .heatmap {
+        overflow:auto;
+        border:1px solid #eee;
+        border-radius:12px;
+        background:#fff;
+        padding:10px;
+      }
+      .heatGrid { display:grid; gap:4px; align-items:stretch; }
+      .heatHead {
+        position: sticky;
+        top: 0;
+        background: #fff;
+        z-index: 2;
+        padding-bottom: 6px;
+      }
+      .heatCell {
+        height: 26px;
+        border-radius: 8px;
+        border: 1px solid #f0f0f0;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        font-size: 11px;
+        color:#222;
+        white-space: nowrap;
+        user-select:none;
+      }
+      .heatLabel {
+        justify-content:flex-start;
+        padding: 0 8px;
+        font-weight:600;
+        background:#fafafa;
+        border:1px solid #eee;
+      }
+      .heatTick {
+        background:#fafafa;
+        border:1px solid #eee;
+        font-size: 10px;
+        padding: 0 6px;
+      }
+
+      .clickableImg:hover { filter: brightness(0.98); transform: scale(1.01); transition: 0.12s; }
     </style>
   </head>
+
   <body>
     <!-- Global Navigation Bar -->
     <nav class="top-nav-bar">
-      <div
-        class="container-fluid px-4 d-flex justify-content-between align-items-center"
-      >
+      <div class="container-fluid px-4 d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center">
           <a href="#" id="btnHome" class="nav-link-custom">
             <i class="bi bi-house-fill me-1"></i> Home
@@ -310,41 +320,28 @@
 
           <div class="bar">
             <div>
-              <label>API_BASE</label>
+              <label>API BASE</label>
               <input id="apiBase" style="width:380px" value="https://edge-ai-mongo.k-lynx.com/benzEvents/api" />
             </div>
 
             <div>
-              <label>db</label>
+              <label>DB NAME</label>
               <select id="db">
-                <option value="db_MegaBangna_20260202">db_MegaBangna_20260202</option>
-                <option value="db_CentralEmbassy_20260203">db_CentralEmbassy_20260203</option>
-                <option value="db_CentralLadprao_20260212">db_CentralLadprao_20260212</option>
+                <option value="">กำลังโหลด...</option>
               </select>
             </div>
 
             <div>
-              <label>collection (Search)</label>
-              <input id="collection" value="users" />
+              <label>TIME PERIOD</label>
+              <div id="reportrange" class="mgmt-control">
+                <i class="bi bi-calendar-event me-2"></i>
+                <span>--</span>
+                <i class="bi bi-caret-down-fill ms-2"></i>
+              </div>
             </div>
 
             <div>
-              <label>col (Update)</label>
-              <input id="colUpdate" value="users" />
-            </div>
-
-            <div>
-              <label>start</label>
-              <input id="start" style="width:240px" value="2026-01-29T17:00:00.000Z" />
-            </div>
-
-            <div>
-              <label>end</label>
-              <input id="end" style="width:240px" />
-            </div>
-
-            <div>
-              <label>zone</label>
+              <label>ZONE</label>
               <select id="zone">
                 <option value="">ทั้งหมด</option>
                 <option value="1">1</option>
@@ -353,7 +350,7 @@
             </div>
 
             <div>
-              <label>gender</label>
+              <label>GENDER</label>
               <select id="gender">
                 <option value="">ทั้งหมด</option>
                 <option value="Man">Man</option>
@@ -362,7 +359,7 @@
             </div>
 
             <div>
-              <label>emotion</label>
+              <label>EMOTION</label>
               <select id="emotion">
                 <option value="">ทั้งหมด</option>
                 <option value="Happy">Happy</option>
@@ -373,16 +370,18 @@
             </div>
 
             <div>
-              <label>เรียงตาม time_obj</label>
+              <label>SORT BY TIME PEOPLE</label>
               <select id="timeSort">
-                <option value="-1" selected>มากสุด → น้อยสุด</option>
-                <option value="1">น้อยสุด → มากสุด</option>
+                <option value="-1" selected>Max → Min</option>
+                <option value="1">Min → Max</option>
               </select>
             </div>
 
             <div>
               <label>&nbsp;</label>
-              <button id="btnLoad">โหลดข้อมูล</button>
+              <button id="btnLoad" class="btn btn-success">
+                <i class="fa-solid fa-database me-1"></i>
+              </button>
             </div>
           </div>
 
@@ -410,24 +409,15 @@
             <div class="content">
               <div class="muted" id="status"></div>
               <div class="error" id="err"></div>
-
               <hr />
               <div class="grid" id="grid"></div>
             </div>
 
             <div class="side">
-              <h3>Face Gallery (MinIO / S3)</h3>
-              <div class="mini">
-                ดึงรายชื่อรูปจาก MinIO ด้วย <code>?list-type=2</code> (ไม่ใช้ directory listing แล้ว)
-              </div>
+              <h3>Face Gallery</h3>
 
-              <div>
-                <label>Bucket URL</label>
-                <input id="galleryUrl" style="width:100%" value="https://edge-ai-s3subevent.k-lynx.com/face" />
-              </div>
-
-              <div style="display:flex; gap:8px; margin-top:10px; align-items:center">
-                <button id="btnGalleryReload">โหลดรูปทั้งหมด</button>
+              <div class="gallery-actions">
+                <button id="btnGalleryReload" class="gallery-btn">โหลดรูปทั้งหมด</button>
                 <span class="muted" id="galleryStatus"></span>
               </div>
 
@@ -438,14 +428,14 @@
                 - ถ้า <code>AccessDenied</code> = policy / public ยังไม่เปิด
               </div>
 
-              <div class="galleryGrid" id="galleryGrid"></div>
-
               <div class="preview" id="preview" style="display:none">
                 <div class="previewImgWrap">
                   <img id="previewImg" src="" alt="preview"/>
                 </div>
                 <div class="name" id="previewName"></div>
               </div>
+
+              <div class="galleryGrid" id="galleryGrid"></div>
             </div>
           </div>
 
@@ -453,77 +443,25 @@
       </div>
     </div>
 
-    <!-- Edit Modal -->
-    <div class="modal fade" id="editTypeModal" tabindex="-1">
-      <div class="modal-dialog modal-dialog-centered">
+    <!-- Image Preview Modal -->
+    <div class="modal fade" id="imgPreviewModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content border-0 shadow-lg">
           <div class="modal-header bg-dark text-white">
-            <h5 class="modal-title fw-bold">
-              <i class="bi bi-pencil-square me-2 text-warning"></i>
-              แก้ไขข้อมูลผู้ใช้งาน
-            </h5>
-            <button
-              type="button"
-              class="btn-close btn-close-white"
-              data-bs-dismiss="modal"
-            ></button>
+            <h6 class="modal-title" id="imgPreviewTitle">Preview</h6>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
           </div>
-          <div class="modal-body p-4">
-            <input type="hidden" id="edit-doc-id" />
-            <div class="text-center mb-4">
-              <img
-                src=""
-                id="edit-face-img"
-                class="user-face mb-3"
-                style="width: 80px; height: 80px"
-              />
-              <h6 class="fw-bold mb-1" id="edit-uuid-text">UUID: ---</h6>
-              <span
-                class="badge bg-light text-dark border small"
-                id="edit-current-type"
-                >Current: ---</span
-              >
-            </div>
 
-            <label class="form-label fw-bold small"
-              >เลือกประเภทใหม่ (Type):</label
-            >
-            <select class="form-select mb-3" id="newTypeSelect">
-              <option value="visitor">Visitor (ผู้เยี่ยมชม)</option>
-              <option value="customer">Customer (ลูกค้า)</option>
-              <option value="employee">Employee (พนักงาน)</option>
-              <option value="string">String (ค่าปกติ)</option>
-            </select>
-
-            <label class="form-label fw-bold small"
-              >เลือกเพศใหม่ (Gender):</label
-            >
-            <select class="form-select" id="newGenderSelect">
-              <option value="man">Man (ชาย)</option>
-              <option value="woman">Woman (หญิง)</option>
-              <option value="none">None (ไม่ระบุ)</option>
-            </select>
-
-            <div class="alert alert-info mt-3 small py-2">
-              <i class="bi bi-info-circle-fill me-1"></i>
-              ข้อมูลจะถูกอัปเดตไปยังระบบวิเคราะห์ Dashboard ทันที
-            </div>
+          <div class="modal-body p-0 bg-black">
+            <img id="imgPreviewModalImg" src="" alt="preview"
+              style="width:100%; height:auto; display:block; max-height:85vh; object-fit:contain;" />
           </div>
-          <div class="modal-footer bg-light">
-            <button
-              type="button"
-              class="btn btn-light px-4"
-              data-bs-dismiss="modal"
-            >
-              ยกเลิก
-            </button>
-            <button type="button" class="btn btn-dark px-4" id="btnUpdateType">
-              <span
-                class="spinner-border spinner-border-sm d-none me-2"
-                id="updateSpinner"
-              ></span>
-              ยืนยันการบันทึก
-            </button>
+
+          <div class="modal-footer d-flex justify-content-between align-items-center">
+            <div class="small text-muted" id="imgPreviewMeta"></div>
+            <a class="btn btn-outline-dark btn-sm" id="imgPreviewOpenNew" href="#" target="_blank" rel="noopener">
+              เปิดแท็บใหม่
+            </a>
           </div>
         </div>
       </div>
@@ -536,572 +474,674 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <script src="assets/js/config.js"></script>
-    <script src="assets/js/api.js"></script>
-    <script src="assets/js/event_mgmt.js"></script>
-
     <script>
+      // clock ไทย
       function updateClock() {
         const now = new Date();
         const element = document.getElementById("current-time");
-        if (element) element.innerText = now.toLocaleTimeString("th-TH");
+        if (element) element.innerText = now.toLocaleTimeString("th-TH", { hour12: false });
       }
       setInterval(updateClock, 1000);
       updateClock();
     </script>
 
-    <!-- Inline script merged from root index.html (wrapped to avoid jQuery $ conflicts) -->
     <script>
-    (function(){
-      const $ = (id) => document.getElementById(id);
+      // ✅ Thai DateRange Picker state
+      moment.locale("th");
+      window.__rangeStart = null;
+      window.__rangeEnd = null;
 
-      window.__lastDocs = [];
+      $(function () {
+        function cb(start, end) {
+          window.__rangeStart = start.clone();
+          window.__rangeEnd = end.clone();
 
-      function normalizeBase(base) { return String(base || "").trim().replace(/\/+$/, ""); }
+          $("#reportrange span").text(
+            start.format("DD MMMM YYYY HH:mm") + " - " + end.format("DD MMMM YYYY HH:mm")
+          );
 
-      function buildQuery(params) {
-        const usp = new URLSearchParams();
-        for (const [k, v] of Object.entries(params)) {
-          if (v === undefined || v === null) continue;
-          if (typeof v === "string" && v.trim() === "") continue;
-          usp.set(k, String(v));
-        }
-        return usp.toString();
-      }
-
-      function pad2(n){ return String(n).padStart(2,"0"); }
-
-      function normalizeThaiZ(input, isEnd=false) {
-        let s = String(input || "").trim();
-        if (!s) return s;
-
-        if (s.includes(" ") && !s.includes("T")) s = s.replace(" ", "T");
-
-        if (s.endsWith("Z")) {
-          if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/.test(s)) {
-            s = s.replace(/Z$/, ".000Z");
+          // ✅ แจ้งให้ฝั่งโหลดข้อมูลรู้ว่า range พร้อมแล้ว
+          if (typeof window.__onRangeChanged === "function") {
+            window.__onRangeChanged();
           }
-          if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}Z$/.test(s)) {
-            s = s.replace(/Z$/, ":00.000Z");
+        }
+
+        // default: วันนี้ 00:00 ถึงตอนนี้
+        const start0 = moment().startOf("day");
+        const end0 = moment();
+
+        $("#reportrange").daterangepicker(
+          {
+            timePicker: true,
+            timePicker24Hour: true,
+            timePickerSeconds: false,
+            startDate: start0,
+            endDate: end0,
+            locale: {
+              format: "DD/MM/YYYY HH:mm",
+              applyLabel: "ตกลง",
+              cancelLabel: "ยกเลิก",
+              fromLabel: "จาก",
+              toLabel: "ถึง",
+              customRangeLabel: "กำหนดเอง",
+              weekLabel: "สัปดาห์",
+              daysOfWeek: moment.weekdaysMin(),
+              monthNames: moment.months(),
+              firstDay: 1,
+            },
+          },
+          cb
+        );
+
+        cb(start0, end0);
+      });
+    </script>
+
+    <script>
+      (function () {
+        const $ = (id) => document.getElementById(id);
+        window.__lastDocs = [];
+
+        function normalizeBase(base) { return String(base || "").trim().replace(/\/+$/, ""); }
+
+        function buildQuery(params) {
+          const usp = new URLSearchParams();
+          for (const [k, v] of Object.entries(params)) {
+            if (v === undefined || v === null) continue;
+            if (typeof v === "string" && v.trim() === "") continue;
+            usp.set(k, String(v));
           }
-          if (isEnd) s = s.replace(/\.000Z$/, ".999Z").replace(/\.([0-9]{3})Z$/, ".999Z");
-          return s;
+          return usp.toString();
         }
 
-        if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(s)) s += ":00";
-
-        if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$/.test(s)) {
-          return s + (isEnd ? ".999Z" : ".000Z");
+        async function apiGet(url) {
+          const res = await fetch(url, { method: "GET" });
+          const text = await res.text();
+          let data;
+          try { data = JSON.parse(text); } catch { data = { raw: text }; }
+          if (!res.ok) throw new Error(`GET ${url}\n${res.status} ${res.statusText}\n${text}`);
+          return data;
         }
 
-        return s;
-      }
-
-
-      function parseThaiZToMs(v) {
-        if (v == null) return null;
-        if (typeof v === "number" && Number.isFinite(v)) return v;
-        if (v instanceof Date) {
-          const ms = v.getTime();
-          return Number.isNaN(ms) ? null : ms;
-        }
-        if (typeof v !== "string") return null;
-
-        let s = v.trim();
-        if (!s) return null;
-
-        if (/^\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}/.test(s) && !s.includes("T")) {
-          s = s.replace(" ", "T");
+        async function apiPatch(url, bodyObj) {
+          const res = await fetch(url, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(bodyObj),
+          });
+          const text = await res.text();
+          let data;
+          try { data = JSON.parse(text); } catch { data = { raw: text }; }
+          if (!res.ok) throw new Error(`PATCH ${url}\n${res.status} ${res.statusText}\n${text}`);
+          return data;
         }
 
-        if (s.endsWith("Z")) s = s.slice(0, -1);
-
-        let msPart = 0;
-        const mMs = s.match(/^(.*)\.(\d{3})$/);
-        if (mMs) {
-          s = mMs[1];
-          msPart = Number(mMs[2]) || 0;
+        // ----------------- Range ready gate (กัน 422) -----------------
+        function rangeReady() {
+          return !!(window.__rangeStart && window.__rangeEnd);
         }
 
-        if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(s)) s += ":00";
-
-        const m = s.match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})$/);
-        if (!m) return null;
-
-        const Y  = Number(m[1]);
-        const MO = Number(m[2]) - 1;
-        const D  = Number(m[3]);
-        const H  = Number(m[4]);
-        const MI = Number(m[5]);
-        const SE = Number(m[6]);
-
-        const dt = new Date(Y, MO, D, H, MI, SE, msPart);
-        const out = dt.getTime();
-        return Number.isNaN(out) ? null : out;
-      }
-
-      function prettyTime(t) {
-        if (!t) return "-";
-        if (typeof t === "string") return t;
-        if (t.start && t.end) return `${t.start} → ${t.end}`;
-        return JSON.stringify(t);
-      }
-
-      async function apiGet(url) {
-        const res = await fetch(url, { method: "GET" });
-        const text = await res.text();
-        let data;
-        try { data = JSON.parse(text); } catch { data = { raw: text }; }
-        if (!res.ok) throw new Error(`GET ${url}\n${res.status} ${res.statusText}\n${text}`);
-        return data;
-      }
-
-      async function apiPatch(url, bodyObj) {
-        const res = await fetch(url, {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(bodyObj),
-        });
-        const text = await res.text();
-        let data;
-        try { data = JSON.parse(text); } catch { data = { raw: text }; }
-        if (!res.ok) throw new Error(`PATCH ${url}\n${res.status} ${res.statusText}\n${text}`);
-        return data;
-      }
-
-      function toSortKey(doc) {
-        const t = doc?.time_obj;
-
-        if (typeof t === "number" && Number.isFinite(t)) return t;
-
-        if (typeof t === "string") {
-          const s = t.trim();
-          if (/^\d+(\.\d+)?$/.test(s)) return Number(s);
-          const ms = parseThaiZToMs(s);
-          if (ms !== null) return ms;
+        function toLocalParam(m, isEnd=false){
+          if (!m) return "";
+          const s = m.clone().format("YYYY-MM-DD HH:mm:ss");
+          if (!isEnd) return s;
+          return s.replace(/:\d\d$/, ":59");
         }
 
-        const start = doc?.time?.start;
-        if (typeof start === "string") {
-          const ms2 = parseThaiZToMs(start);
-          if (ms2 !== null) return ms2;
-        }
+        let __autoLoadedOnce = false;
+        window.__onRangeChanged = async () => {
+          if (!rangeReady()) return;
+          if (!$("db") || !$("db").value) return;
 
-        return 0;
-      }
+          if (!__autoLoadedOnce) {
+            __autoLoadedOnce = true;
+            await loadDocs();
+          }
+        };
 
-      function sortDocsByTimeObj(docs, dir) {
-        const d = Number(dir) === 1 ? 1 : -1;
-        return docs.slice().sort((a, b) => (toSortKey(a) - toSortKey(b)) * d);
-      }
+        // ----------------- DB OPTIONS (value=database_name, label=database_label) -----------------
+        async function loadDbOptions() {
+          const sel = $("db");
+          sel.innerHTML = `<option value="">กำลังโหลด...</option>`;
 
-      function renderCard(doc, ctx) {
-        const faceUrl = doc?.images?.face || "";
-        const currentType = (doc?.type || "").toLowerCase();
-        const safeType = currentType === "employee" ? "employee" : "customer";
-        const pillClass = safeType;
+          const apiBase = normalizeBase($("apiBase").value);
 
-        const el = document.createElement("div");
-        el.className = "card";
+          // ถ้าเป็น https ห้ามยิง http LAN (โดน browser บล็อก)
+          const httpsInfoUrl = apiBase + "/benzInfoGet?" + buildQuery({
+            skip: 0,
+            sort_field: "_id",
+            sort_dir: -1
+          });
 
-        el.innerHTML = `
-          <div class="row">
-            <div class="imgWrap">
-              ${faceUrl ? `<img src="${faceUrl}" alt="face" />` : ``}
-            </div>
-            <div class="meta">
-              <div>
-                <span class="pill ${pillClass}">type: <b>${safeType}</b></span>
-              </div>
-              <div><b>${doc.gender ?? "-"}</b> อายุ <b>${doc.age ?? "-"}</b> | emotion: <b>${doc.emotion ?? "-"}</b></div>
-              <div class="muted">zone: ${doc.zone ?? "-"} | time_obj: ${doc.time_obj ?? "-"}</div>
-              <div class="muted">เวลา: ${prettyTime(doc.time)}</div>
-              <div class="muted">_id: ${doc._id ?? "-"}</div>
-            </div>
-          </div>
-
-          <div class="actions">
-            <select class="typeSel">
-              <option value="customer" ${safeType==="customer" ? "selected": ""}>customer</option>
-              <option value="employee" ${safeType==="employee" ? "selected": ""}>employee</option>
-            </select>
-            <button class="btnSave">บันทึก</button>
-            <span class="muted msg"></span>
-          </div>
-        `;
-
-        const sel = el.querySelector(".typeSel");
-        const btn = el.querySelector(".btnSave");
-        const msg = el.querySelector(".msg");
-
-        btn.addEventListener("click", async () => {
-          msg.textContent = "กำลังอัปเดต...";
-          btn.disabled = true;
-
-          const newType = sel.value;
-
-          const patchUrl = normalizeBase(ctx.apiBase) + `/BenzEventUpdate/${encodeURIComponent(doc._id)}/type` +
-            `?${buildQuery({ db: ctx.db, col: ctx.colUpdate })}`;
+          const lanInfoUrl = "https://edge-ai-mongo.k-lynx.com/benzEvents/api/benzInfoGet?skip=0&sort_field=_id&sort_dir=-1";
+          const infoUrl = (location.protocol === "https:") ? httpsInfoUrl : lanInfoUrl;
 
           try {
-            const out = await apiPatch(patchUrl, { type: newType });
-            const updatedType = (out?.doc?.type || newType).toLowerCase();
-            const finalType = updatedType === "employee" ? "employee" : "customer";
+            const data = await apiGet(infoUrl);
+            const docs = Array.isArray(data?.docs) ? data.docs : [];
 
-            msg.textContent = `อัปเดตแล้ว → ${finalType}`;
-            const pill = el.querySelector(".pill");
-            pill.classList.toggle("employee", finalType === "employee");
-            pill.classList.toggle("customer", finalType !== "employee");
-            pill.innerHTML = `type: <b>${finalType}</b>`;
+            const items = docs
+              .map(d => ({
+                value: String(d?.database_name || "").trim(),
+                label: String(d?.database_label || d?.database_name || "").trim(),
+              }))
+              .filter(x => x.value);
+
+            if (!items.length) {
+              sel.innerHTML = `<option value="">ไม่พบ DB</option>`;
+              return;
+            }
+
+            const uniq = new Map();
+            for (const it of items) if (!uniq.has(it.value)) uniq.set(it.value, it);
+            const finalList = Array.from(uniq.values()).sort((a,b)=>a.label.localeCompare(b.label,"th"));
+
+            sel.innerHTML = finalList.map(it => `<option value="${it.value}">${it.label}</option>`).join("");
+            sel.value = finalList[0].value;
+
           } catch (e) {
-            msg.textContent = "อัปเดตไม่สำเร็จ";
-            alert(String(e));
-          } finally {
-            btn.disabled = false;
-          }
-        });
-
-        return el;
-      }
-
-      // Heatmap constants and functions
-      const HEAT_START_MIN = 10 * 60; // 10:00
-      const HEAT_END_MIN   = 21 * 60; // 21:00
-
-      function fmtBucketFromMin(minOfDay) {
-        const h = Math.floor(minOfDay / 60);
-        const m = minOfDay % 60;
-        return `${pad2(h)}:${pad2(m)}`;
-      }
-
-      function parseDocMinOfDay(doc) {
-        const ms = parseThaiZToMs(doc?.time?.start);
-        if (ms == null) return null;
-        const d = new Date(ms);
-        return d.getHours() * 60 + d.getMinutes();
-      }
-
-      function floorToBucketMin(minOfDay, bucketMin) {
-        return Math.floor(minOfDay / bucketMin) * bucketMin;
-      }
-
-      function buildHeatmapMatrix(docs, bucketMin) {
-        const zones = Array.from(new Set(docs.map(d => d?.zone).filter(z => z !== undefined && z !== null)))
-          .map(z => Number(z))
-          .filter(n => Number.isFinite(n))
-          .sort((a,b)=>a-b);
-
-        const buckets = [];
-        for (let m = HEAT_START_MIN; m <= HEAT_END_MIN; m += bucketMin) buckets.push(m);
-
-        if (!zones.length || !buckets.length) return { zones, buckets, mat: [], max: 0 };
-
-        const zIndex = new Map(zones.map((z,i)=>[z,i]));
-        const bIndex = new Map(buckets.map((m,i)=>[m,i]));
-        const mat = Array.from({length: zones.length}, () => Array.from({length: buckets.length}, () => 0));
-
-        for (const d of docs) {
-          const z = Number(d?.zone);
-          if (!zIndex.has(z)) continue;
-
-          const minOfDay = parseDocMinOfDay(d);
-          if (minOfDay == null) continue;
-
-          if (minOfDay < HEAT_START_MIN || minOfDay > HEAT_END_MIN) continue;
-
-          const bm = floorToBucketMin(minOfDay, bucketMin);
-          if (!bIndex.has(bm)) continue;
-
-          mat[zIndex.get(z)][bIndex.get(bm)] += 1;
-        }
-
-        let max = 0;
-        for (const row of mat) for (const v of row) if (v > max) max = v;
-
-        return { zones, buckets, mat, max };
-      }
-
-      function heatColor(value, max) {
-        if (!max || value <= 0) return "rgba(0,0,0,0.02)";
-
-        let t = value / max;
-        if (t < 0) t = 0;
-        if (t > 1) t = 1;
-
-        t = Math.pow(t, 0.85);
-
-        const stops = [
-          { p: 0.00, r:  20, g:  30, b: 120 },
-          { p: 0.25, r:   0, g: 140, b: 255 },
-          { p: 0.50, r:   0, g: 220, b: 120 },
-          { p: 0.75, r: 255, g: 210, b:   0 },
-          { p: 1.00, r: 255, g:  60, b:   0 },
-        ];
-
-        let a = stops[0], c = stops[stops.length - 1];
-        for (let i = 0; i < stops.length - 1; i++) {
-          const s1 = stops[i], s2 = stops[i + 1];
-          if (t >= s1.p && t <= s2.p) { a = s1; c = s2; break; }
-        }
-
-        const u = (t - a.p) / Math.max(1e-9, (c.p - a.p));
-        const r = Math.round(a.r + (c.r - a.r) * u);
-        const g = Math.round(a.g + (c.g - a.g) * u);
-        const b = Math.round(a.b + (c.b - a.b) * u);
-
-        const alpha = 0.20 + 0.80 * t;
-
-        return `rgba(${r},${g},${b},${alpha})`;
-      }
-
-      function renderHeatmapFromDocs(docs) {
-        const bucketMin = Number($("heatBucket").value) || 15;
-        const out = buildHeatmapMatrix(docs, bucketMin);
-
-        const host = $("heatmap");
-        host.innerHTML = "";
-
-        if (!out.zones.length || !out.buckets.length) {
-          $("heatStatus").textContent = "ไม่มีข้อมูลพอสำหรับ heatmap (อาจไม่มี zone หรือเวลา)";
-          return;
-        }
-
-        $("heatStatus").textContent =
-          `ช่วง ${fmtBucketFromMin(HEAT_START_MIN)}-${fmtBucketFromMin(HEAT_END_MIN)} | zones ${out.zones.length} × time ${out.buckets.length} | max=${out.max}`;
-
-        const grid = document.createElement("div");
-        grid.className = "heatGrid";
-        grid.style.gridTemplateColumns = `140px repeat(${out.buckets.length}, 52px)`;
-        grid.style.gridTemplateRows = `30px repeat(${out.zones.length}, 30px)`;
-
-        const corner = document.createElement("div");
-        corner.className = "heatCell heatLabel heatHead";
-        corner.textContent = "zone \\ time";
-        grid.appendChild(corner);
-
-        for (const m of out.buckets) {
-          const h = document.createElement("div");
-          h.className = "heatCell heatTick heatHead";
-          h.textContent = fmtBucketFromMin(m);
-          h.title = fmtBucketFromMin(m);
-          grid.appendChild(h);
-        }
-
-        for (let zi = 0; zi < out.zones.length; zi++) {
-          const z = out.zones[zi];
-
-          const zl = document.createElement("div");
-          zl.className = "heatCell heatLabel";
-          zl.textContent = `zone ${z}`;
-          grid.appendChild(zl);
-
-          for (let bi = 0; bi < out.buckets.length; bi++) {
-            const v = out.mat[zi][bi];
-            const c = document.createElement("div");
-            c.className = "heatCell";
-            c.style.background = heatColor(v, out.max);
-            c.textContent = v ? String(v) : "";
-            c.title = `zone ${z}\n${fmtBucketFromMin(out.buckets[bi])}\ncount=${v}`;
-            grid.appendChild(c);
+            console.error(e);
+            if (location.protocol === "https:" && String(e).includes("Failed to fetch")) {
+              sel.innerHTML = `<option value="">โหลด DB ไม่สำเร็จ (หน้าเว็บเป็น https แต่ benzInfoGet เป็น http → ต้องทำ https/proxy)</option>`;
+            } else {
+              sel.innerHTML = `<option value="">โหลด DB ไม่สำเร็จ</option>`;
+            }
           }
         }
 
-        host.appendChild(grid);
-      }
+        // ----------------- Sorting by time -----------------
+        function parseThaiZToMs(v) {
+          if (v == null) return null;
+          if (typeof v === "number" && Number.isFinite(v)) return v;
+          if (v instanceof Date) { const ms = v.getTime(); return Number.isNaN(ms) ? null : ms; }
+          if (typeof v !== "string") return null;
 
-      async function loadDocs() {
-        $("err").textContent = "";
-        $("grid").innerHTML = "";
-        $("status").textContent = "กำลังโหลด...";
+          let s = v.trim();
+          if (!s) return null;
+          if (/^\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}/.test(s) && !s.includes("T")) s = s.replace(" ", "T");
+          if (s.endsWith("Z")) s = s.slice(0, -1);
 
-        const apiBase = normalizeBase($("apiBase").value);
-        const db = $("db").value.trim();
-        const collection = $("collection").value.trim();
-        const colUpdate = $("colUpdate").value.trim();
+          let msPart = 0;
+          const mMs = s.match(/^(.*)\.(\d{3})$/);
+          if (mMs) { s = mMs[1]; msPart = Number(mMs[2]) || 0; }
+          if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(s)) s += ":00";
 
-        const start = normalizeThaiZ($("start").value, false);
-        const end   = normalizeThaiZ($("end").value, true);
+          const m = s.match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})$/);
+          if (!m) return null;
 
-        const zone = $("zone").value.trim();
-        const gender = $("gender").value.trim();
-        const emotion = $("emotion").value.trim();
-
-        const timeSort = Number($("timeSort").value);
-
-        const searchUrl = apiBase + "/BenzEventSearch?" + buildQuery({
-          db,
-          collection,
-          start,
-          end,
-          zone: zone ? Number(zone) : "",
-          gender,
-          emotion,
-          limit: 500,
-          skip: 0,
-          sort: timeSort
-        });
-
-        try {
-          const data = await apiGet(searchUrl);
-          const docsRaw = data?.docs ?? [];
-          const docs = sortDocsByTimeObj(docsRaw, timeSort);
-
-          window.__lastDocs = docs;
-
-          $("status").textContent = `พบ ${docs.length} รายการ`;
-
-          renderHeatmapFromDocs(docs);
-
-          const ctx = { apiBase, db, collection, colUpdate };
-          for (const d of docs) $("grid").appendChild(renderCard(d, ctx));
-        } catch (e) {
-          $("status").textContent = "";
-          $("err").textContent = String(e);
-          window.__lastDocs = [];
-          renderHeatmapFromDocs([]);
-        }
-      }
-
-      // MinIO / S3 Face Gallery utilities
-      function isImageName(name) {
-        const s = String(name || "").toLowerCase();
-        return s.endsWith(".jpg") || s.endsWith(".jpeg") || s.endsWith(".png") || s.endsWith(".webp") || s.endsWith(".gif");
-      }
-
-      function unique(arr) { return Array.from(new Set(arr)); }
-
-      function normalizeBaseNoSlash(base) { return String(base || "").trim().replace(/\/+$/, ""); }
-
-      function joinObjectUrl(bucketBaseUrl, key) {
-        const b = normalizeBaseNoSlash(bucketBaseUrl);
-        const parts = String(key || "").split("/").filter(Boolean);
-        const enc = parts.map(p => encodeURIComponent(p));
-        return b + "/" + enc.join("/");
-      }
-
-      function parseS3ListXml(xmlText) {
-        const xml = String(xmlText || "");
-        const doc = new DOMParser().parseFromString(xml, "application/xml");
-
-        const errMsg = doc.querySelector("Error > Message")?.textContent;
-        const errCode = doc.querySelector("Error > Code")?.textContent;
-        if (errMsg || errCode) {
-          throw new Error(`S3 Error: ${errCode || "Error"} ${errMsg || ""}`.trim());
+          const dt = new Date(
+            Number(m[1]), Number(m[2]) - 1, Number(m[3]),
+            Number(m[4]), Number(m[5]), Number(m[6]), msPart
+          );
+          const out = dt.getTime();
+          return Number.isNaN(out) ? null : out;
         }
 
-        const keys = Array.from(doc.querySelectorAll("Contents > Key")).map(n => n.textContent || "");
+        function toSortKey(doc) {
+          const t = doc?.time_obj;
+          if (typeof t === "number" && Number.isFinite(t)) return t;
 
-        const isTruncated = (doc.querySelector("IsTruncated")?.textContent || "").toLowerCase() === "true";
-        const nextToken = doc.querySelector("NextContinuationToken")?.textContent || "";
+          const start = doc?.time?.start;
+          if (typeof start === "string") {
+            const ms2 = parseThaiZToMs(start);
+            if (ms2 !== null) return ms2;
+          }
+          return 0;
+        }
 
-        return { keys, isTruncated, nextToken };
-      }
+        function sortDocsByTimeObj(docs, dir) {
+          const d = Number(dir) === 1 ? 1 : -1;
+          return docs.slice().sort((a, b) => (toSortKey(a) - toSortKey(b)) * d);
+        }
 
-      async function listAllObjectsS3(bucketBaseUrl, maxKeys=1000) {
-        const base = normalizeBaseNoSlash(bucketBaseUrl);
-        let all = [];
-        let token = "";
+        function prettyTime(t) {
+          if (!t) return "-";
+          if (typeof t === "string") return t;
+          if (t.start && t.end) return `${t.start} → ${t.end}`;
+          return JSON.stringify(t);
+        }
 
-        for (let guard = 0; guard < 50; guard++) {
-          const qs = new URLSearchParams();
-          qs.set("list-type", "2");
-          qs.set("max-keys", String(maxKeys));
-          if (token) qs.set("continuation-token", token);
+        // ----------------- Card render -----------------
+        function renderCard(doc, ctx) {
+          const faceUrl = doc?.images?.face || "";
+          const origFullUrl = doc?.images?.full || "";
 
-          const url = `${base}?${qs.toString()}`;
+          let fullUrl = origFullUrl;
+          if (fullUrl.includes("scene_image_1_")) fullUrl = fullUrl.replace("scene_image_1_", "scene_image_5_");
 
-          const res = await fetch(url, { method: "GET", cache: "no-store" });
-          const text = await res.text();
-          if (!res.ok) {
-            throw new Error(`ListObjects failed: ${res.status} ${res.statusText}\n${text}`);
+          const currentType = (doc?.type || "").toLowerCase();
+          const safeType = currentType === "employee" ? "employee" : "customer";
+          const pillClass = safeType;
+
+          const el = document.createElement("div");
+          el.className = "card";
+
+          el.innerHTML = `
+            <div class="row">
+              <div class="imgPair">
+                <div class="imgBoxFace">
+                  ${faceUrl ? `<img class="clickableImg" data-kind="face" src="${faceUrl}" alt="face" />` : ``}
+                </div>
+                <div class="imgBoxFull">
+                  ${fullUrl ? `<img class="clickableImg" data-kind="full" data-fallback="${origFullUrl}" src="${fullUrl}" alt="full" />` : ``}
+                </div>
+              </div>
+
+              <div class="meta">
+                <div><span class="pill ${pillClass}">type: <b>${safeType}</b></span></div>
+                <div><b>${doc.gender ?? "-"}</b> อายุ <b>${doc.age ?? "-"}</b> | emotion: <b>${doc.emotion ?? "-"}</b></div>
+                <div class="muted">zone: ${doc.zone ?? "-"} | time_obj: ${doc.time_obj ?? "-"}</div>
+                <div class="muted">เวลา: ${prettyTime(doc.time)}</div>
+                <div class="muted">_id: ${doc._id ?? "-"}</div>
+              </div>
+            </div>
+
+            <div class="actions">
+              <select class="typeSel">
+                <option value="customer" ${safeType==="customer" ? "selected": ""}>customer</option>
+                <option value="employee" ${safeType==="employee" ? "selected": ""}>employee</option>
+              </select>
+              <button class="btnSave">save</button>
+              <span class="muted msg"></span>
+            </div>
+          `;
+
+          el.querySelectorAll(".clickableImg").forEach((img) => {
+            img.style.cursor = "zoom-in";
+            img.addEventListener("click", () => {
+              const kind = img.dataset.kind || "img";
+              const src = img.currentSrc || img.src;
+
+              const title = kind === "face" ? "Face" : "Full";
+              const meta =
+                `zone: ${doc.zone ?? "-"} | gender: ${doc.gender ?? "-"} | age: ${doc.age ?? "-"} | emotion: ${doc.emotion ?? "-"} | _id: ${doc._id ?? "-"}`;
+
+              openImgModal({ src, title, meta });
+            });
+          });
+
+          el.querySelectorAll('img[data-kind="full"]').forEach((img) => {
+            img.addEventListener("error", () => {
+              const fb = img.getAttribute("data-fallback") || "";
+              if (!fb) return;
+              if (img.src !== fb) img.src = fb;
+            });
+          });
+
+          const sel = el.querySelector(".typeSel");
+          const btn = el.querySelector(".btnSave");
+          const msg = el.querySelector(".msg");
+
+          btn.addEventListener("click", async () => {
+            msg.textContent = "กำลังอัปเดต...";
+            btn.disabled = true;
+
+            const newType = sel.value;
+            const patchUrl =
+              normalizeBase(ctx.apiBase) + `/BenzEventUpdate/${encodeURIComponent(doc._id)}/type` +
+              `?${buildQuery({ db: ctx.db, col: ctx.colUpdate })}`;
+
+            try {
+              const out = await apiPatch(patchUrl, { type: newType });
+              const updatedType = (out?.doc?.type || newType).toLowerCase();
+              const finalType = updatedType === "employee" ? "employee" : "customer";
+
+              msg.textContent = `อัปเดตแล้ว → ${finalType}`;
+              const pill = el.querySelector(".pill");
+              pill.classList.toggle("employee", finalType === "employee");
+              pill.classList.toggle("customer", finalType !== "employee");
+              pill.innerHTML = `type: <b>${finalType}</b>`;
+            } catch (e) {
+              msg.textContent = "อัปเดตไม่สำเร็จ";
+              alert(String(e));
+            } finally {
+              btn.disabled = false;
+            }
+          });
+
+          return el;
+        }
+
+        // ----------------- Heatmap -----------------
+        const HEAT_START_MIN = 10 * 60; // 10:00
+        const HEAT_END_MIN   = 21 * 60; // 21:00
+
+        function pad2(n){ return String(n).padStart(2,"0"); }
+        function fmtBucketFromMin(minOfDay) {
+          const h = Math.floor(minOfDay / 60);
+          const m = minOfDay % 60;
+          return `${pad2(h)}:${pad2(m)}`;
+        }
+
+        function parseDocMinOfDay(doc) {
+          const ms = parseThaiZToMs(doc?.time?.start);
+          if (ms == null) return null;
+          const d = new Date(ms);
+          return d.getHours() * 60 + d.getMinutes();
+        }
+
+        function floorToBucketMin(minOfDay, bucketMin) {
+          return Math.floor(minOfDay / bucketMin) * bucketMin;
+        }
+
+        function buildHeatmapMatrix(docs, bucketMin) {
+          const zones = Array.from(new Set(docs.map(d => d?.zone).filter(z => z !== undefined && z !== null)))
+            .map(z => Number(z))
+            .filter(n => Number.isFinite(n))
+            .sort((a,b)=>a-b);
+
+          const buckets = [];
+          for (let m = HEAT_START_MIN; m <= HEAT_END_MIN; m += bucketMin) buckets.push(m);
+
+          if (!zones.length || !buckets.length) return { zones, buckets, mat: [], max: 0 };
+
+          const zIndex = new Map(zones.map((z,i)=>[z,i]));
+          const bIndex = new Map(buckets.map((m,i)=>[m,i]));
+          const mat = Array.from({length: zones.length}, () => Array.from({length: buckets.length}, () => 0));
+
+          for (const d of docs) {
+            const z = Number(d?.zone);
+            if (!zIndex.has(z)) continue;
+
+            const minOfDay = parseDocMinOfDay(d);
+            if (minOfDay == null) continue;
+
+            if (minOfDay < HEAT_START_MIN || minOfDay > HEAT_END_MIN) continue;
+
+            const bm = floorToBucketMin(minOfDay, bucketMin);
+            if (!bIndex.has(bm)) continue;
+
+            mat[zIndex.get(z)][bIndex.get(bm)] += 1;
           }
 
-          const { keys, isTruncated, nextToken } = parseS3ListXml(text);
-          all.push(...keys);
-
-          if (!isTruncated) break;
-          if (!nextToken) break;
-          token = nextToken;
+          let max = 0;
+          for (const row of mat) for (const v of row) if (v > max) max = v;
+          return { zones, buckets, mat, max };
         }
 
-        return unique(all);
-      }
+        function heatColor(value, max) {
+          if (!max || value <= 0) return "rgba(0,0,0,0.02)";
+          let t = value / max;
+          if (t < 0) t = 0;
+          if (t > 1) t = 1;
+          t = Math.pow(t, 0.85);
 
-      async function loadGalleryAuto() {
-        const statusEl = $("galleryStatus");
-        const grid = $("galleryGrid");
+          const stops = [
+            { p: 0.00, r:  20, g:  30, b: 120 },
+            { p: 0.25, r:   0, g: 140, b: 255 },
+            { p: 0.50, r:   0, g: 220, b: 120 },
+            { p: 0.75, r: 255, g: 210, b:   0 },
+            { p: 1.00, r: 255, g:  60, b:   0 },
+          ];
 
-        statusEl.textContent = "กำลังโหลด...";
-        grid.innerHTML = "";
-        $("preview").style.display = "none";
+          let a = stops[0], c = stops[stops.length - 1];
+          for (let i = 0; i < stops.length - 1; i++) {
+            const s1 = stops[i], s2 = stops[i + 1];
+            if (t >= s1.p && t <= s2.p) { a = s1; c = s2; break; }
+          }
 
-        const bucketBase = normalizeBaseNoSlash($("galleryUrl").value);
+          const u = (t - a.p) / Math.max(1e-9, (c.p - a.p));
+          const r = Math.round(a.r + (c.r - a.r) * u);
+          const g = Math.round(a.g + (c.g - a.g) * u);
+          const b = Math.round(a.b + (c.b - a.b) * u);
 
-        try {
-          const keys = await listAllObjectsS3(bucketBase, 1000);
-          const imgs = keys.filter(isImageName);
+          const alpha = 0.20 + 0.80 * t;
+          return `rgba(${r},${g},${b},${alpha})`;
+        }
 
-          if (!imgs.length) {
-            statusEl.textContent = "เจอ 0 รูป (อาจไม่มีไฟล์รูป หรือ list ถูกปิด)";
+        function renderHeatmapFromDocs(docs) {
+          const bucketMin = Number($("heatBucket").value) || 15;
+          const out = buildHeatmapMatrix(docs, bucketMin);
+
+          const host = $("heatmap");
+          host.innerHTML = "";
+
+          if (!out.zones.length || !out.buckets.length) {
+            $("heatStatus").textContent = "ไม่มีข้อมูลพอสำหรับ heatmap (อาจไม่มี zone หรือเวลา)";
             return;
           }
 
-          statusEl.textContent = `พบ ${imgs.length} รูป`;
+          $("heatStatus").textContent =
+            `ช่วง ${fmtBucketFromMin(HEAT_START_MIN)}-${fmtBucketFromMin(HEAT_END_MIN)} | zones ${out.zones.length} × time ${out.buckets.length} | max=${out.max}`;
 
-          for (const key of imgs) {
-            const src = joinObjectUrl(bucketBase, key);
+          const grid = document.createElement("div");
+          grid.className = "heatGrid";
+          grid.style.gridTemplateColumns = `140px repeat(${out.buckets.length}, 52px)`;
+          grid.style.gridTemplateRows = `30px repeat(${out.zones.length}, 30px)`;
 
-            const box = document.createElement("div");
-            box.className = "thumb";
-            box.innerHTML = `
-              <img src="${src}" alt="${key}" loading="lazy" />
-              <div class="cap" title="${key}">${key}</div>
-            `;
+          const corner = document.createElement("div");
+          corner.className = "heatCell heatLabel heatHead";
+          corner.textContent = "zone \\ time";
+          grid.appendChild(corner);
 
-            box.addEventListener("click", () => {
-              $("preview").style.display = "block";
-              $("previewImg").src = src;
-              $("previewName").textContent = src;
-            });
-
-            box.querySelector("img").addEventListener("error", () => {
-              box.style.display = "none";
-            });
-
-            grid.appendChild(box);
+          for (const m of out.buckets) {
+            const h = document.createElement("div");
+            h.className = "heatCell heatTick heatHead";
+            h.textContent = fmtBucketFromMin(m);
+            h.title = fmtBucketFromMin(m);
+            grid.appendChild(h);
           }
-        } catch (e) {
-          console.error(e);
-          statusEl.textContent = `โหลดไม่สำเร็จ: ${String(e)}`;
+
+          for (let zi = 0; zi < out.zones.length; zi++) {
+            const z = out.zones[zi];
+
+            const zl = document.createElement("div");
+            zl.className = "heatCell heatLabel";
+            zl.textContent = `zone ${z}`;
+            grid.appendChild(zl);
+
+            for (let bi = 0; bi < out.buckets.length; bi++) {
+              const v = out.mat[zi][bi];
+              const c = document.createElement("div");
+              c.className = "heatCell";
+              c.style.background = heatColor(v, out.max);
+              c.textContent = v ? String(v) : "";
+              c.title = `zone ${z}\n${fmtBucketFromMin(out.buckets[bi])}\ncount=${v}`;
+              grid.appendChild(c);
+            }
+          }
+
+          host.appendChild(grid);
         }
+
+        // ----------------- loadDocs -----------------
+        async function loadDocs() {
+          $("err").textContent = "";
+          $("grid").innerHTML = "";
+
+          if (!rangeReady()) {
+            $("status").textContent = "กำลังตั้งค่าช่วงเวลา...";
+            return;
+          }
+
+          const apiBase = normalizeBase($("apiBase").value);
+          const db = $("db").value.trim();
+          const collection = "users";
+          const colUpdate = "users";
+
+          const start = toLocalParam(window.__rangeStart, false);
+          const end   = toLocalParam(window.__rangeEnd, true);
+
+          const zone = $("zone").value.trim();
+          const gender = $("gender").value.trim();
+          const emotion = $("emotion").value.trim();
+          const timeSort = Number($("timeSort").value);
+
+          $("status").textContent = "กำลังโหลด...";
+
+          const searchUrl = apiBase + "/BenzEventSearch?" + buildQuery({
+            db,
+            collection,
+            start,
+            end,
+            zone: zone ? Number(zone) : "",
+            gender,
+            emotion,
+            limit: 500,
+            skip: 0,
+            sort: timeSort,
+          });
+
+          try {
+            const data = await apiGet(searchUrl);
+            const docsRaw = data?.docs ?? [];
+            const docs = sortDocsByTimeObj(docsRaw, timeSort);
+
+            window.__lastDocs = docs;
+            $("status").textContent = `พบ ${docs.length} รายการ`;
+
+            renderHeatmapFromDocs(docs);
+
+            const ctx = { apiBase, db, collection, colUpdate };
+            for (const d of docs) $("grid").appendChild(renderCard(d, ctx));
+          } catch (e) {
+            $("status").textContent = "";
+            $("err").textContent = String(e);
+            window.__lastDocs = [];
+            renderHeatmapFromDocs([]);
+          }
+        }
+
+        // ----------------- Gallery -----------------
+        function isImageName(name) {
+          const s = String(name || "").toLowerCase();
+          return s.endsWith(".jpg") || s.endsWith(".jpeg") || s.endsWith(".png") || s.endsWith(".webp") || s.endsWith(".gif");
+        }
+        function unique(arr) { return Array.from(new Set(arr)); }
+        function normalizeBaseNoSlash(base) { return String(base || "").trim().replace(/\/+$/, ""); }
+
+        function joinObjectUrl(bucketBaseUrl, key) {
+          const b = normalizeBaseNoSlash(bucketBaseUrl);
+          const parts = String(key || "").split("/").filter(Boolean);
+          const enc = parts.map(p => encodeURIComponent(p));
+          return b + "/" + enc.join("/");
+        }
+
+        function parseS3ListXml(xmlText) {
+          const xml = String(xmlText || "");
+          const doc = new DOMParser().parseFromString(xml, "application/xml");
+
+          const errMsg = doc.querySelector("Error > Message")?.textContent;
+          const errCode = doc.querySelector("Error > Code")?.textContent;
+          if (errMsg || errCode) throw new Error(`S3 Error: ${errCode || "Error"} ${errMsg || ""}`.trim());
+
+          const keys = Array.from(doc.querySelectorAll("Contents > Key")).map(n => n.textContent || "");
+          const isTruncated = (doc.querySelector("IsTruncated")?.textContent || "").toLowerCase() === "true";
+          const nextToken = doc.querySelector("NextContinuationToken")?.textContent || "";
+          return { keys, isTruncated, nextToken };
+        }
+
+        async function listAllObjectsS3(bucketBaseUrl, maxKeys=1000) {
+          const base = normalizeBaseNoSlash(bucketBaseUrl);
+          let all = [];
+          let token = "";
+
+          for (let guard = 0; guard < 50; guard++) {
+            const qs = new URLSearchParams();
+            qs.set("list-type", "2");
+            qs.set("max-keys", String(maxKeys));
+            if (token) qs.set("continuation-token", token);
+
+            const url = `${base}?${qs.toString()}`;
+            const res = await fetch(url, { method: "GET", cache: "no-store" });
+            const text = await res.text();
+            if (!res.ok) throw new Error(`ListObjects failed: ${res.status} ${res.statusText}\n${text}`);
+
+            const { keys, isTruncated, nextToken } = parseS3ListXml(text);
+            all.push(...keys);
+
+            if (!isTruncated || !nextToken) break;
+            token = nextToken;
+          }
+          return unique(all);
+        }
+
+        async function loadGalleryAuto() {
+          const statusEl = $("galleryStatus");
+          const grid = $("galleryGrid");
+
+          statusEl.textContent = "กำลังโหลด...";
+          grid.innerHTML = "";
+          $("preview").style.display = "none";
+
+          const bucketBase = "https://edge-ai-s3subevent.k-lynx.com/face";
+
+          try {
+            const keys = await listAllObjectsS3(bucketBase, 1000);
+            const imgs = keys.filter(isImageName);
+
+            if (!imgs.length) {
+              statusEl.textContent = "เจอ 0 รูป (อาจไม่มีไฟล์รูป หรือ list ถูกปิด)";
+              return;
+            }
+
+            statusEl.textContent = `พบ ${imgs.length} รูป`;
+
+            for (const key of imgs) {
+              const src = joinObjectUrl(bucketBase, key);
+
+              const box = document.createElement("div");
+              box.className = "thumb";
+              box.innerHTML = `
+                <img src="${src}" alt="${key}" loading="lazy" />
+                <div class="cap" title="${key}">${key}</div>
+              `;
+
+              box.addEventListener("click", () => {
+                const preview = $("preview");
+                preview.style.display = "block";
+                $("previewImg").src = src;
+                $("previewName").textContent = src;
+
+                // ✅ เด้งขึ้นบนสุดใน side
+                const side = document.querySelector(".side");
+                if (side) side.scrollTo({ top: 0, behavior: "smooth" });
+              });
+
+              box.querySelector("img").addEventListener("error", () => {
+                box.style.display = "none";
+              });
+
+              grid.appendChild(box);
+            }
+          } catch (e) {
+            console.error(e);
+            statusEl.textContent = `โหลดไม่สำเร็จ: ${String(e)}`;
+          }
+        }
+
+        // events
+        $("btnLoad").addEventListener("click", loadDocs);
+        $("timeSort").addEventListener("change", loadDocs);
+        $("db").addEventListener("change", () => { __autoLoadedOnce = true; loadDocs(); });
+        $("heatBucket").addEventListener("change", () => renderHeatmapFromDocs(window.__lastDocs || []));
+        $("btnGalleryReload").addEventListener("click", loadGalleryAuto);
+
+        // initial
+        (async () => {
+          await loadDbOptions();
+          loadGalleryAuto();
+          if (rangeReady()) window.__onRangeChanged();
+        })();
+
+      })();
+
+      function openImgModal({ src, title, meta }) {
+        if (!src) return;
+
+        const img = document.getElementById("imgPreviewModalImg");
+        const titleEl = document.getElementById("imgPreviewTitle");
+        const metaEl = document.getElementById("imgPreviewMeta");
+        const openNew = document.getElementById("imgPreviewOpenNew");
+        const modalEl = document.getElementById("imgPreviewModal");
+
+        img.src = src;
+        titleEl.textContent = title || "Preview";
+        metaEl.textContent = meta || src;
+        openNew.href = src;
+
+        bootstrap.Modal.getOrCreateInstance(modalEl).show();
       }
-
-      $("btnLoad").addEventListener("click", loadDocs);
-      $("timeSort").addEventListener("change", loadDocs);
-
-      $("heatBucket").addEventListener("change", () => renderHeatmapFromDocs(window.__lastDocs || []));
-
-      $("btnGalleryReload").addEventListener("click", loadGalleryAuto);
-
-      function formatNowAsThaiZ(isEnd=false) {
-        const d = new Date();
-        const Y = d.getFullYear();
-        const MO = pad2(d.getMonth()+1);
-        const DA = pad2(d.getDate());
-        const H = pad2(d.getHours());
-        const MI = pad2(d.getMinutes());
-        const SE = pad2(d.getSeconds());
-        return `${Y}-${MO}-${DA}T${H}:${MI}:${SE}${isEnd ? ".999Z" : ".000Z"}`;
-      }
-
-      function setCurrentTime() {
-        document.getElementById("end").value = formatNowAsThaiZ(true);
-      }
-
-      setCurrentTime();
-      loadDocs();
-      loadGalleryAuto();
-    })();
     </script>
   </body>
 </html>
