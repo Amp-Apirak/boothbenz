@@ -344,8 +344,6 @@
               <label>ZONE</label>
               <select id="zone">
                 <option value="">ทั้งหมด</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
               </select>
             </div>
 
@@ -987,6 +985,8 @@
             const docsRaw = data?.docs ?? [];
             const docs = sortDocsByTimeObj(docsRaw, timeSort);
 
+            updateZoneOptionsFromDocs(docs);
+            
             window.__lastDocs = docs;
             $("status").textContent = `พบ ${docs.length} รายการ`;
 
@@ -1142,6 +1142,41 @@
 
         bootstrap.Modal.getOrCreateInstance(modalEl).show();
       }
+
+      function updateZoneOptionsFromDocs(docs) {
+        const sel = document.getElementById("zone");
+        if (!sel) return;
+
+        const prev = sel.value; // เก็บค่าที่เลือกไว้ก่อน (ถ้ามี)
+
+        // นับจำนวนต่อ zone
+        const counts = new Map();
+        for (const d of (docs || [])) {
+          const z = d?.zone;
+          const n = Number(z);
+          if (!Number.isFinite(n)) continue;
+          counts.set(n, (counts.get(n) || 0) + 1);
+        }
+
+        // เรียง zone
+        const zones = Array.from(counts.keys()).sort((a, b) => a - b);
+
+        // สร้าง options
+        const options = [];
+        options.push(`<option value="">ทั้งหมด (${docs?.length || 0})</option>`);
+        for (const z of zones) {
+          options.push(`<option value="${z}">zone ${z} (${counts.get(z)})</option>`);
+        }
+
+        sel.innerHTML = options.join("");
+
+        // พยายาม restore ค่าที่เคยเลือกไว้ ถ้ายังมีอยู่จริง
+        if (prev && zones.includes(Number(prev))) sel.value = prev;
+        else sel.value = ""; // ถ้า zone เดิมหายไป ก็กลับเป็น "ทั้งหมด"
+      }
+
+
+
     </script>
   </body>
 </html>
